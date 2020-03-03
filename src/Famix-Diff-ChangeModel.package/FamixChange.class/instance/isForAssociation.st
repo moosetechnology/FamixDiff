@@ -1,3 +1,0 @@
-testing
-isForAssociation
-	^ entity isAssociation

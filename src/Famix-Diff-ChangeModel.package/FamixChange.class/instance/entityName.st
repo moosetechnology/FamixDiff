@@ -1,4 +1,0 @@
-accessing
-entityName
-	
-	^ entity name

@@ -1,3 +1,0 @@
-run
-diff
-	self subclassResponsibility

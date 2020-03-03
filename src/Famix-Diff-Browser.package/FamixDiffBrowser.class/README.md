@@ -1,1 +1,0 @@
-A browser that allow to see the diff of two models.

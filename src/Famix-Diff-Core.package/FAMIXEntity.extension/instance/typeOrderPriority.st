@@ -1,3 +1,0 @@
-*Famix-Diff-Core
-typeOrderPriority
-	^ { FAMIXNamespace . FAMIXPackage . FAMIXClass . FAMIXParameterizableClass . FAMIXPrimitiveType . FAMIXParameterType . FAMIXAnnotationType . FAMIXEnum . FAMIXType . FAMIXParameterizedType . FAMIXMethod . #FAMIXInnerClass .#FAMIXTypeInnerMethod. #FAMIXAnonymousClass . #FAMIXMethodInAnonymousClass . FAMIXAttribute . FAMIXEnumValue . FAMIXAnnotationTypeAttribute . FAMIXParameter. FAMIXLocalVariable . FAMIXImplicitVariable .  FAMIXAccess . FAMIXInvocation . FAMIXReference . FAMIXInheritance  }

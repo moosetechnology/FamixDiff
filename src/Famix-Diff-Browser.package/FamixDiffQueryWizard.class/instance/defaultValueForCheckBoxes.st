@@ -1,3 +1,0 @@
-filtering-widgets
-defaultValueForCheckBoxes
-	^false

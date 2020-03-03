@@ -1,3 +1,0 @@
-accessing
-ppname
-	^ self subclassResponsibility

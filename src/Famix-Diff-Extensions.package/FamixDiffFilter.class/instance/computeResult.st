@@ -1,3 +1,0 @@
-result
-computeResult
-	self subclassResponsibility

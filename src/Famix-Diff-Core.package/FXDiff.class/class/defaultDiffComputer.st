@@ -1,3 +1,0 @@
-accessing
-defaultDiffComputer
-	^ FamixDiff
