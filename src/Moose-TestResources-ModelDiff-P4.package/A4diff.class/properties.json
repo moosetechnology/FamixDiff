@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "B4diff",
+	"category" : "Moose-TestResources-ModelDiff-P4",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"att1"
+	],
+	"name" : "A4diff",
+	"type" : "normal"
+}

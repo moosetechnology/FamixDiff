@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "<historical>",
+	"super" : "FamixPairedChange",
+	"category" : "Famix-Diff-ChangeModel",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "FamixVersionChange",
+	"type" : "normal"
+}

@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "JulienDelplanque 10/5/2016 09:52",
+	"super" : "FamixChange",
+	"category" : "Famix-Diff-ChangeModel",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "FamixRemovalChange",
+	"type" : "normal"
+}

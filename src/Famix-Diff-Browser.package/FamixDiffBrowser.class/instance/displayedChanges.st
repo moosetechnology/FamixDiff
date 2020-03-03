@@ -1,0 +1,3 @@
+accessing
+displayedChanges
+	^ changesComputation displayedChanges

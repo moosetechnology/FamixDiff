@@ -1,0 +1,4 @@
+accessing
+entityName
+	
+	^ entity name

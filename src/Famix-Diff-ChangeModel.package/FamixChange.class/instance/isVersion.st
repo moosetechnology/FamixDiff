@@ -1,0 +1,4 @@
+testing
+isVersion
+
+	^false

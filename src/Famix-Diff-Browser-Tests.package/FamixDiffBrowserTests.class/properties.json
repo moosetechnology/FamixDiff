@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "",
+	"super" : "TestCase",
+	"category" : "Famix-Diff-Browser-Tests",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"browserWindow",
+		"baseModel",
+		"targetModel",
+		"diffBrowser",
+		"changesComputation"
+	],
+	"name" : "FamixDiffBrowserTests",
+	"type" : "normal"
+}

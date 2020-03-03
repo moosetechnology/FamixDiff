@@ -1,0 +1,3 @@
+testing
+isForAssociation
+	^ entity isAssociation

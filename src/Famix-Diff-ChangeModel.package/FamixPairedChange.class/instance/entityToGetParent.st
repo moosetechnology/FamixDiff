@@ -1,0 +1,3 @@
+accessing
+entityToGetParent
+	^ self targetEntity

@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "TestCase",
+	"category" : "Famix-Diff-Extensions-Tests",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"baseModel",
+		"targetModel",
+		"changesComputation"
+	],
+	"name" : "DiffComputationTests",
+	"type" : "normal"
+}

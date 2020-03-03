@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "usmanbhatti 2/7/2014 10:52",
+	"super" : "FamixDiffMetricsFilter",
+	"category" : "Famix-Diff-Extensions",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"sortSelector"
+	],
+	"name" : "FamixDiffMetricsSorter",
+	"type" : "normal"
+}

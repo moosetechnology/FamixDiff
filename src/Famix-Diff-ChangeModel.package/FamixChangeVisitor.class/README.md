@@ -1,0 +1,1 @@
+I am able to visit any FamixChange and definied a behaviour belonging to the change traversed.

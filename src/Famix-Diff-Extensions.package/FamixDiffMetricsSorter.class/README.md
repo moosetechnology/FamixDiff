@@ -1,0 +1,1 @@
+Implements the sorting of change list in the browser.

@@ -1,0 +1,3 @@
+result
+computeResult
+	self subclassResponsibility

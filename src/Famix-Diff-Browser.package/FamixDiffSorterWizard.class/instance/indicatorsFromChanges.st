@@ -1,0 +1,3 @@
+metrics
+indicatorsFromChanges
+	^ self browser changesComputation changeMetricsForDisplayedChanges
