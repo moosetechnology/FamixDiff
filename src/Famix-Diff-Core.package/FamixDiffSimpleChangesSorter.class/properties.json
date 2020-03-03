@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "FamixDiffAbstractPostOperator",
+	"category" : "Famix-Diff-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "FamixDiffSimpleChangesSorter",
+	"type" : "normal"
+}

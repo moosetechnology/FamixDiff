@@ -1,0 +1,14 @@
+{
+	"commentStamp" : "",
+	"super" : "AbstractFamixDiffTest",
+	"category" : "Famix-Diff-Core-Test",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"snapshot",
+		"testChanges"
+	],
+	"name" : "AbstractFamixDiffWithModelTest",
+	"type" : "normal"
+}

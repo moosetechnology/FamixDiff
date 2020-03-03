@@ -1,0 +1,14 @@
+{
+	"commentStamp" : "JulienDelplanque 10/5/2016 10:44",
+	"super" : "FamixDiffAbstractComputer",
+	"category" : "Famix-Diff-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"changes",
+		"assocChanges"
+	],
+	"name" : "FamixDiff",
+	"type" : "normal"
+}

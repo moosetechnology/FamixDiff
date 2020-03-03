@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "FamixDiff",
+	"category" : "Famix-Diff-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"pckgFilter"
+	],
+	"name" : "FamixDiffWithFilter",
+	"type" : "normal"
+}

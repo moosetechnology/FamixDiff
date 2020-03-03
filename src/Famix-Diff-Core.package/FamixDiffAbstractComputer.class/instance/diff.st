@@ -1,0 +1,3 @@
+run
+diff
+	self subclassResponsibility
