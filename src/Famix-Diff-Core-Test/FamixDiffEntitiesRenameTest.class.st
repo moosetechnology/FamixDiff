@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixDiffEntitiesRenameTest,
 	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : 'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Test'
 }
 
 { #category : #tests }
@@ -30,6 +30,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 	(snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 		name: 'x3'.
+	"Note: does not change the mooseName, so we still look for it later using 'Smalltalk::B3diff.c3()'"
 	(snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 		signature: 'x3()'.
 	self
@@ -39,12 +40,12 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 	self
 		assert:
 			((snapshot baseModel entityNamed: 'Smalltalk::B3diff.c3()')
-				renameMatch: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.x3()')
+				renameMatch: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 				givenChanges: testChanges
 				tolerance: 0).
 	self
 		assert:
-			((snapshot targetModel entityNamed: 'Smalltalk::B3diff.x3()')
+			((snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 				renameMatch: (snapshot baseModel entityNamed: 'Smalltalk::B3diff.c3()')
 				givenChanges: testChanges
 				tolerance: 0)
@@ -112,7 +113,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 	var1 := snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto'.
 	FAMIXAccess new
 		variable: var1;
-		accessor: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.b2()').
+		accessor: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.b3()').
 	var2 := snapshot targetModel
 		entityNamed: 'Smalltalk::A3diff.c3().var2'.
 	FAMIXAccess new
@@ -120,7 +121,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
 	FAMIXAccess new
 		variable: var2;
-		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.b2()').
+		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.b3()').
 	self
 		deny: (var1 renameMatch: var2 givenChanges: testChanges tolerance: 0).
 	self

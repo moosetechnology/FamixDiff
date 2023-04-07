@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixDiffSortTest,
 	#superclass : #FamixDiffTest,
-	#category : 'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Test'
 }
 
 { #category : #running }
@@ -13,7 +13,7 @@ FamixDiffSortTest >> setUp [
 
 { #category : #tests }
 FamixDiffSortTest >> testDiffSortClassesShouldBeRemovedBeforeNamespaces [
-	| sort delNamespace delClass |
+	| delNamespace delClass |
 	snapshot
 		baseModel:
 			(self
@@ -28,9 +28,12 @@ FamixDiffSortTest >> testDiffSortClassesShouldBeRemovedBeforeNamespaces [
 	delNamespace := result entityChanges
 		detect: [ :c | 
 			c isRemoval
-				and: [ c entity name = 'Moose-TestResources-ModelDiff-P4' ] ].
+				and: [ c entity name = 'Moose-TestResources-ModelDiff-P4' ] ]
+		ifNone: [ self fail: 'Entity not found in changes: Moose-TestResources-ModelDiff-P4' ].
 	delClass := result
-		detect: [ :c | c isRemoval and: [ c entity name = 'B4diff' ] ].
+		detect: [ :c | c isRemoval and: [ c entity name = 'B4diff' ] ]
+		ifNone: [ self fail: 'Entity not found in changes: B4diff' ].
+
 	self assert: (result indexOf: delClass) < (result indexOf: delNamespace)
 ]
 
@@ -79,7 +82,7 @@ FamixDiffSortTest >> testDiffSortLinksDeletionShouldBeDoneBeforeEntitiesDeletion
 
 { #category : #tests }
 FamixDiffSortTest >> testOrderedDiffClassesShouldBeRemovedBeforeNamespaces [
-	| sort delNamespace delClass |
+	| delNamespace delClass |
 	snapshot
 		baseModel:
 			(self
@@ -94,9 +97,11 @@ FamixDiffSortTest >> testOrderedDiffClassesShouldBeRemovedBeforeNamespaces [
 	delNamespace := result entityChanges
 		detect: [ :c | 
 			c isRemoval
-				and: [ c entity name = 'Moose-TestResources-ModelDiff-P4' ] ].
+				and: [ c entity name = 'Moose-TestResources-ModelDiff-P4' ] ]
+		ifNone: [ self fail: 'Entity not found in changes : Moose-TestResources-ModelDiff-P4' ].
 	delClass := result entityChanges
-		detect: [ :c | c isRemoval and: [ c entity name = 'B4diff' ] ].
+		detect: [ :c | c isRemoval and: [ c entity name = 'B4diff' ] ]
+		ifNone: [ self fail: 'Entity not found in changes : B4diff' ].
 	self assert: (result indexOf: delClass) < (result indexOf: delNamespace)
 ]
 

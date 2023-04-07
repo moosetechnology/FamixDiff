@@ -6,7 +6,7 @@ Class {
 		'targetModel',
 		'changesComputation'
 	],
-	#category : 'Famix-Diff-Extensions-Tests'
+	#category : #'Famix-Diff-Extensions-Tests'
 }
 
 { #category : #init }
@@ -24,7 +24,7 @@ DiffComputationTests >> setUp [
 	| importer |
 	importer := self pharoImporter.
 	importer
-		model: MooseModel new;
+		model: FAMIXModel new;
 		addFromPackagesNamed: #(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3');
 		run.
 	baseModel := importer model.

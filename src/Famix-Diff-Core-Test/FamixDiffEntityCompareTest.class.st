@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixDiffEntityCompareTest,
 	#superclass : #AbstractFamixDiffTest,
-	#category : 'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Test'
 }
 
 { #category : #running }
@@ -26,12 +26,13 @@ FamixDiffEntityCompareTest >> testCompareAttributeAssociation [
 
 { #category : #tests }
 FamixDiffEntityCompareTest >> testCompareClassAssociation [
+
 	| ass1 cl ass2 ass3 |
 	cl := self model entityNamed: 'Smalltalk::A3diff'.
 	ass1 := cl incomingReferences first.
 	self assert: (cl comeBeforeEntity: ass1).
 	self deny: (ass1 comeBeforeEntity: cl).
-	ass2 := cl outgoingInvocations first.
+	ass2 := (cl queryOutgoing: FamixTInvocation) anyOne.
 	self assert: (cl comeBeforeEntity: ass2).
 	self deny: (ass2 comeBeforeEntity: cl).
 	ass3 := cl incomingAccesses first.

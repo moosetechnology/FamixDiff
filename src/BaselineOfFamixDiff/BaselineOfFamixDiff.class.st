@@ -26,8 +26,8 @@ BaselineOfFamixDiff >> defineGroups: spec [
  		spec 
 			group: 'core' with: #('Famix-Diff-Core' #'Famix-Diff-ChangeModel' );
 			group: 'core-tests' with: #('core' 'Famix-Diff-Core-Test' 'Moose-TestResources-ModelDiff-P2' 'Moose-TestResources-ModelDiff-P3' 'Moose-TestResources-ModelDiff-P4') ;
-			group: 'extensions' with: #('core' 'Famix-Diff-Extensions' 'Famix-Hash-Extension' ) ;
-			group: 'extensions-tests' with: #('core-tests' 'extensions' 'Famix-Diff-Extensions-Tests' 'Famix-Hash-Extension' ).
+			group: 'extensions' with: #('core' 'Famix-Diff-Extensions' "'Famix-Hash-Extension'" ) ;
+			group: 'extensions-tests' with: #('core-tests' 'extensions' 'Famix-Diff-Extensions-Tests' "'Famix-Hash-Extension'" ).
 
 "Ignored for now
 			group: 'browser' with: #('core' 'Famix-Diff-Browser' ) ;
@@ -48,8 +48,8 @@ BaselineOfFamixDiff >> definePackages: spec [
 				spec requires: #('Famix-Diff-Extensions' ). ];
 			package: 'Moose-TestResources-ModelDiff-P2';
 			package: 'Moose-TestResources-ModelDiff-P3';
-			package: 'Moose-TestResources-ModelDiff-P4';
-			package: 'Famix-Hash-Extension'.
+			package: 'Moose-TestResources-ModelDiff-P4'";
+			package: 'Famix-Hash-Extension'".
 
 "Ignored for now
 			package: 'Famix-Diff-Browser' with: [

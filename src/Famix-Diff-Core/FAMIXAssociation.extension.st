@@ -9,18 +9,24 @@ FAMIXAssociation >> comeBeforeEntity: aFamixEntity [
 
 { #category : #'*Famix-Diff-Core' }
 FAMIXAssociation >> matches: otherAssoc givenChanges: entityChanges [
-	self famixClass = otherAssoc famixClass
-		ifFalse: [ ^ false ].
+
+	self famixClass = otherAssoc famixClass ifFalse: [ ^ false ].
 
 	"this test could be simplified because the 'from' cannot be a Stub in any association"
-	(self myEntity: self from matches: otherAssoc from givenChanges: entityChanges)
-		ifFalse: [ ^ false ].
-	^ self myEntity: self to matches: otherAssoc to givenChanges: entityChanges
+	(self
+		 myEntity: self source
+		 matches: otherAssoc source
+		 givenChanges: entityChanges) ifFalse: [ ^ false ].
+	^ self
+		  myEntity: self target
+		  matches: otherAssoc target
+		  givenChanges: entityChanges
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAssociation >> mooseNameOn: t1 [ 
-	self mooseDisplayStringOn: t1 
+FAMIXAssociation >> mooseNameOn: t1 [
+
+	self displayStringOn: t1
 ]
 
 { #category : #'*Famix-Diff-Core' }

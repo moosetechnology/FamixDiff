@@ -26,7 +26,7 @@ Class {
 	#instVars : [
 		'orchestrator'
 	],
-	#category : 'Famix-Diff-Core'
+	#category : #'Famix-Diff-Core'
 }
 
 { #category : #adding }
@@ -73,10 +73,11 @@ FamixDiffResult >> changeTypeToDefaultType [
 
 { #category : #accessing }
 FamixDiffResult >> entityChanges [
+
 	<navigation: 'All entity changes'>
-	^ self privateState
-		cacheAt: #entityChanges
-		ifAbsentPut: [ self reject: [ :e | e isForAssociation ] ]
+	^ self
+		  cacheAt: #entityChanges
+		  ifAbsentPut: [ self reject: [ :e | e isForAssociation ] ]
 ]
 
 { #category : #accessing }

@@ -34,6 +34,11 @@ FAMIXEntity >> eq: aFamixEntity [
 ]
 
 { #category : #'*Famix-Diff-Core' }
+FAMIXEntity >> famixClass [
+	^ self class
+]
+
+{ #category : #'*Famix-Diff-Core' }
 FAMIXEntity >> getFamixClass [
 	^ self class isOrionClass
 		ifTrue: [ self class superclass ]
@@ -51,13 +56,13 @@ FAMIXEntity >> isLocalVariable [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXEntity >> isOrionClass [
-	^ false
+FAMIXEntity class >> isOrionClass [
+	^false
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXEntity class >> isOrionClass [
-	^false
+FAMIXEntity >> isOrionClass [
+	^ false
 ]
 
 { #category : #'*Famix-Diff-Core' }
@@ -83,6 +88,11 @@ FAMIXEntity >> parentContainer [
 { #category : #'*Famix-Diff-Core' }
 FAMIXEntity >> parentItems [
 	^ self parentContainer ifNil: [ {} ] ifNotNil: [ :parentContainer | {parentContainer} ]
+]
+
+{ #category : #'*Famix-Diff-Core' }
+FAMIXEntity class >> prefixLength [
+	^'FAMIX' size
 ]
 
 { #category : #'*Famix-Diff-Core' }

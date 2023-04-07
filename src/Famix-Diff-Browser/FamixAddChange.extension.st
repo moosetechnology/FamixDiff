@@ -6,12 +6,12 @@ FamixAddChange >> color [
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixAddChange classSide >> displayName [
+FamixAddChange class >> displayName [
 	^ 'Add' translated
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixAddChange classSide >> filterSelector [
+FamixAddChange class >> filterSelector [
 	^ #isAddition
 ]
 

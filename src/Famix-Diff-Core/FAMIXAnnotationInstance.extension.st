@@ -42,5 +42,5 @@ FAMIXAnnotationInstance >> renameMatch: aFAMIXMethod givenChanges: aCollection t
 
 { #category : #'*Famix-Diff-Core' }
 FAMIXAnnotationInstance >> shouldBeConsideredForDiff [
-	^ true
+	^true
 ]

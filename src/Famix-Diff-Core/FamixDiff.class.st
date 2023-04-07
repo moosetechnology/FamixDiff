@@ -21,7 +21,7 @@ Class {
 		'changes',
 		'assocChanges'
 	],
-	#category : 'Famix-Diff-Core'
+	#category : #'Famix-Diff-Core'
 }
 
 { #category : #'run-associations' }
@@ -97,6 +97,7 @@ FamixDiff >> diffAssociations [
 { #category : #'run-entities' }
 FamixDiff >> diffEntities [
 	| baseTodo targetTodo |
+
 	"loops on this block"
 	[ baseTodo := (self topEntitiesToMatch: self baseModel)
 		asOrderedCollection.
@@ -255,6 +256,7 @@ FamixDiff >> renameMatchesFrom: baseEntities to: targetEntities [
 		to: targetEntities
 		ifMatch: [ :eBase :eTarget | 
 			| match |
+1haltIf:[ baseEntities name endsWith: '-P4'].
 			match := self makeChange: FamixRenameChange with: eBase with: eTarget.
 			self changesDico
 				at: eBase put: match;

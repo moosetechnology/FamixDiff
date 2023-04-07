@@ -20,7 +20,7 @@ Class {
 		'metricsFilter',
 		'metricsSorter'
 	],
-	#category : 'Famix-Diff-Extensions'
+	#category : #'Famix-Diff-Extensions'
 }
 
 { #category : #'change-metrics' }
@@ -110,8 +110,8 @@ FamixDiffChangesComputation >> indicatorsFor: aChange [
 
 { #category : #initialization }
 FamixDiffChangesComputation >> initializeDiffwith: base and: target [
-	(base isKindOf: MooseModel) should beTrue.
-	(target isKindOf: MooseModel) should beTrue.
+	self assert: (base isKindOf: MooseModel).
+	self assert: (target isKindOf: MooseModel).
 	base == target
 		ifTrue: [ displayedChanges := #().
 			^ self ].

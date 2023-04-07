@@ -10,10 +10,12 @@ Class {
 
 { #category : #running }
 FamixDiffTest >> createModelWith: somePackages [ 
-	^MoosePharoImporterTask new
+	| importer |
+	importer := MoosePharoImporterTask new
 		model: FAMIXModel new;
-		addFromPackagesNamed: somePackages;
-		basicRun.
+		addFromPackagesNamed: somePackages.
+	importer importingContext mergeClassAndMetaclass.
+	^importer basicRun
 
 ]
 

@@ -14,7 +14,7 @@ FamixPairedChange >> color [
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixPairedChange classSide >> displayName [
+FamixPairedChange class >> displayName [
 	^ 'Modification' translated
 ]
 

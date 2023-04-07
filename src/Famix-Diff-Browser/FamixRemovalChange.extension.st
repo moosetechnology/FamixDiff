@@ -6,12 +6,12 @@ FamixRemovalChange >> color [
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixRemovalChange classSide >> displayName [
+FamixRemovalChange class >> displayName [
 	^ 'Remove' translated
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixRemovalChange classSide >> filterSelector [
+FamixRemovalChange class >> filterSelector [
 	^ #isRemoval
 ]
 

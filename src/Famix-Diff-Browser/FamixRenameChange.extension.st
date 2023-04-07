@@ -1,11 +1,11 @@
 Extension { #name : #FamixRenameChange }
 
 { #category : #'*Famix-Diff-Browser' }
-FamixRenameChange classSide >> displayName [
+FamixRenameChange class >> displayName [
 	^ 'Rename' translated
 ]
 
 { #category : #'*Famix-Diff-Browser' }
-FamixRenameChange classSide >> filterSelector [
+FamixRenameChange class >> filterSelector [
 	^ #isRename
 ]
