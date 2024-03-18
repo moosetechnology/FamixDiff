@@ -40,11 +40,6 @@ FAMIXEntity >> getFamixClass [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXEntity >> isScopingEntity [
-	^ false
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXEntity >> parentContainer [
 	^ self belongsTo
 ]
