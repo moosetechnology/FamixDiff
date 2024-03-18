@@ -34,11 +34,6 @@ FAMIXEntity >> eq: aFamixEntity [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXEntity >> famixClass [
-	^ self class
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXEntity >> getFamixClass [
 
 	^ self class
