@@ -39,11 +39,6 @@ DiffComputationTests >> setUp [
 ]
 
 { #category : #running }
-DiffComputationTests >> testChangeIndicators [
-	self assert: (changesComputation indicatorsFor: changesComputation changes anyOne) isEmpty not
-]
-
-{ #category : #running }
 DiffComputationTests >> testChangeTypes [
 	self assert: changesComputation changeTypes anyOne equals: FamixAddChange displayName
 ]

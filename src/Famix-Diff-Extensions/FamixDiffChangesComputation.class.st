@@ -103,11 +103,6 @@ FamixDiffChangesComputation >> filterChangesWith: filterParameters [
 		computeResult
 ]
 
-{ #category : #accessing }
-FamixDiffChangesComputation >> indicatorsFor: aChange [
-	^ aChange changeMetrics, {FamixDiffIndicator new label:'Full Name'; computedValue: aChange entity mooseName}
-]
-
 { #category : #initialization }
 FamixDiffChangesComputation >> initializeDiffwith: base and: target [
 	self assert: (base isKindOf: MooseModel).
