@@ -36,11 +36,6 @@ FAMIXType >> moveMatch: otherEntity givenChanges: changes tolerance: percentage 
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXType >> parentItems [
-	^ super parentItems union: self directSuperclasses
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXType >> quasiEqualBody: otherEntity tolerance: percentage [ 
 	"tolerance is used to give some flexibility
      we require that any entity has at most percentage members not in the other entity

@@ -35,7 +35,7 @@ Class {
 		'diffTransformers',
 		'tolerance'
 	],
-	#category : 'Famix-Diff-Core'
+	#category : #'Famix-Diff-Core'
 }
 
 { #category : #'instance creation' }
@@ -195,24 +195,6 @@ FXDiff >> initialize [
 	super initialize.
 	tolerance := 0.
 	result := FamixDiffResult new orchestrator: self.
-]
-
-{ #category : #'for testing' }
-FXDiff >> orionMergeTransformer [
-	^ self diffTransformers
-		detect: [ :e | (e isKindOf: OrionMerge) or: [ e isKindOf: OrionMergeWithVisitor ] ]
-]
-
-{ #category : #'for testing' }
-FXDiff >> orionVersionedModel [
-	self flag: #TESTSONLY.
-	^ self orionMergeTransformer orionVersionedModel
-]
-
-{ #category : #'for testing' }
-FXDiff >> orionVersionedModel: anORModel [
-	self flag: #TESTSONLY.
-	self orionMergeTransformer orionVersionedModel: anORModel
 ]
 
 { #category : #accessing }

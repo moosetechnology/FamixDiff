@@ -6,11 +6,6 @@ FAMIXStructuralEntity >> associationsToPropagate [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXStructuralEntity >> isStructuralEntity [
-	^ true
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXStructuralEntity >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
 	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
 		ifFalse: [ ^ false ].
