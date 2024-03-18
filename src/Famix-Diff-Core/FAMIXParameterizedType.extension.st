@@ -1,11 +1,6 @@
 Extension { #name : #FAMIXParameterizedType }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXParameterizedType >> containedEntities [
-	^ super containedEntities union: self arguments
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXParameterizedType >> equalArguments: otherEntity tolerance: percentage [
 	^ self arguments equalNameOwner: otherEntity arguments
 ]

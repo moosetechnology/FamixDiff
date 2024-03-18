@@ -22,11 +22,6 @@ FAMIXType >> comeBeforeTheIndependentEntity: aFamixEntity [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXType >> containedEntities [
-	^ (super containedEntities union: self methods) union: self attributes
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXType >> getFamixClass [
 	(self container isKindOf: FAMIXMethod)
 		ifTrue: [ ^ #FAMIXTypeInnerMethod ].

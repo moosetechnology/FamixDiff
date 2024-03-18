@@ -1,11 +1,6 @@
 Extension { #name : #FAMIXContainerEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXContainerEntity >> containedEntities [
-	^ super containedEntities union: self types
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXContainerEntity >> equalContent: otherEntity tolerance: percentage [
 	"tolerance is used to give some flexibility
      we require that any entity has at most percentage members not in the other entity
