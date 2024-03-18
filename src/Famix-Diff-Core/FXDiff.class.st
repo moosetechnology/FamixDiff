@@ -137,7 +137,7 @@ FXDiff >> baseModel [
 
 { #category : #accessing }
 FXDiff >> baseModel: aBaseModel [
-	aBaseModel prepareToDiff.
+
 	baseModel := aBaseModel
 ]
 

@@ -1,11 +1,6 @@
 Extension { #name : #FAMIXNamedEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXNamedEntity >> allAssociations [
-	^ self queryAllLocalIncoming union: self queryAllLocalOutgoing
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
 
 	| myParent otherParent myParentChange otherParentChange |
