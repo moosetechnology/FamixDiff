@@ -31,7 +31,6 @@ Class {
 		'baseModel',
 		'result',
 		'targetModel',
-		'diffTransformers',
 		'tolerance',
 		'diffComputer'
 	],
@@ -41,40 +40,15 @@ Class {
 { #category : #'instance creation' }
 FXDiff class >> baseModel: aBaseModel targetModel: targetModel [
 
-	^ self baseModel: aBaseModel targetModel: targetModel diffTransformers: nil
-]
-
-{ #category : #'instance creation' }
-FXDiff class >> baseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers [
 	^ self new
-		baseModel: aBaseModel;
-		targetModel: targetModel;
-		diffTransformers: aColOfDiffTransformers;
-		yourself
-]
-
-{ #category : #accessing }
-FXDiff class >> defaultDiffComputer [
-	^ FamixDiffComputer
+		  baseModel: aBaseModel;
+		  targetModel: targetModel;
+		  yourself
 ]
 
 { #category : #running }
 FXDiff class >> runOnBaseModel: aBaseModel targetModel: aTargetModel [
 	^ (self baseModel: aBaseModel targetModel: aTargetModel) run
-]
-
-{ #category : #running }
-FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers [
-
-	^ (self baseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers) run
-]
-
-{ #category : #running }
-FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers args: aDicoOfArgs [
-
-	^ (self baseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers)
-		  args: aDicoOfArgs;
-		  run
 ]
 
 { #category : #accessing }
@@ -95,8 +69,8 @@ FXDiff >> baseModel: aBaseModel [
 
 { #category : #private }
 FXDiff >> basicRun [
-	diffComputer diff.
-	diffTransformers ifNotNil: [ self diffTransformers do: [ :aPostOperationClass | aPostOperationClass run ] ]
+
+	diffComputer diff
 ]
 
 { #category : #accessing }
@@ -105,8 +79,9 @@ FXDiff >> changes: aCollection [
 ]
 
 { #category : #accessing }
-FXDiff >> checkDiffTransformers [
-	self flag: #TODO.
+FXDiff >> description [
+
+	^ 'I am a task to produce a FamixDiff between two models.'
 ]
 
 { #category : #accessing }
@@ -119,22 +94,6 @@ FXDiff >> diffComputer: anObject [
 	diffComputer := anObject new
 		orchestrator: self;
 		yourself
-]
-
-{ #category : #accessing }
-FXDiff >> diffTransformers [
-	^ diffTransformers
-]
-
-{ #category : #accessing }
-FXDiff >> diffTransformers: aCollectionOfPostOperators [
-	self assert: (aCollectionOfPostOperators isNil or: [ aCollectionOfPostOperators isCollection ]) description: 'PostOperators should be a collection...'.
-	diffTransformers := aCollectionOfPostOperators
-		ifNotNil: [ aCollectionOfPostOperators
-				collect: [ :aClass | 
-					aClass new
-						orchestrator: self;
-						yourself ] ]
 ]
 
 { #category : #initialization }
@@ -163,8 +122,7 @@ FXDiff >> setUp [
 
 	super setUp.
 	self assert: (self baseModel isKindOf: MooseModel).
-	self assert: (self targetModel isKindOf: MooseModel).
-	self checkDiffTransformers
+	self assert: (self targetModel isKindOf: MooseModel)
 ]
 
 { #category : #accessing }

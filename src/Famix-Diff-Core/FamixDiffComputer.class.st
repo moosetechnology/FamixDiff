@@ -16,17 +16,22 @@ Indeed, this variable is a real between 0 and 1 that represents the percentage o
 "
 Class {
 	#name : #FamixDiffComputer,
-	#superclass : #FamixDiffAbstract,
+	#superclass : #Object,
 	#instVars : [
 		'changes',
-		'assocChanges'
+		'assocChanges',
+		'orchestrator'
 	],
 	#category : #'Famix-Diff-Core'
 }
 
 { #category : #'run-associations' }
-FamixDiffComputer >> addAssociations: assocs [
-	assocs do: [ :a | self assocChanges add: (FamixAddChange new entity: a ; yourself) ]
+FamixDiffComputer >> addAssociations: asociations [
+
+	asociations do: [ :association | 
+		self assocChanges add: (FamixAddChange new
+				 entity: association;
+				 yourself) ]
 ]
 
 { #category : #accessing }
@@ -37,6 +42,16 @@ FamixDiffComputer >> assocChanges [
 { #category : #accessing }
 FamixDiffComputer >> assocChanges: aCollection [
 	^ assocChanges := aCollection
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> baseModel [
+	^self orchestrator baseModel
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> changes [
+	^ self orchestrator result entityChanges
 ]
 
 { #category : #accessing }
@@ -116,17 +131,10 @@ FamixDiffComputer >> diffEntities [
 
 { #category : #'run-entities' }
 FamixDiffComputer >> entitiesToMatch: aModel [
+
 	"not stub, not matched entities"
-	^ aModel entities select: [:e | self entityToMatch: e ]
 
-]
-
-{ #category : #'run-entities' }
-FamixDiffComputer >> entityToMatch: entity [
-	"not stub, not matched"
-	^ entity isNotNil
-		and: [ (entity shouldBeConsideredForDiff) 
-		and: [ (self matched: entity) not ] ]
+	^ aModel entities select: [ :e | self shouldMatch: e ]
 ]
 
 { #category : #'matching-entities' }
@@ -200,19 +208,13 @@ FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities i
 	^ matchFound
 ]
 
-{ #category : #'run-entities' }
-FamixDiffComputer >> moveCandidates: aModel [
-	"not stub, not matched entities"
-	^ self entitiesToMatch: aModel
-]
-
 { #category : #'matching-entities' }
 FamixDiffComputer >> moveMatchesFrom: entities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
 		  from: entities
-		  to: (self moveCandidates: self targetModel)
+		  to: (self entitiesToMatch: self targetModel)
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
 			  match := self makeChange: FamixMoveChange with: baseEntity with: targetEntity.
@@ -227,7 +229,7 @@ FamixDiffComputer >> moveMatchesTo: targetEntities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity givenChanges: self changesDico tolerance: self tolerance ]
-		  from: (self moveCandidates: self baseModel)
+		  from: (self entitiesToMatch: self baseModel)
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
@@ -236,6 +238,16 @@ FamixDiffComputer >> moveMatchesTo: targetEntities [
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
 		  progressMessage: 'Computing modifications'
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> orchestrator [
+	^ orchestrator
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> orchestrator: anObject [
+	orchestrator := anObject
 ]
 
 { #category : #'matching-entities' }
@@ -257,12 +269,45 @@ FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
 		  progressMessage: 'Computing renamed entities'
 ]
 
+{ #category : #accessing }
+FamixDiffComputer >> result [
+	^ self orchestrator result
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> result: aFamixDiffResult [ 
+	self orchestrator result: aFamixDiffResult
+]
+
+{ #category : #testing }
+FamixDiffComputer >> shouldMatch: entity [
+
+	"Return true if I still need to find the match for the entity as parameter"
+
+	^ entity isNotNil and: [ entity shouldBeConsideredForDiff and: [ (self matched: entity) not ] ]
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> targetModel [
+	^ self orchestrator targetModel
+]
+
+{ #category : #accessing }
+FamixDiffComputer >> tolerance [
+	"tolerance is used to give some flexibility
+     we require that any entity has at most percentage members not in the other entity
+     tolerance 0 => both entities must be strictly equals
+     tolerance=1 (100%) => entities can be completly different"
+
+	^ self orchestrator tolerance
+]
+
 { #category : #'run-entities' }
 FamixDiffComputer >> topEntitiesToMatch: aModel [
 	"topmost, not stub, not matched entities"
 	^ (self entitiesToMatch: aModel)
 		select: [:e ||parent|
 				parent := e belongsTo.
-				(self entityToMatch: parent) not or: [self matched: parent] ]
+				(self shouldMatch: parent) not or: [self matched: parent] ]
 
 ]
