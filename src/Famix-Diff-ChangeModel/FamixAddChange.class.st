@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixAddChange class >> ppname [
+FamixAddChange class >> changeName [
 	^ 'add'
 ]
 

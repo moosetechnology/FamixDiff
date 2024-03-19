@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixRemovalChange class >> ppname [
+FamixRemovalChange class >> changeName [
 	^ 'del'
 ]
 

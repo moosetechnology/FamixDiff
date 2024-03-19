@@ -115,22 +115,22 @@ FamixDiffComputer >> diffEntities [
 	| baseTodo targetTodo |
 	"loops on this block"
 	[ 
-	baseTodo := (self topEntitiesToMatch: self baseModel) asOrderedCollection.
-	targetTodo := (self topEntitiesToMatch: self targetModel) asOrderedCollection.
+	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
+	targetTodo := (self topEntitiesToMatchIn: self targetModel) asOrderedCollection.
 
 	"as soon as one return true, go to next loop iteration"
 	(self identityMatchesFrom: baseTodo to: targetTodo) or: [ 
 		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ (self moveMatchesFrom: baseTodo) or: [ self moveMatchesTo: targetTodo ] ] ] ] whileTrue.
 
 	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
-	(self entitiesToMatch: self baseModel) do: [ :e | self changesDico at: e put: (self makeChange: FamixRemovalChange with: e) ].
+	(self entitiesToMatchIn: self baseModel) do: [ :e | self changesDico at: e put: (FamixRemovalChange entity: e) ].
 
 	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
-	(self entitiesToMatch: self targetModel) do: [ :e | self changesDico at: e put: (self makeChange: FamixAddChange with: e) ]
+	(self entitiesToMatchIn: self targetModel) do: [ :e | self changesDico at: e put: (FamixAddChange entity: e) ]
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> entitiesToMatch: aModel [
+FamixDiffComputer >> entitiesToMatchIn: aModel [
 
 	"not stub, not matched entities"
 
@@ -150,7 +150,7 @@ FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
 			  targetEntities remove: targetEntity.
-			  match := self makeChange: FamixVersionChange with: baseEntity with: targetEntity.
+			  match := FamixVersionChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
@@ -162,23 +162,6 @@ FamixDiffComputer >> initialize [
 	super initialize.
 	changes := Dictionary new.
 	assocChanges := OrderedCollection new
-]
-
-{ #category : #'change-creation' }
-FamixDiffComputer >> makeChange: changeClass with: entity [
-	^ changeClass new
-			entity: entity
-			yourself.
-
-]
-
-{ #category : #'change-creation' }
-FamixDiffComputer >> makeChange: changeClass with: baseEntity with: targetEntity [
-	^ changeClass new
-			baseEntity: baseEntity ;
-			targetEntity: targetEntity ;
-			yourself.
-
 ]
 
 { #category : #testing }
@@ -214,10 +197,10 @@ FamixDiffComputer >> moveMatchesFrom: entities [
 	^ self
 		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
 		  from: entities
-		  to: (self entitiesToMatch: self targetModel)
+		  to: (self entitiesToMatchIn: self targetModel)
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
-			  match := self makeChange: FamixMoveChange with: baseEntity with: targetEntity.
+			  match := FamixMoveChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
@@ -229,11 +212,11 @@ FamixDiffComputer >> moveMatchesTo: targetEntities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity givenChanges: self changesDico tolerance: self tolerance ]
-		  from: (self entitiesToMatch: self baseModel)
+		  from: (self entitiesToMatchIn: self baseModel)
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
-			  match := self makeChange: FamixMoveChange with: baseEntity with: targetEntity.
+			  match := FamixMoveChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
@@ -262,7 +245,7 @@ FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
 		  to: targetEntities
 		  ifMatch: [ :eBase :eTarget | 
 			  | match |
-			  match := self makeChange: FamixRenameChange with: eBase with: eTarget.
+			  match := FamixRenameChange base: eBase target: eTarget.
 			  self changesDico
 				  at: eBase put: match;
 				  at: eTarget put: match ]
@@ -303,9 +286,9 @@ FamixDiffComputer >> tolerance [
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> topEntitiesToMatch: aModel [
+FamixDiffComputer >> topEntitiesToMatchIn: aModel [
 	"topmost, not stub, not matched entities"
-	^ (self entitiesToMatch: aModel)
+	^ (self entitiesToMatchIn: aModel)
 		select: [:e ||parent|
 				parent := e belongsTo.
 				(self shouldMatch: parent) not or: [self matched: parent] ]

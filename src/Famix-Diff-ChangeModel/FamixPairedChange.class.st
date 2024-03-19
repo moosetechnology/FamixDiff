@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixPairedChange class >> ppname [
+FamixPairedChange class >> changeName [
 	^ 'modif'
 ]
 

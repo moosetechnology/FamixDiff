@@ -86,11 +86,12 @@ FamixDiffTest >> testDiffEntitiesP2P3P4 [
 
 { #category : #'tests-run-entities' }
 FamixDiffTest >> testMakeChangeWith [
+
 	| entity change |
 	entity := FAMIXClass new
-					name: 'A';
-					yourself.
-	change := snapshot diffComputer makeChange: FamixAddChange with: entity.
+		          name: 'A';
+		          yourself.
+	change := FamixAddChange entity: entity.
 	self
 		assert: change class equals: FamixAddChange;
 		assert: change entity equals: entity
@@ -98,14 +99,15 @@ FamixDiffTest >> testMakeChangeWith [
 
 { #category : #'tests-run-entities' }
 FamixDiffTest >> testMakeChangeWithWith [
+
 	| entityA change entityB |
 	entityA := FAMIXClass new
-					name: 'A';
-					yourself.
+		           name: 'A';
+		           yourself.
 	entityB := FAMIXClass new
-					name: 'B';
-					yourself.
-	change := snapshot diffComputer makeChange: FamixRenameChange with: entityA with: entityB.
+		           name: 'B';
+		           yourself.
+	change := FamixRenameChange base: entityA target: entityB.
 	self
 		assert: change class equals: FamixRenameChange;
 		assert: change baseEntity equals: entityA;

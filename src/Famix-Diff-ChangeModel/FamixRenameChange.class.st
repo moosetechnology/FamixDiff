@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixRenameChange class >> ppname [
+FamixRenameChange class >> changeName [
 	^ 'ren'
 ]
 

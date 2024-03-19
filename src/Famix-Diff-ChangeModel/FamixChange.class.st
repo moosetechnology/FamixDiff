@@ -8,12 +8,28 @@ Class {
 	#instVars : [
 		'entity'
 	],
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
-FamixChange class >> ppname [
+FamixChange class >> base: baseEntity target: targetEntity [
+
+	^ (self entity: baseEntity)
+		  targetEntity: targetEntity;
+		  yourself
+]
+
+{ #category : #accessing }
+FamixChange class >> changeName [
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+FamixChange class >> entity: anEntity [
+
+	^ self new
+		  entity: anEntity;
+		  yourself
 ]
 
 { #category : #comparing }
@@ -35,6 +51,11 @@ FamixChange >> baseEntity [
 { #category : #accessing }
 FamixChange >> baseEntity: anObject [
 	self entity: anObject
+]
+
+{ #category : #accessing }
+FamixChange >> changeName [
+	^ self class changeName
 ]
 
 { #category : #accessing }
@@ -128,15 +149,10 @@ FamixChange >> isVersion [
 	^false
 ]
 
-{ #category : #accessing }
-FamixChange >> ppname [
-	^ self class ppname
-]
-
 { #category : #printing }
 FamixChange >> printOn: stream [
 	stream
-		<< self ppname;
+		<< self changeName;
 		<< '(';
 		<< entity class name;
 		<< ') ';

@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixBodyChange class >> ppname [
+FamixBodyChange class >> changeName [
 	^ 'bod'
 ]
 

@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-FamixMoveChange class >> ppname [
+FamixMoveChange class >> changeName [
 	^ 'mov'
 ]
 
