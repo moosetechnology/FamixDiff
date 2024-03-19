@@ -96,31 +96,22 @@ FamixDiffComputer >> diffAssociations [
 
 { #category : #'run-entities' }
 FamixDiffComputer >> diffEntities [
-	| baseTodo targetTodo |
 
+	| baseTodo targetTodo |
 	"loops on this block"
-	[ baseTodo := (self topEntitiesToMatch: self baseModel)
-		asOrderedCollection.
-	targetTodo := (self topEntitiesToMatch: self targetModel)
-		asOrderedCollection.
+	[ 
+	baseTodo := (self topEntitiesToMatch: self baseModel) asOrderedCollection.
+	targetTodo := (self topEntitiesToMatch: self targetModel) asOrderedCollection.
 
 	"as soon as one return true, go to next loop iteration"
-	(self identityMatchesFrom: baseTodo to: targetTodo)
-		or: [ (self renameMatchesFrom: baseTodo to: targetTodo)
-				or: [ (self moveMatchesFrom: baseTodo)
-						or: [ self moveMatchesTo: targetTodo ] ] ] ] whileTrue.
+	(self identityMatchesFrom: baseTodo to: targetTodo) or: [ 
+		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ (self moveMatchesFrom: baseTodo) or: [ self moveMatchesTo: targetTodo ] ] ] ] whileTrue.
 
 	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
-	(self entitiesToMatch: self baseModel)
-		do: [ :e | 
-			self changesDico
-				at: e
-				put: (self makeChange: FamixRemovalChange with: e) ].
+	(self entitiesToMatch: self baseModel) do: [ :e | self changesDico at: e put: (self makeChange: FamixRemovalChange with: e) ].
 
 	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
-	(self entitiesToMatch: self targetModel)
-		do:
-			[ :e | self changesDico at: e put: (self makeChange: FamixAddChange with: e) ]
+	(self entitiesToMatch: self targetModel) do: [ :e | self changesDico at: e put: (self makeChange: FamixAddChange with: e) ]
 ]
 
 { #category : #'run-entities' }
@@ -189,6 +180,7 @@ FamixDiffComputer >> matched: entity [
 
 { #category : #'matching-entities' }
 FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock progressMessage: aString [
+
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
 	 matchblock takes 2 parameters: first is baseEntity, second is targetEntity being compared.
 	
@@ -196,15 +188,14 @@ FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities i
 	 The progress message is displayed by the UI during the computation.
 	
 	 This algorithm essentially takes each entity from baseEntities and try to match them with an entity in targetEntity list."
+
 	| matchFound |
 	matchFound := false.
 	baseEntities
-		do: [ :eBase | 
-			targetEntities
-				detect: [ :eTarget | matchblock value: eBase value: eTarget ]
-				ifOne: [ :eTarget |
-					ifMatchBlock value: eBase value: eTarget.
-					matchFound := true ] ]
+		do: [ :baseEntity | 
+			targetEntities detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ] ifOne: [ :targetEntity | 
+				ifMatchBlock value: baseEntity value: targetEntity.
+				matchFound := true ] ]
 		displayingProgress: aString.
 	^ matchFound
 ]
@@ -216,53 +207,54 @@ FamixDiffComputer >> moveCandidates: aModel [
 ]
 
 { #category : #'matching-entities' }
-FamixDiffComputer >> moveMatches: entities direction: fromOrToDirection [
-	| from to matchesBlock |
-	fromOrToDirection = #to
-		ifTrue: [ from := self moveCandidates: self baseModel.
-			to := entities.
-			matchesBlock := [ :eBase :eTarget | eTarget moveMatch: eBase givenChanges: self changesDico tolerance: self tolerance ] ]
-		ifFalse: [ from := entities.
-			to := self moveCandidates: self targetModel.
-			matchesBlock := [ :eBase :eTarget | eBase moveMatch: eTarget givenChanges: self changesDico tolerance: self tolerance ] ].
-	^ self
-		matches: matchesBlock
-		from: from
-		to: to
-		ifMatch: [ :eBase :eTarget | 
-			| match |
-			match := self makeChange: FamixMoveChange with: eBase with: eTarget.
-			self changesDico at: eBase put: match; at: eTarget put: match ]
-		progressMessage: 'Computing modifications' translated
-]
+FamixDiffComputer >> moveMatchesFrom: entities [
 
-{ #category : #'matching-entities' }
-FamixDiffComputer >> moveMatchesFrom: baseEntities [
-	^ self moveMatches: baseEntities direction: #from
+	^ self
+		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
+		  from: entities
+		  to: (self moveCandidates: self targetModel)
+		  ifMatch: [ :baseEntity :targetEntity | 
+			  | match |
+			  match := self makeChange: FamixMoveChange with: baseEntity with: targetEntity.
+			  self changesDico
+				  at: baseEntity put: match;
+				  at: targetEntity put: match ]
+		  progressMessage: 'Computing modifications'
 ]
 
 { #category : #'matching-entities' }
 FamixDiffComputer >> moveMatchesTo: targetEntities [
-	^ self moveMatches: targetEntities direction: #to
+
+	^ self
+		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity givenChanges: self changesDico tolerance: self tolerance ]
+		  from: (self moveCandidates: self baseModel)
+		  to: targetEntities
+		  ifMatch: [ :baseEntity :targetEntity | 
+			  | match |
+			  match := self makeChange: FamixMoveChange with: baseEntity with: targetEntity.
+			  self changesDico
+				  at: baseEntity put: match;
+				  at: targetEntity put: match ]
+		  progressMessage: 'Computing modifications'
 ]
 
 { #category : #'matching-entities' }
 FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
+
 	"Find the entities that have been renamed between base version and target version (using #renameMatch:givenChanges:tolerance: message).
 	 If there is a match, a FamixRenameChange is created and stored."
 
 	^ self
-		matches: [ :eBase :eTarget | eBase renameMatch: eTarget givenChanges: self changesDico tolerance: self tolerance ]
-		from: baseEntities
-		to: targetEntities
-		ifMatch: [ :eBase :eTarget | 
-			| match |
-1haltIf:[ baseEntities name endsWith: '-P4'].
-			match := self makeChange: FamixRenameChange with: eBase with: eTarget.
-			self changesDico
-				at: eBase put: match;
-				at: eTarget put: match ]
-		progressMessage: 'Computing renamed entities' translated
+		  matches: [ :eBase :eTarget | eBase renameMatch: eTarget givenChanges: self changesDico tolerance: self tolerance ]
+		  from: baseEntities
+		  to: targetEntities
+		  ifMatch: [ :eBase :eTarget | 
+			  | match |
+			  match := self makeChange: FamixRenameChange with: eBase with: eTarget.
+			  self changesDico
+				  at: eBase put: match;
+				  at: eTarget put: match ]
+		  progressMessage: 'Computing renamed entities'
 ]
 
 { #category : #'run-entities' }
