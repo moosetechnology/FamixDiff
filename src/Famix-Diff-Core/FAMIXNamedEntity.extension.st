@@ -7,13 +7,15 @@ FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
 	"same name, same class, matching parent"
 	self class = otherEntity class ifFalse: [ ^ false ].
 	self name = otherEntity name ifFalse: [ ^ false ].
+
 	myParent := self belongsTo.
 	otherParent := otherEntity belongsTo.
 	(self parentPackage isNotNil or: [ otherEntity parentPackage isNotNil ]) ifTrue: [ 
 		myParent := self parentPackage.
 		otherParent := otherEntity parentPackage ].
-	myParent ifNil: [ ^ otherParent isNil ].
-	otherParent ifNil: [ ^ false ].
+
+	(myParent isNil or: [ otherParent isNil ]) ifTrue: [ ^ myParent = otherParent ].
+
 	myParent isStub ifTrue: [ ^ myParent mooseName = otherParent mooseName ].
 	otherParent isStub ifTrue: [ ^ myParent mooseName = otherParent mooseName ].
 
