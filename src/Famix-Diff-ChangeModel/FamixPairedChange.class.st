@@ -12,7 +12,7 @@ Class {
 	#instVars : [
 		'targetEntity'
 	],
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
@@ -34,11 +34,6 @@ FamixPairedChange >> accept: aVisitor [
 { #category : #accessing }
 FamixPairedChange >> baseEntityName [
 	^ self baseEntity name
-]
-
-{ #category : #accessing }
-FamixPairedChange >> entityToGetParent [
-	^ self targetEntity
 ]
 
 { #category : #comparing }

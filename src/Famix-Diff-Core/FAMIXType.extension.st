@@ -1,34 +1,6 @@
 Extension { #name : #FAMIXType }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXType >> comeAfterInInheritanceOrderThan: aFamixEntity [
-	^ (self superclassHierarchy includes: aFamixEntity)
-]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXType >> comeBeforeInInheritanceOrderThan: aFamixEntity [
-	^ (self subclassHierarchy includes: aFamixEntity)
-]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXType >> comeBeforeTheIndependentEntity: aFamixEntity [
-	"the super call have to be done after because of the name sort"
-"(self typePriorityOf: self getFamixClass) < (self typePriorityOf: aFamixEntity getFamixClass)
-		or: [ (self eq: aFamixEntity) and: [ self mooseName < aFamixEntity mooseName ] ]"
-		
-		
-	^ (self comeAfterInInheritanceOrderThan: aFamixEntity) not
-		and: [ (self comeBeforeInInheritanceOrderThan: aFamixEntity) or: [ super comeBeforeTheIndependentEntity: aFamixEntity ] ]
-]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXType >> getFamixClass [
-	(self container isKindOf: FAMIXMethod)
-		ifTrue: [ ^ #FAMIXTypeInnerMethod ].
-	^ super getFamixClass
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXType >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
 	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
 		ifFalse: [ ^ false ].
