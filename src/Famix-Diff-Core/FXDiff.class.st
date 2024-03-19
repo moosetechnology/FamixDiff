@@ -82,22 +82,6 @@ FXDiff >> assocChanges [
 	^ self result assocChanges
 ]
 
-{ #category : #deprecated }
-FXDiff >> base [
-	self
-		deprecated: 'Please use #baseModel  instead'
-		transformWith: '`@receiver base' 
-						-> '`@receiver baseModel'.
-	
-	^ self baseModel
-]
-
-{ #category : #deprecated }
-FXDiff >> base: aMooseModel [
-	self deprecated: 'Please use #baseModel:  instead' transformWith: '`@receiver base: `@statements1' -> '`@receiver baseModel: `@statements1'.
-	^ self baseModel: aMooseModel
-]
-
 { #category : #accessing }
 FXDiff >> baseModel [
 	^ baseModel
@@ -181,23 +165,6 @@ FXDiff >> setUp [
 	self assert: (self baseModel isKindOf: MooseModel).
 	self assert: (self targetModel isKindOf: MooseModel).
 	self checkDiffTransformers
-]
-
-{ #category : #accessing }
-FXDiff >> target [
-	self
-		deprecated: 'Please use #targetModel  instead'
-		transformWith: '`@receiver target' 
-						-> '`@receiver targetModel'.
-	
-	^ self targetModel
-]
-
-{ #category : #deprecated }
-FXDiff >> target: aMooseModel [ 
-
-	self deprecated: 'Please use #targetModel:  instead' transformWith: '`@receiver target: `@statements1' -> '`@receiver targetModel: `@statements1'.
-	^ self targetModel: aMooseModel
 ]
 
 { #category : #accessing }
