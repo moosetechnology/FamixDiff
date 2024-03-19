@@ -31,35 +31,17 @@ Class {
 		'baseModel',
 		'result',
 		'targetModel',
-		'diffComputer',
 		'diffTransformers',
-		'tolerance'
+		'tolerance',
+		'diffComputer'
 	],
 	#category : #'Famix-Diff-Core'
 }
 
 { #category : #'instance creation' }
-FXDiff class >> baseModel: aBaseModel targetModel: aTargetModel [
-	^ self baseModel: aBaseModel targetModel: aTargetModel diffComputer: FamixDiff
-]
+FXDiff class >> baseModel: aBaseModel targetModel: targetModel [
 
-{ #category : #'instance creation' }
-FXDiff class >> baseModel: aBaseModel targetModel: targetModel diffComputer: aDiffComputer [
-	^ self
-		baseModel: aBaseModel
-		targetModel: targetModel
-		diffComputer: aDiffComputer
-		diffTransformers: nil
-]
-
-{ #category : #'instance creation' }
-FXDiff class >> baseModel: aBaseModel targetModel: targetModel diffComputer: aDiffComputer diffTransformers: aColOfDiffTransformers [
-	^ self new
-		baseModel: aBaseModel;
-		targetModel: targetModel;
-		diffComputer: aDiffComputer;
-		diffTransformers: aColOfDiffTransformers;
-		yourself
+	^ self baseModel: aBaseModel targetModel: targetModel diffTransformers: nil
 ]
 
 { #category : #'instance creation' }
@@ -67,21 +49,13 @@ FXDiff class >> baseModel: aBaseModel targetModel: targetModel diffTransformers:
 	^ self new
 		baseModel: aBaseModel;
 		targetModel: targetModel;
-		diffComputer: self defaultDiffComputer;
 		diffTransformers: aColOfDiffTransformers;
 		yourself
 ]
 
 { #category : #accessing }
 FXDiff class >> defaultDiffComputer [
-	^ FamixDiff
-]
-
-{ #category : #'instance creation' }
-FXDiff class >> new [
-	^ super new
-		diffComputer: self defaultDiffComputer;
-		yourself
+	^ FamixDiffComputer
 ]
 
 { #category : #running }
@@ -90,26 +64,20 @@ FXDiff class >> runOnBaseModel: aBaseModel targetModel: aTargetModel [
 ]
 
 { #category : #running }
-FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffComputer: aDiffComputer diffTransformers: aColOfDiffTransformers [
-	^ (self
-		baseModel: aBaseModel
-		targetModel: targetModel
-		diffComputer: aDiffComputer
-		diffTransformers: aColOfDiffTransformers) run
+FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers [
+
+	^ (self baseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers) run
 ]
 
 { #category : #running }
-FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffComputer: aDiffComputer diffTransformers: aColOfDiffTransformers args: aDicoOfArgs [
-	^ (self
-		baseModel: aBaseModel
-		targetModel: targetModel
-		diffComputer: aDiffComputer
-		diffTransformers: aColOfDiffTransformers)
-		args: aDicoOfArgs;
-		run
+FXDiff class >> runOnBaseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers args: aDicoOfArgs [
+
+	^ (self baseModel: aBaseModel targetModel: targetModel diffTransformers: aColOfDiffTransformers)
+		  args: aDicoOfArgs;
+		  run
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FXDiff >> assocChanges [
 	^ self result assocChanges
 ]
@@ -147,17 +115,12 @@ FXDiff >> basicRun [
 	diffTransformers ifNotNil: [ self diffTransformers do: [ :aPostOperationClass | aPostOperationClass run ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FXDiff >> changes: aCollection [
 	^ self result changes: aCollection
 ]
 
-{ #category : #checking }
-FXDiff >> checkDiffComputer [
-	self assert: self diffComputer isNotNil
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FXDiff >> checkDiffTransformers [
 	self flag: #TODO.
 ]
@@ -192,9 +155,13 @@ FXDiff >> diffTransformers: aCollectionOfPostOperators [
 
 { #category : #initialization }
 FXDiff >> initialize [
+
 	super initialize.
 	tolerance := 0.
 	result := FamixDiffResult new orchestrator: self.
+	diffComputer := FamixDiffComputer new
+		                orchestrator: self;
+		                yourself
 ]
 
 { #category : #accessing }
@@ -209,11 +176,11 @@ FXDiff >> result: anObject [
 
 { #category : #private }
 FXDiff >> setUp [
+
 	super setUp.
 	self assert: (self baseModel isKindOf: MooseModel).
 	self assert: (self targetModel isKindOf: MooseModel).
-	self checkDiffComputer.
-	self checkDiffTransformers.
+	self checkDiffTransformers
 ]
 
 { #category : #accessing }
