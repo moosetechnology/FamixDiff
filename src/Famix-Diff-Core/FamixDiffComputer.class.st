@@ -103,10 +103,8 @@ FamixDiffComputer >> diff [
 
 { #category : #'run-associations' }
 FamixDiffComputer >> diffAssociations [
-	(self changesDico values asSet asOrderedCollection
-		"sorted: [ :a :b | a printString <= b printString ]")
-		do: [ :chg | chg updateDiffForAssociations: self ]
-		"displayingProgress: 'Comparing entity associations'"
+
+	self changesDico values asSet asOrderedCollection do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
 { #category : #'run-entities' }
