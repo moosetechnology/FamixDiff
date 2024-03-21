@@ -3,26 +3,30 @@ Extension { #name : #FAMIXNamedEntity }
 { #category : #'*Famix-Diff-Core' }
 FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
 
-	| myParent otherParent myParentChange otherParentChange |
+	| baseParents targetParents |
 	"same name, same class, matching parent"
 	self class = otherEntity class ifFalse: [ ^ false ].
 	self name = otherEntity name ifFalse: [ ^ false ].
 
-	myParent := self belongsTo.
-	otherParent := otherEntity belongsTo.
-	(self parentPackage isNotNil or: [ otherEntity parentPackage isNotNil ]) ifTrue: [ 
-		myParent := self parentPackage.
-		otherParent := otherEntity parentPackage ].
+	baseParents := self parents.
+	targetParents := otherEntity parents.
 
-	(myParent isNil or: [ otherParent isNil ]) ifTrue: [ ^ myParent = otherParent ].
+	baseParents size = targetParents size ifFalse: [ ^ false ].
 
-	myParent isStub ifTrue: [ ^ myParent mooseName = otherParent mooseName ].
-	otherParent isStub ifTrue: [ ^ myParent mooseName = otherParent mooseName ].
+	^ baseParents allSatisfy: [ :baseParent | 
+		  targetParents anySatisfy: [ :targetParent | self isParent: baseParent equivalentTo: targetParent givenChanges: changes ] ]
+]
+
+{ #category : #'*Famix-Diff-Core' }
+FAMIXNamedEntity >> isParent: baseParent equivalentTo: targetParent givenChanges: changes [
+
+	| baseParentChange targetParentChange |
+	(baseParent isStub or: [ targetParent isStub ]) ifTrue: [ ^ baseParent mooseName = targetParent mooseName ].
 
 	"If matching of one or both parent is unknown (absent from changes), they are most probably different because the calling algorithm treats parents first and identity matches first"
-	myParentChange := changes at: myParent ifAbsent: [ ^ false ].
-	otherParentChange := changes at: otherParent ifAbsent: [ ^ false ].
-	^ myParentChange = otherParentChange
+	baseParentChange := changes at: baseParent ifAbsent: [ ^ false ].
+	targetParentChange := changes at: targetParent ifAbsent: [ ^ false ].
+	^ baseParentChange = targetParentChange
 ]
 
 { #category : #'*Famix-Diff-Core' }

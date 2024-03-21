@@ -285,10 +285,8 @@ FamixDiffComputer >> tolerance [
 
 { #category : #'run-entities' }
 FamixDiffComputer >> topEntitiesToMatchIn: aModel [
-	"topmost, not stub, not matched entities"
-	^ (self entitiesToMatchIn: aModel)
-		select: [:e ||parent|
-				parent := e belongsTo.
-				(self shouldMatch: parent) not or: [self matched: parent] ]
 
+	^ (self entitiesToMatchIn: aModel) select: [ :entity |
+		"We select only entites that have their parents already matched." 
+		  entity parents allSatisfy: [ :parent | (self shouldMatch: parent) not or: [ self matched: parent ] ] ]
 ]
