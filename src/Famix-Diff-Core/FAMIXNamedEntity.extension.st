@@ -13,8 +13,12 @@ FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
 
 	baseParents size = targetParents size ifFalse: [ ^ false ].
 
-	^ baseParents allSatisfy: [ :baseParent | 
-		  targetParents anySatisfy: [ :targetParent | self isParent: baseParent equivalentTo: targetParent givenChanges: changes ] ]
+	baseParents do: [ :baseParent | 
+		targetParents
+			detect: [ :targetParent | (self isParent: baseParent equivalentTo: targetParent givenChanges: changes) not ]
+			ifFound: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
+
+	^ true
 ]
 
 { #category : #'*Famix-Diff-Core' }
