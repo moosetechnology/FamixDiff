@@ -1,13 +1,6 @@
 Extension { #name : #FAMIXBehaviouralEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXBehaviouralEntity >> compareSignatureWith: otherEntity givenChanges: changes [
-
-	<famixDiffIdentity>
-	^ self signature = otherEntity signature
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXBehaviouralEntity >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
 	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
 		ifFalse: [ ^ false ].

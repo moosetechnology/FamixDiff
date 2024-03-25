@@ -1,13 +1,6 @@
 Extension { #name : #FAMIXNamedEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXNamedEntity >> compareNameWith: otherEntity givenChanges: changes [
-
-	<famixDiffIdentity>
-	^ self name = otherEntity name
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXNamedEntity >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
 
 	| myParent otherParent |
