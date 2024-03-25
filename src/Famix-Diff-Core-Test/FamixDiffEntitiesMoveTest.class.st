@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 FamixDiffEntitiesMoveTest >> testMoveMatchClass [
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
 		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
 	self

@@ -9,7 +9,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 	(snapshot targetModel entityNamed: 'Smalltalk::A3diff')
 		name: 'X3diff'.
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
 		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
 	self
@@ -34,7 +34,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 	(snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 		signature: 'x3()'.
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::B3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::B3diff').
 	self
@@ -83,7 +83,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchStub [
 	basA3c3 isStub: true.
 	tgtA3c3 isStub: true.
 	self deny: (basA3c3 renameMatch: tgtA3c3 givenChanges: testChanges)."
-	self createChg: FamixVersionChange with: basP3 and: tgtP3.
+	self createChg: FamixUnchangedChange with: basP3 and: tgtP3.
 	tgtA3 name: 'X3'.
 	self
 		assert: (basA3 renameMatch: tgtA3 givenChanges: testChanges tolerance: 0).
@@ -91,7 +91,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchStub [
 	tgtA3 isStub: true.
 	self
 		deny: (basA3 renameMatch: tgtA3 givenChanges: testChanges tolerance: 0).
-	self createChg: FamixVersionChange with: basA3 and: tgtA3.
+	self createChg: FamixUnchangedChange with: basA3 and: tgtA3.
 	tgtA3c3 name: 'x3'.
 	tgtA3c3 signature: 'x3()'.
 	self
@@ -106,7 +106,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchStub [
 FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 	| var1 var2 |
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').	"creating fake accesses because maching of variables depends on them
 	 First we don't create enough accesses (need at least 3)"

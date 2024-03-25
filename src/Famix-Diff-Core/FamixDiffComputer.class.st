@@ -135,11 +135,11 @@ FamixDiffComputer >> entitiesToMatchIn: aModel [
 	^ aModel entities select: [ :e | self shouldMatch: e ]
 ]
 
-{ #category : #'matching-entities' }
+{ #category : #'run-entities' }
 FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
 
 	"Find the entities that are exactly the same between base version and target version (using #identityMatch:givenChanges: message).
-	 If there is a match, a FamixVersionChange is created and stored."
+	 If there is a match, a FamixUnchangedChange is created and stored."
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity givenChanges: self changesDico ]
@@ -148,7 +148,7 @@ FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
 		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
 			  targetEntities remove: targetEntity.
-			  match := FamixVersionChange base: baseEntity target: targetEntity.
+			  match := FamixUnchangedChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
@@ -167,7 +167,7 @@ FamixDiffComputer >> matched: entity [
 	^ self changesDico includesKey: entity
 ]
 
-{ #category : #'matching-entities' }
+{ #category : #'run-entities' }
 FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock progressMessage: aString [
 
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
@@ -189,7 +189,7 @@ FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities i
 	^ matchFound
 ]
 
-{ #category : #'matching-entities' }
+{ #category : #'run-entities' }
 FamixDiffComputer >> moveMatchesFrom: entities [
 
 	^ self
@@ -205,7 +205,7 @@ FamixDiffComputer >> moveMatchesFrom: entities [
 		  progressMessage: 'Computing modifications'
 ]
 
-{ #category : #'matching-entities' }
+{ #category : #'run-entities' }
 FamixDiffComputer >> moveMatchesTo: targetEntities [
 
 	^ self
@@ -231,22 +231,22 @@ FamixDiffComputer >> orchestrator: anObject [
 	orchestrator := anObject
 ]
 
-{ #category : #'matching-entities' }
+{ #category : #'run-entities' }
 FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
 
 	"Find the entities that have been renamed between base version and target version (using #renameMatch:givenChanges:tolerance: message).
 	 If there is a match, a FamixRenameChange is created and stored."
 
 	^ self
-		  matches: [ :eBase :eTarget | eBase renameMatch: eTarget givenChanges: self changesDico tolerance: self tolerance ]
+		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :eBase :eTarget | 
+		  ifMatch: [ :baseEntity :targetEntity | 
 			  | match |
-			  match := FamixRenameChange base: eBase target: eTarget.
+			  match := FamixRenameChange base: baseEntity target: targetEntity.
 			  self changesDico
-				  at: eBase put: match;
-				  at: eTarget put: match ]
+				  at: baseEntity put: match;
+				  at: targetEntity put: match ]
 		  progressMessage: 'Computing renamed entities'
 ]
 

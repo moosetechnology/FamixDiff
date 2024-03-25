@@ -1,13 +1,13 @@
 Class {
 	#name : #FamixDiffAssociationsTest,
 	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : 'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Test'
 }
 
 { #category : #tests }
 FamixDiffAssociationsTest >> testAssocsAddP3 [
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::C3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::C3diff').
 	self
@@ -42,7 +42,7 @@ FamixDiffAssociationsTest >> testAssocsAddP3 [
 { #category : #tests }
 FamixDiffAssociationsTest >> testAssocsDelP4 [
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::B3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::B3diff').
 	self
@@ -65,23 +65,23 @@ FamixDiffAssociationsTest >> testAssocsDelP4 [
 { #category : #tests }
 FamixDiffAssociationsTest >> testAssocsMatching [
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
 		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff').
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::C3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::C3diff').
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
 	self
-		createChg: FamixVersionChange
+		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().toto').
 	snapshot diffComputer changesDico: testChanges.

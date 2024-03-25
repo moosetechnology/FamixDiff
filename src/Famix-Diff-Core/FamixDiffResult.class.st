@@ -141,5 +141,5 @@ FamixDiffResult >> removalChanges [
 
 { #category : #versions }
 FamixDiffResult >> versionChanges [
-	^ self entityChanges allWithType: FamixVersionChange 
+	^ self entityChanges allWithType: FamixUnchangedChange 
 ]
