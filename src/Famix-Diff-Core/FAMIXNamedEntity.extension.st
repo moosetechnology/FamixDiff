@@ -15,8 +15,8 @@ FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
 
 	baseParents do: [ :baseParent | 
 		targetParents
-			detect: [ :targetParent | (self isParent: baseParent equivalentTo: targetParent givenChanges: changes) not ]
-			ifFound: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
+			detect: [ :targetParent | (self isParent: baseParent equivalentTo: targetParent givenChanges: changes)  ]
+			ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
 
 	^ true
 ]
