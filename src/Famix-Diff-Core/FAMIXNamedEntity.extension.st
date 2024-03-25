@@ -1,36 +1,10 @@
 Extension { #name : #FAMIXNamedEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXNamedEntity >> identityMatch: otherEntity givenChanges: changes [
+FAMIXNamedEntity >> compareNameWith: otherEntity givenChanges: changes [
 
-	| baseParents targetParents |
-	"same name, same class, matching parent"
-	self class = otherEntity class ifFalse: [ ^ false ].
-	self name = otherEntity name ifFalse: [ ^ false ].
-
-	baseParents := self parents.
-	targetParents := otherEntity parents.
-
-	baseParents size = targetParents size ifFalse: [ ^ false ].
-
-	baseParents do: [ :baseParent | 
-		targetParents
-			detect: [ :targetParent | (self isParent: baseParent equivalentTo: targetParent givenChanges: changes)  ]
-			ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
-
-	^ true
-]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXNamedEntity >> isParent: baseParent equivalentTo: targetParent givenChanges: changes [
-
-	| baseParentChange targetParentChange |
-	(baseParent isStub or: [ targetParent isStub ]) ifTrue: [ ^ baseParent mooseName = targetParent mooseName ].
-
-	"If matching of one or both parent is unknown (absent from changes), they are most probably different because the calling algorithm treats parents first and identity matches first"
-	baseParentChange := changes at: baseParent ifAbsent: [ ^ false ].
-	targetParentChange := changes at: targetParent ifAbsent: [ ^ false ].
-	^ baseParentChange = targetParentChange
+	<famixDiffIdentity>
+	^ self name = otherEntity name
 ]
 
 { #category : #'*Famix-Diff-Core' }

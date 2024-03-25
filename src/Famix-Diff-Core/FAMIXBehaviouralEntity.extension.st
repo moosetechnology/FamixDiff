@@ -1,9 +1,10 @@
 Extension { #name : #FAMIXBehaviouralEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXBehaviouralEntity >> identityMatch: otherEntity givenChanges: changes [
+FAMIXBehaviouralEntity >> compareSignatureWith: otherEntity givenChanges: changes [
 
-	^ (super identityMatch: otherEntity givenChanges: changes) and: [ self signature = otherEntity signature ]
+	<famixDiffIdentity>
+	^ self signature = otherEntity signature
 ]
 
 { #category : #'*Famix-Diff-Core' }

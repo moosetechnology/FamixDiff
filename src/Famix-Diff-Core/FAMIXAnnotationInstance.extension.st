@@ -1,25 +1,15 @@
 Extension { #name : #FAMIXAnnotationInstance }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAnnotationInstance >> identityMatch: otherEntity givenChanges: changes [
+FAMIXAnnotationInstance >> compareMatchingAnnotationTypeWith: otherEntity givenChanges: changes [
 
-	"Same class, same parents"
+	<famixDiffIdentity>
+	self annotationType ifNil: [ ^ otherEntity annotationType isNil ].
+	otherEntity annotationType ifNil: [ ^ false ].
 
-	self class = otherEntity class ifFalse: [ ^ false ].
-	^ (self isMatchingMyParent: self belongsTo with: otherEntity belongsTo givenChanges: changes) and: [ 
-		  self isMatchingMyParent: self annotationType with: otherEntity annotationType givenChanges: changes ]
-]
+	(self annotationType isStub or: [ otherEntity annotationType isStub ]) ifTrue: [ ^ self annotationType mooseName = otherEntity annotationType mooseName ].
 
-{ #category : #'*Famix-Diff-Core' }
-FAMIXAnnotationInstance >> isMatchingMyParent: myParent with: otherEntityParent givenChanges: changes [
-	myParent ifNil: [ ^ otherEntityParent isNil ].
-	otherEntityParent ifNil: [ ^ false ].
-	myParent isStub
-		ifTrue: [ ^ myParent mooseName = otherEntityParent mooseName ].
-	otherEntityParent isStub
-		ifTrue: [ ^ myParent mooseName = otherEntityParent mooseName ].
-
-	^ (changes at: myParent ifAbsent: [ ^ false ]) = (changes at: otherEntityParent ifAbsent: [ ^ false ])
+	^ (changes at: self annotationType ifAbsent: [ ^ false ]) = (changes at: otherEntity annotationType ifAbsent: [ ^ false ])
 ]
 
 { #category : #'*Famix-Diff-Core' }

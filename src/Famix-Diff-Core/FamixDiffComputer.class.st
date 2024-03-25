@@ -142,7 +142,7 @@ FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
 	 If there is a match, a FamixVersionChange is created and stored."
 
 	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity givenChanges: self changesDico ]
+		  matches: [ :baseEntity :targetEntity | self is: baseEntity identicalTo: targetEntity ]
 		  from: baseEntities
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 
@@ -160,6 +160,15 @@ FamixDiffComputer >> initialize [
 	super initialize.
 	changes := Dictionary new.
 	assocChanges := OrderedCollection new
+]
+
+{ #category : #'matching-entities' }
+FamixDiffComputer >> is: baseEntity identicalTo: targetEntity [
+
+	"Return true if the two entities should be considered identical."
+
+	baseEntity class = targetEntity class ifFalse: [ ^ false ].
+	^ baseEntity identityMatch: targetEntity givenChanges: self changesDico
 ]
 
 { #category : #testing }
