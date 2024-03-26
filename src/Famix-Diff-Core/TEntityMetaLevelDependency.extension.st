@@ -19,12 +19,13 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity givenChanges: chan
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> identityMatch: otherEntity givenChanges: changes [
+TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: aFamixDiffResolver [
 
 	self class = otherEntity class ifFalse: [ ^ false ].
 
+	"We consider that the entities are identical if all comparators declared for the entity with the following pragma are matching."
 	(Pragma allNamed: #famixDiffIdentity from: self class to: ProtoObject) do: [ :pragma | 
-		(self perform: pragma methodSelector with: otherEntity with: changes) ifFalse: [ ^ false ] ].
+		(self perform: pragma methodSelector with: otherEntity with: aFamixDiffResolver changes) ifFalse: [ ^ false ] ].
 
 	^ true
 ]
@@ -39,4 +40,10 @@ TEntityMetaLevelDependency >> isParent: baseParent equivalentTo: targetParent gi
 	baseParentChange := changes at: baseParent ifAbsent: [ ^ false ].
 	targetParentChange := changes at: targetParent ifAbsent: [ ^ false ].
 	^ baseParentChange = targetParentChange
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> renameMatch: aFAMIXMethod givenChanges: aCollection tolerance: anInteger [
+
+	^ false
 ]

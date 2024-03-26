@@ -102,7 +102,7 @@ FXDiff >> initialize [
 	super initialize.
 	tolerance := 0.
 	result := FamixDiffResult new orchestrator: self.
-	diffComputer := FamixDiffComputer new
+	diffComputer := FamixDiffResolver new
 		                orchestrator: self;
 		                yourself
 ]

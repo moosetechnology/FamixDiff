@@ -15,7 +15,7 @@ Indeed, this variable is a real between 0 and 1 that represents the percentage o
 - tolerance = 1 (100%) implies that entities can be completly different.
 "
 Class {
-	#name : #FamixDiffComputer,
+	#name : #FamixDiffResolver,
 	#superclass : #Object,
 	#instVars : [
 		'changes',
@@ -26,7 +26,7 @@ Class {
 }
 
 { #category : #'run-associations' }
-FamixDiffComputer >> addAssociations: asociations [
+FamixDiffResolver >> addAssociations: asociations [
 
 	asociations do: [ :association | 
 		self assocChanges add: (FamixAddChange new
@@ -35,37 +35,38 @@ FamixDiffComputer >> addAssociations: asociations [
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> assocChanges [
+FamixDiffResolver >> assocChanges [
 	^ assocChanges
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> assocChanges: aCollection [
+FamixDiffResolver >> assocChanges: aCollection [
 	^ assocChanges := aCollection
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> baseModel [
+FamixDiffResolver >> baseModel [
 	^self orchestrator baseModel
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> changes [
-	^ self orchestrator result entityChanges
-]
+FamixDiffResolver >> changes [
 
-{ #category : #accessing }
-FamixDiffComputer >> changesDico [
 	^ changes
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> changesDico: aCollection [
+FamixDiffResolver >> changesDico [
+	^ changes
+]
+
+{ #category : #accessing }
+FamixDiffResolver >> changesDico: aCollection [
 	changes := aCollection
 ]
 
 { #category : #'run-associations' }
-FamixDiffComputer >> checkAssocsMatches: baseAssocs with: targetAssocs tolerance: anObject [
+FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs tolerance: anObject [
 	baseAssocs
 		do: [ :baseAss | 
 			targetAssocs
@@ -81,7 +82,7 @@ FamixDiffComputer >> checkAssocsMatches: baseAssocs with: targetAssocs tolerance
 ]
 
 { #category : #'run-associations' }
-FamixDiffComputer >> delAssociations: assocs [
+FamixDiffResolver >> delAssociations: assocs [
 	assocs
 		do: [ :a | 
 			self assocChanges
@@ -92,7 +93,7 @@ FamixDiffComputer >> delAssociations: assocs [
 ]
 
 { #category : #run }
-FamixDiffComputer >> diff [
+FamixDiffResolver >> diff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
 	self diffEntities.
@@ -102,13 +103,13 @@ FamixDiffComputer >> diff [
 ]
 
 { #category : #'run-associations' }
-FamixDiffComputer >> diffAssociations [
+FamixDiffResolver >> diffAssociations [
 
 	self changesDico values asSet asOrderedCollection do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> diffEntities [
+FamixDiffResolver >> diffEntities [
 
 	| baseTodo targetTodo |
 	"loops on this block"
@@ -128,7 +129,7 @@ FamixDiffComputer >> diffEntities [
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> entitiesToMatchIn: aModel [
+FamixDiffResolver >> entitiesToMatchIn: aModel [
 
 	"not stub, not matched entities"
 
@@ -136,13 +137,13 @@ FamixDiffComputer >> entitiesToMatchIn: aModel [
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
+FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 
-	"Find the entities that are exactly the same between base version and target version (using #identityMatch:givenChanges: message).
+	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
 	 If there is a match, a FamixUnchangedChange is created and stored."
 
 	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity givenChanges: self changesDico ]
+		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 
@@ -156,19 +157,19 @@ FamixDiffComputer >> identityMatchesFrom: baseEntities to: targetEntities [
 ]
 
 { #category : #initialization }
-FamixDiffComputer >> initialize [
+FamixDiffResolver >> initialize [
 	super initialize.
 	changes := Dictionary new.
 	assocChanges := OrderedCollection new
 ]
 
 { #category : #testing }
-FamixDiffComputer >> matched: entity [
+FamixDiffResolver >> matched: entity [
 	^ self changesDico includesKey: entity
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock progressMessage: aString [
+FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock progressMessage: aString [
 
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
 	 matchblock takes 2 parameters: first is baseEntity, second is targetEntity being compared.
@@ -190,7 +191,7 @@ FamixDiffComputer >> matches: matchblock from: baseEntities to: targetEntities i
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> moveMatchesFrom: entities [
+FamixDiffResolver >> moveMatchesFrom: entities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
@@ -206,7 +207,7 @@ FamixDiffComputer >> moveMatchesFrom: entities [
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> moveMatchesTo: targetEntities [
+FamixDiffResolver >> moveMatchesTo: targetEntities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity givenChanges: self changesDico tolerance: self tolerance ]
@@ -222,17 +223,17 @@ FamixDiffComputer >> moveMatchesTo: targetEntities [
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> orchestrator [
+FamixDiffResolver >> orchestrator [
 	^ orchestrator
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> orchestrator: anObject [
+FamixDiffResolver >> orchestrator: anObject [
 	orchestrator := anObject
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
+FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
 
 	"Find the entities that have been renamed between base version and target version (using #renameMatch:givenChanges:tolerance: message).
 	 If there is a match, a FamixRenameChange is created and stored."
@@ -251,17 +252,17 @@ FamixDiffComputer >> renameMatchesFrom: baseEntities to: targetEntities [
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> result [
+FamixDiffResolver >> result [
 	^ self orchestrator result
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> result: aFamixDiffResult [ 
+FamixDiffResolver >> result: aFamixDiffResult [ 
 	self orchestrator result: aFamixDiffResult
 ]
 
 { #category : #testing }
-FamixDiffComputer >> shouldMatch: entity [
+FamixDiffResolver >> shouldMatch: entity [
 
 	"Return true if I still need to find the match for the entity as parameter"
 
@@ -269,12 +270,12 @@ FamixDiffComputer >> shouldMatch: entity [
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> targetModel [
+FamixDiffResolver >> targetModel [
 	^ self orchestrator targetModel
 ]
 
 { #category : #accessing }
-FamixDiffComputer >> tolerance [
+FamixDiffResolver >> tolerance [
 	"tolerance is used to give some flexibility
      we require that any entity has at most percentage members not in the other entity
      tolerance 0 => both entities must be strictly equals
@@ -284,7 +285,7 @@ FamixDiffComputer >> tolerance [
 ]
 
 { #category : #'run-entities' }
-FamixDiffComputer >> topEntitiesToMatchIn: aModel [
+FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
 	^ (self entitiesToMatchIn: aModel) select: [ :entity |
 		"We select only entites that have their parents already matched." 
