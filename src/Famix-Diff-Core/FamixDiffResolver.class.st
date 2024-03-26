@@ -164,6 +164,18 @@ FamixDiffResolver >> initialize [
 ]
 
 { #category : #testing }
+FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
+
+	"The method has the prerequisite that both given entities should already be treated by the resolver and be part of the changes dictionary. If one is not present we consider it was not present in one of the versions and thus they cannot be the same.
+	
+	Also, if one of them is a stub we cannot really compare so we just match the moose name."
+
+	(baseEntity isStub or: [ targetEntity isStub ]) ifTrue: [ ^ baseEntity mooseName = targetEntity mooseName ].
+
+	^ (changes at: baseEntity ifAbsent: [ ^ false ]) = (changes at: targetEntity ifAbsent: [ ^ false ])
+]
+
+{ #category : #testing }
 FamixDiffResolver >> matched: entity [
 	^ self changesDico includesKey: entity
 ]
