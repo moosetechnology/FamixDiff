@@ -33,5 +33,7 @@ AbstractFamixDiffWithModelTest >> setUp [
 	snapshot := FXDiff baseModel: model1 targetModel: model2.
 	testChanges := Dictionary new.
 	resolver := FamixDiffResolver new.
-	resolver changesDico: testChanges
+	resolver
+		changesDico: testChanges;
+		orchestrator: snapshot
 ]

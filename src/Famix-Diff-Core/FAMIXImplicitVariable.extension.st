@@ -5,3 +5,11 @@ FAMIXImplicitVariable >> moveMatch: otherEntity givenChanges: changes tolerance:
 	"no move possible for 'self' or 'super' "
 	^ false
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FAMIXImplicitVariable >> renameMatch: otherEntity resolver: resolver [
+
+	"no rename possible for 'self' or 'super' "
+
+	^ false
+]

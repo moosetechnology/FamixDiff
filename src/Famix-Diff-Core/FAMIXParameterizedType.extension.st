@@ -13,8 +13,8 @@ FAMIXParameterizedType >> moveMatch: otherEntity givenChanges: changes tolerance
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXParameterizedType >> renameMatch: otherEntity givenChanges: changes tolerance: percentage [
-	(super renameMatch: otherEntity givenChanges: changes tolerance: percentage)
-		ifFalse: [ ^ false ].
-	^ self equalArguments: otherEntity tolerance: percentage
+FAMIXParameterizedType >> renameMatch: otherEntity resolver: resolver [
+
+	(super renameMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self equalArguments: otherEntity tolerance: resolver tolerance
 ]

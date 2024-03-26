@@ -37,3 +37,10 @@ FAMIXType >> quasiEqualBody: otherEntity tolerance: percentage [
 
 	^ true
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FAMIXType >> renameMatch: otherEntity resolver: resolver [
+
+	(super renameMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self quasiEqualBody: otherEntity tolerance: resolver tolerance
+]

@@ -57,8 +57,8 @@ FAMIXBehaviouralEntity >> quasiEqualBody: otherEntity tolerance: percentage [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXBehaviouralEntity >> renameMatch: otherEntity givenChanges: changes tolerance: percentage [
-	(super renameMatch: otherEntity givenChanges: changes tolerance: percentage)
-		ifFalse: [ ^ false ].
-	^ self quasiEqualBody: otherEntity tolerance: percentage
+FAMIXBehaviouralEntity >> renameMatch: otherEntity resolver: resolver [
+
+	(super renameMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self quasiEqualBody: otherEntity tolerance: resolver tolerance
 ]

@@ -247,11 +247,11 @@ FamixDiffResolver >> orchestrator: anObject [
 { #category : #'run-entities' }
 FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
 
-	"Find the entities that have been renamed between base version and target version (using #renameMatch:givenChanges:tolerance: message).
+	"Find the entities that have been renamed between base version and target version (using #renameMatch:resolver: message).
 	 If there is a match, a FamixRenameChange is created and stored."
 
 	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
+		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 

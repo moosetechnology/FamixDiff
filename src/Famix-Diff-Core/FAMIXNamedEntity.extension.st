@@ -21,7 +21,7 @@ FAMIXNamedEntity >> moveMatch: otherEntity givenChanges: changes tolerance: perc
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXNamedEntity >> renameMatch: otherEntity givenChanges: changes tolerance: percentage [
+FAMIXNamedEntity >> renameMatch: otherEntity resolver: resolver [
 
 	| myParent otherParent |
 	"stubs either are identical or nothing, no renaming or moving allowed"
@@ -38,7 +38,7 @@ FAMIXNamedEntity >> renameMatch: otherEntity givenChanges: changes tolerance: pe
 		otherParent := otherEntity parentPackage ].
 	myParent ifNil: [ ^ otherParent isNil ].
 	otherParent ifNil: [ ^ false ].
-	^ (changes at: myParent ifAbsent: #unknown1) = (changes at: otherParent ifAbsent: #unknown2)
+	^ (resolver changes at: myParent ifAbsent: #unknown1) = (resolver changes at: otherParent ifAbsent: #unknown2)
 	"if matching of one or both parents is unknown then they are most probably different because the calling algorithm treats parents first and identity matches first"
 ]
 
