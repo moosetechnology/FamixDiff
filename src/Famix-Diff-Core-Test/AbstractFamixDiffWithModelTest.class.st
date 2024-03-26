@@ -35,5 +35,6 @@ AbstractFamixDiffWithModelTest >> setUp [
 	resolver := FamixDiffResolver new.
 	resolver
 		changesDico: testChanges;
-		orchestrator: snapshot
+		orchestrator: snapshot.
+	self createChg: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk') and: (snapshot targetModel entityNamed: 'Smalltalk')
 ]

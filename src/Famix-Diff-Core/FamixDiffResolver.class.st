@@ -170,9 +170,11 @@ FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
 	
 	Also, if one of them is a stub we cannot really compare so we just match the moose name."
 
+	(changes at: baseEntity ifAbsent: [ #unknown ]) = (changes at: targetEntity ifAbsent: [ #unknown2 ]) ifTrue: [ ^ true ].
+
 	(baseEntity isStub or: [ targetEntity isStub ]) ifTrue: [ ^ baseEntity mooseName = targetEntity mooseName ].
 
-	^ (changes at: baseEntity ifAbsent: [ ^ false ]) = (changes at: targetEntity ifAbsent: [ ^ false ])
+	^ false
 ]
 
 { #category : #testing }

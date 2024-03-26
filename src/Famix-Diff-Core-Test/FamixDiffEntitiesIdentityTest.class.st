@@ -56,7 +56,6 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassSame [
 		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
 		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
-	self createChg: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk') and: (snapshot targetModel entityNamed: 'Smalltalk').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff') resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') resolver: resolver)
 ]
@@ -96,9 +95,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchPackage [
 { #category : #tests }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchStubs [
 
-	| basSt tgtSt basP3 tgtP3 basA3 tgtA3 basA3c3 tgtA3c3 tgtB3c3 basA3c3toto tgtA3c3toto |
-	basSt := snapshot baseModel entityNamed: 'Smalltalk'.
-	tgtSt := snapshot targetModel entityNamed: 'Smalltalk'.
+	| basP3 tgtP3 basA3 tgtA3 basA3c3 tgtA3c3 tgtB3c3 basA3c3toto tgtA3c3toto |
 	basP3 := snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
 	tgtP3 := snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
 	basA3 := snapshot baseModel entityNamed: 'Smalltalk::A3diff'.
@@ -119,8 +116,6 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchStubs [
 	tgtA3c3toto isStub: true.
 	self assert: (basP3 identityMatch: tgtP3 resolver: resolver).
 	self createChg: FamixUnchangedChange with: basP3 and: tgtP3.
-	self assert: (basSt identityMatch: tgtSt resolver: resolver).
-	self createChg: FamixUnchangedChange with: basSt and: tgtSt.
 	self assert: (basA3 identityMatch: tgtA3 resolver: resolver).
 	self createChg: FamixUnchangedChange with: basA3 and: tgtA3.
 	self assert: (basA3c3 identityMatch: tgtA3c3 resolver: resolver).
