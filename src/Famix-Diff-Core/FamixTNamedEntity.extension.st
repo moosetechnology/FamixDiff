@@ -1,7 +1,7 @@
 Extension { #name : #FamixTNamedEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FamixTNamedEntity >> compareNameWith: otherEntity givenChanges: changes [
+FamixTNamedEntity >> compareNameWith: otherEntity [
 
 	<famixDiffIdentity>
 	^ self name = otherEntity name

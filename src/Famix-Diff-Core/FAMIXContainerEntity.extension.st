@@ -14,10 +14,3 @@ FAMIXContainerEntity >> equalContent: otherEntity tolerance: percentage [
 	(otherEntity children isNotEmpty and: [ intersect size / otherEntity children size >= (1 - percentage) ]) ifFalse: [ ^ false ].
 	^ true
 ]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXContainerEntity >> renameMatch: otherEntity givenChanges: changes tolerance: percentage [
-
-	(super renameMatch: otherEntity givenChanges: changes tolerance: percentage) ifFalse: [ ^ false ].
-	^ self equalContent: otherEntity tolerance: percentage
-]
