@@ -6,10 +6,10 @@ FAMIXParameterizedType >> equalArguments: otherEntity tolerance: percentage [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXParameterizedType >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
-	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
-		ifFalse: [ ^ false ].
-	^ self equalArguments: otherEntity tolerance: percentage
+FAMIXParameterizedType >> moveMatch: otherEntity resolver: resolver [
+
+	(super moveMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self equalArguments: otherEntity tolerance: resolver tolerance
 ]
 
 { #category : #'*Famix-Diff-Core' }

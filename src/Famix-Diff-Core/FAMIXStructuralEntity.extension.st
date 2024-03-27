@@ -1,10 +1,10 @@
 Extension { #name : #FAMIXStructuralEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXStructuralEntity >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
-	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
-		ifFalse: [ ^ false ].
-	^ self quasiEqualAccesses: otherEntity tolerance: percentage
+FAMIXStructuralEntity >> moveMatch: otherEntity resolver: resolver [
+
+	(super moveMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self quasiEqualAccesses: otherEntity tolerance: resolver tolerance
 ]
 
 { #category : #'*Famix-Diff-Core' }

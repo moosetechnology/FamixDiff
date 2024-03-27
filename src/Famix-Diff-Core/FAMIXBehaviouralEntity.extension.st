@@ -1,10 +1,10 @@
 Extension { #name : #FAMIXBehaviouralEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXBehaviouralEntity >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
-	(super moveMatch: otherEntity givenChanges: changes tolerance: percentage)
-		ifFalse: [ ^ false ].
-	^ self quasiEqualBody: otherEntity tolerance: percentage
+FAMIXBehaviouralEntity >> moveMatch: otherEntity resolver: resolver [
+
+	(super moveMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	^ self quasiEqualBody: otherEntity tolerance: resolver tolerance
 ]
 
 { #category : #'*Famix-Diff-Core' }

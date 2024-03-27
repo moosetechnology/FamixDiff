@@ -1,8 +1,10 @@
 Extension { #name : #FAMIXImplicitVariable }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXImplicitVariable >> moveMatch: otherEntity givenChanges: changes tolerance: percentage [
+FAMIXImplicitVariable >> moveMatch: otherEntity resolver: resolver [
+
 	"no move possible for 'self' or 'super' "
+
 	^ false
 ]
 

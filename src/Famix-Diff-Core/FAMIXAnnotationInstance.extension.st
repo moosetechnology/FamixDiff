@@ -1,7 +1,8 @@
 Extension { #name : #FAMIXAnnotationInstance }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAnnotationInstance >> moveMatch: anORClass givenChanges: aCollection tolerance: anInteger [
+FAMIXAnnotationInstance >> moveMatch: anORClass resolver: resolver [
+
 	"no move for this kind of entity..."
 
 	^ false

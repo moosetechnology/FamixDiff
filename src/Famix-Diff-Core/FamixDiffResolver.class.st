@@ -208,7 +208,7 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities i
 FamixDiffResolver >> moveMatchesFrom: entities [
 
 	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity givenChanges: self changesDico tolerance: self tolerance ]
+		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity resolver: self ]
 		  from: entities
 		  to: (self entitiesToMatchIn: self targetModel)
 		  ifMatch: [ :baseEntity :targetEntity | 
@@ -224,7 +224,7 @@ FamixDiffResolver >> moveMatchesFrom: entities [
 FamixDiffResolver >> moveMatchesTo: targetEntities [
 
 	^ self
-		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity givenChanges: self changesDico tolerance: self tolerance ]
+		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity resolver: self ]
 		  from: (self entitiesToMatchIn: self baseModel)
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity | 
