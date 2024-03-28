@@ -8,11 +8,13 @@ FAMIXContainerEntity >> equalContent: otherEntity resolver: resolver [
      tolerance 0 => both entities must be strictly equals
      tolerance=1 (100%) => entities can be completly different"
 
-	| intersect |
-	intersect := self children select: [ :baseChild | otherEntity children anySatisfy: [ :targetChild | baseChild name = targetChild name ] ].
-	(self children isNotEmpty and: [ intersect size / self children size >= (1 - resolver tolerance) ]) ifFalse: [ ^ false ].
-	(otherEntity children isNotEmpty and: [ intersect size / otherEntity children size >= (1 - resolver tolerance) ]) ifFalse: [ ^ false ].
-	^ true
+	self children ifEmpty: [ ^ false ] ifNotEmpty: [ :myChildren | 
+		otherEntity children ifEmpty: [ ^ false ] ifNotEmpty: [ :targetChildren | 
+			| intersect |
+			intersect := myChildren select: [ :baseChild | targetChildren anySatisfy: [ :targetChild | baseChild name = targetChild name ] ].
+			intersect size / self children size >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+			intersect size / otherEntity children size >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+			^ true ] ]
 ]
 
 { #category : #'*Famix-Diff-Core' }

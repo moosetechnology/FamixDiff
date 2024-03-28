@@ -32,6 +32,7 @@ FAMIXBehaviouralEntity >> quasiEqualBody: otherEntity tolerance: percentage [
 
 	"compare (outgoing) accesses"
 	intersect addAll: (self accesses select: [ :myAcc | otherEntity accesses anySatisfy: [ :otherAcc | myAcc variable name = otherAcc variable name ] ]).
+
 	intersect size / mySize >= (1 - percentage) ifFalse: [ ^ false ].
 	intersect size / otherSize >= (1 - percentage) ifFalse: [ ^ false ].
 	^ true
