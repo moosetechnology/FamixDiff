@@ -30,8 +30,8 @@ FAMIXContainerEntity >> equalContentAndDependencies: otherEntity resolver: resol
 				 targetDependency class = baseDependency class and: [ 
 					 baseDependency allTargets allSatisfy: [ :baseTarget | targetDependency allTargets anySatisfy: [ :targetTarget | baseTarget name = targetTarget name ] ] ] ] ]).
 
-	intersect size / myChildren size >= (1 - resolver tolerance) ifFalse: [ ^ false ].
-	intersect size / targetChildren size >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	intersect size / (myChildren size + myDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	intersect size / (targetChildren size + targetDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
 	^ true
 ]
 

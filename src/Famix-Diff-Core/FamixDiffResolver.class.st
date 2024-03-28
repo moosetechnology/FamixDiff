@@ -298,6 +298,12 @@ FamixDiffResolver >> tolerance [
 	^ self orchestrator tolerance
 ]
 
+{ #category : #accessing }
+FamixDiffResolver >> tolerance: anInteger [
+
+	orchestrator tolerance: anInteger
+]
+
 { #category : #'run-entities' }
 FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
