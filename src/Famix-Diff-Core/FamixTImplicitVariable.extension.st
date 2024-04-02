@@ -1,7 +1,7 @@
-Extension { #name : #FAMIXImplicitVariable }
+Extension { #name : #FamixTImplicitVariable }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXImplicitVariable >> famixDiffGuard [
+FamixTImplicitVariable >> famixDiffGuard [
 
 	"Implicit variables cannot be renamed or moved."
 
