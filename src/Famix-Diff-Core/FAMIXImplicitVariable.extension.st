@@ -1,17 +1,19 @@
 Extension { #name : #FAMIXImplicitVariable }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXImplicitVariable >> moveMatch: otherEntity resolver: resolver [
+FAMIXImplicitVariable >> famixDiffGuard [
 
-	"no move possible for 'self' or 'super' "
+	"Implicit variables cannot be renamed or moved."
 
+	<famixDiffRename>
+	<famixDiffMoved>
 	^ false
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXImplicitVariable >> renameMatch: otherEntity resolver: resolver [
+FAMIXImplicitVariable >> moveMatch: otherEntity resolver: resolver [
 
-	"no rename possible for 'self' or 'super' "
+	"no move possible for 'self' or 'super' "
 
 	^ false
 ]

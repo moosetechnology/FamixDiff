@@ -5,6 +5,7 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 	"I check that the parents of both entities are the same."
 
 	<famixDiffIdentity>
+	<famixDiffRename>
 	| baseParents targetParents |
 	baseParents := self parents.
 	targetParents := otherEntity parents.
@@ -21,13 +22,86 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: aFamixDiffResolver [
+TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: otherEntity resolver: resolver [
+
+	| selectors | 
+	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
+	selectors := (Pragma allNamed: aPragmaName from: self class to: ProtoObject) collectAsSet: [ :pragma | pragma methodSelector ].
+	
+	selectors do: [ :selector | (self perform: selector withEnoughArguments: {  otherEntity . resolver }) ifFalse: [ ^ false ] ].
+
+	^ true
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolver: resolver [
+
+	"In order to know if an entity was moved or renamed we compare its children and its dependencies. If they are the same we can consider an entity is the same.
+	
+	Tolerance is used to give some flexibility because an entity can be renamed and slightly modified.
+	tolerance 0 => both entities must be strictly equals
+	tolerance=1 (100%) => entities can be completly different"
+
+	<famixDiffRename>
+	| baseChildren targetChildren intersect baseOutgoingDependencies targetOutgoingDependencies baseIncomingDependencies targetIncomingDependencies |
+	baseChildren := self children.
+	targetChildren := otherEntity children.
+
+	baseOutgoingDependencies := self queryAllOutgoing.
+	targetOutgoingDependencies := otherEntity queryAllOutgoing.
+
+	baseIncomingDependencies := self queryAllIncoming.
+	targetIncomingDependencies := otherEntity queryAllIncoming.
+
+	"If we have nothing in the class we consider they are different."
+	(baseChildren isEmpty and: [ baseOutgoingDependencies isEmpty and: [ baseIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
+	(targetChildren isEmpty and: [ targetOutgoingDependencies isEmpty and: [ targetIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
+
+	intersect := OrderedCollection new.
+
+	"Since we did not treat the children with the resolver  yet we do not check via the resolver if they are the same entities because even if they are renamed we will not know it yet."
+	intersect addAll: (baseChildren select: [ :baseChild | targetChildren anySatisfy: [ :targetChild | baseChild name = targetChild name ] ]).
+
+	intersect addAll: (baseOutgoingDependencies select: [ :baseDependency | 
+			 targetOutgoingDependencies anySatisfy: [ :targetDependency | 
+				 targetDependency class = baseDependency class and: [ 
+					 baseDependency allTargets allSatisfy: [ :baseTarget | targetDependency allTargets anySatisfy: [ :targetTarget | baseTarget name = targetTarget name ] ] ] ] ]).
+
+	intersect addAll: (baseIncomingDependencies select: [ :baseDependency | 
+			 targetIncomingDependencies anySatisfy: [ :targetDependency | 
+				 targetDependency class = baseDependency class and: [ baseDependency source name = targetDependency source name ] ] ]).
+
+	intersect size / (baseChildren size + baseOutgoingDependencies size + baseIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	intersect size / (targetChildren size + targetOutgoingDependencies size + targetIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	^ true
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: resolver [
 
 	self class = otherEntity class ifFalse: [ ^ false ].
 
 	"We consider that the entities are identical if all comparators declared for the entity with the following pragma are matching."
-	(Pragma allNamed: #famixDiffIdentity from: self class to: ProtoObject) do: [ :pragma | 
-		(self perform: pragma methodSelector withEnoughArguments: {  otherEntity . aFamixDiffResolver }) ifFalse: [ ^ false ] ].
+	^ self entityValidateAllMethodsUsing: #famixDiffIdentity with: otherEntity resolver: resolver
+]
 
-	^ true
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> isOneStubWith: otherEntity [
+
+	"stubs either are identical or nothing, no renaming or moving allowed"
+
+	<famixDiffRename>
+	^ self isStub not and: [ otherEntity isStub not ]
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> renameMatch: otherEntity resolver: resolver [
+
+	self flag: #todo.
+	(self class allTraits includes: FamixTNamedEntity) ifFalse: [ ^ false ].
+
+	self class = otherEntity class ifFalse: [ ^ false ].
+	self name = otherEntity name ifTrue: [ ^ false ].
+
+	^ self entityValidateAllMethodsUsing: #famixDiffRename with: otherEntity resolver: resolver
 ]

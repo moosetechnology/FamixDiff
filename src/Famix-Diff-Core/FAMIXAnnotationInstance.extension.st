@@ -9,12 +9,6 @@ FAMIXAnnotationInstance >> moveMatch: anORClass resolver: resolver [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAnnotationInstance >> renameMatch: aFAMIXMethod resolver: resolver [
-
-	^ false
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXAnnotationInstance >> shouldBeConsideredForDiff [
 	^true
 ]
