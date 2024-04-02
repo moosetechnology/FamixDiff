@@ -2,10 +2,11 @@ Extension { #name : #TEntityMetaLevelDependency }
 
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver [
+
 	"I check that the parents of both entities are the same."
 
-	<famixDiffIdentity>
-	<famixDiffRename>
+	<famixDiff: #identity priority: 2>
+	<famixDiff: #rename priority: 2>
 	| baseParents targetParents |
 	baseParents := self parents.
 	targetParents := otherEntity parents.
@@ -24,11 +25,18 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: otherEntity resolver: resolver [
 
-	| selectors | 
+	| selectors appliedSelectors |
+	appliedSelectors := OrderedCollection new.
 	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
-	selectors := (Pragma allNamed: aPragmaName from: self class to: ProtoObject) collectAsSet: [ :pragma | pragma methodSelector ].
-	
-	selectors do: [ :selector | (self perform: selector withEnoughArguments: {  otherEntity . resolver }) ifFalse: [ ^ false ] ].
+	selectors := (((Pragma allNamed: #famixDiff:priority: from: self class to: ProtoObject) select: [ :pragma | (pragma argumentNamed: #famixDiff) = aPragmaName ]) 
+		              sorted: [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma | pragma methodSelector ].
+
+	selectors do: [ :selector | 
+		(appliedSelectors includes: selector) ifFalse: [ 
+			(self perform: selector withEnoughArguments: { 
+					 otherEntity.
+					 resolver }) ifFalse: [ ^ false ].
+			appliedSelectors add: selector ] ].
 
 	^ true
 ]
@@ -42,7 +50,7 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	tolerance 0 => both entities must be strictly equals
 	tolerance=1 (100%) => entities can be completly different"
 
-	<famixDiffRename>
+	<famixDiff: #rename priority: 10>
 	| baseChildren targetChildren intersect baseOutgoingDependencies targetOutgoingDependencies baseIncomingDependencies targetIncomingDependencies |
 	baseChildren := self children.
 	targetChildren := otherEntity children.
@@ -77,20 +85,27 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: resolver [
+TEntityMetaLevelDependency >> hasSameClassAs: otherEntity [
 
-	self class = otherEntity class ifFalse: [ ^ false ].
-
-	"We consider that the entities are identical if all comparators declared for the entity with the following pragma are matching."
-	^ self entityValidateAllMethodsUsing: #famixDiffIdentity with: otherEntity resolver: resolver
+	<famixDiff: #identity priority: 1>
+	<famixDiff: #rename priority: 1>
+	<famixDiff: #move priority: 1>
+	^ self class = otherEntity class
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> isOneStubWith: otherEntity [
+TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: resolver [
+
+	"We consider that the entities are identical if all comparators declared for the entity with the following pragma are matching."
+	^ self entityValidateAllMethodsUsing: #identity with: otherEntity resolver: resolver
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> isNotStubWith: otherEntity [
 
 	"stubs either are identical or nothing, no renaming or moving allowed"
 
-	<famixDiffRename>
+	<famixDiff: #rename priority: 1.5>
 	^ self isStub not and: [ otherEntity isStub not ]
 ]
 
@@ -98,10 +113,6 @@ TEntityMetaLevelDependency >> isOneStubWith: otherEntity [
 TEntityMetaLevelDependency >> renameMatch: otherEntity resolver: resolver [
 
 	self flag: #todo.
-	(self class allTraits includes: FamixTNamedEntity) ifFalse: [ ^ false ].
-
-	self class = otherEntity class ifFalse: [ ^ false ].
-	self name = otherEntity name ifTrue: [ ^ false ].
-
-	^ self entityValidateAllMethodsUsing: #famixDiffRename with: otherEntity resolver: resolver
+	((self class allTraits includes: FamixTNamedEntity) and: [ (self name = otherEntity name) not ]) ifFalse: [ ^ false ].
+	^ self entityValidateAllMethodsUsing: #rename with: otherEntity resolver: resolver
 ]

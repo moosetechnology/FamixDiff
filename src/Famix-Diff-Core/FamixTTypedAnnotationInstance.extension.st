@@ -3,7 +3,7 @@ Extension { #name : #FamixTTypedAnnotationInstance }
 { #category : #'*Famix-Diff-Core' }
 FamixTTypedAnnotationInstance >> compareMatchingAnnotationTypeWith: otherEntity resolver: resolver [
 
-	<famixDiffIdentity>
+	<famixDiff: #identity priority: 15>
 	self annotationType ifNil: [ ^ otherEntity annotationType isNil ].
 	otherEntity annotationType ifNil: [ ^ false ].
 

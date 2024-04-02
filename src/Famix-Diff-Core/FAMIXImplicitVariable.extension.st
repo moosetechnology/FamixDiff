@@ -5,8 +5,8 @@ FAMIXImplicitVariable >> famixDiffGuard [
 
 	"Implicit variables cannot be renamed or moved."
 
-	<famixDiffRename>
-	<famixDiffMoved>
+	<famixDiff: #rename priority: 0>
+	<famixDiff: #move priority: 0>
 	^ false
 ]
 

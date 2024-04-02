@@ -3,6 +3,6 @@ Extension { #name : #FamixTNamedEntity }
 { #category : #'*Famix-Diff-Core' }
 FamixTNamedEntity >> compareNameWith: otherEntity [
 
-	<famixDiffIdentity>
+	<famixDiff: #identity priority: 50>
 	^ self name = otherEntity name
 ]
