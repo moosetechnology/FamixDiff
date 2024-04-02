@@ -51,6 +51,7 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	tolerance=1 (100%) => entities can be completly different"
 
 	<famixDiff: #rename priority: 10>
+	<famixDiff: #move priority: 10>
 	| baseChildren targetChildren intersect baseOutgoingDependencies targetOutgoingDependencies baseIncomingDependencies targetIncomingDependencies |
 	baseChildren := self children.
 	targetChildren := otherEntity children.
@@ -106,7 +107,16 @@ TEntityMetaLevelDependency >> isNotStubWith: otherEntity [
 	"stubs either are identical or nothing, no renaming or moving allowed"
 
 	<famixDiff: #rename priority: 1.5>
+	<famixDiff: #move priority: 1.5>
 	^ self isStub not and: [ otherEntity isStub not ]
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> moveMatch: otherEntity resolver: resolver [
+
+	(self compareParentsWith: otherEntity resolver: resolver) ifTrue: [ ^ false ].
+
+	^ self entityValidateAllMethodsUsing: #move with: otherEntity resolver: resolver
 ]
 
 { #category : #'*Famix-Diff-Core' }

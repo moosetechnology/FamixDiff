@@ -9,11 +9,3 @@ FAMIXImplicitVariable >> famixDiffGuard [
 	<famixDiff: #move priority: 0>
 	^ false
 ]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXImplicitVariable >> moveMatch: otherEntity resolver: resolver [
-
-	"no move possible for 'self' or 'super' "
-
-	^ false
-]

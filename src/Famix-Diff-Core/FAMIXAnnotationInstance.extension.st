@@ -1,10 +1,12 @@
 Extension { #name : #FAMIXAnnotationInstance }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAnnotationInstance >> moveMatch: anORClass resolver: resolver [
+FAMIXAnnotationInstance >> famixDiffGuard [
 
-	"no move for this kind of entity..."
+	"Annotation instances cannot be renamed or moved."
 
+	<famixDiff: #rename priority: 0>
+	<famixDiff: #move priority: 0>
 	^ false
 ]
 
