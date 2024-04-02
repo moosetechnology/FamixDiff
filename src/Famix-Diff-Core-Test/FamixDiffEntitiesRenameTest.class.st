@@ -77,26 +77,21 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()'). "creating fake accesses because maching of variables depends on them
-	 First we don't create enough accesses (need at least 3)"
+	 First we don't create enough accesses (need at least 1)"
 	var1 := snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto'.
+	var2 := snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().var2'.
+	self deny: (var1 renameMatch: var2 resolver: resolver).
+	self deny: (var2 renameMatch: var1 resolver: resolver). "now create one more access"
+
 	FAMIXAccess new
 		variable: var1;
 		accessor: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.b3()').
-	var2 := snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().var2'.
 	FAMIXAccess new
 		variable: var2;
 		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
 	FAMIXAccess new
 		variable: var2;
 		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.b3()').
-	self deny: (var1 renameMatch: var2 resolver: resolver).
-	self deny: (var2 renameMatch: var1 resolver: resolver). "now create one more access"
-	FAMIXAccess new
-		variable: var1;
-		accessor: (snapshot baseModel entityNamed: 'Smalltalk::B3diff.c3()').
-	FAMIXAccess new
-		variable: var2;
-		accessor: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()').
 	self assert: (var1 renameMatch: var2 resolver: resolver).
 	self assert: (var2 renameMatch: var1 resolver: resolver)
 ]
