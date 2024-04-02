@@ -45,20 +45,20 @@ FamixDiffQuasiEqualTest >> testType33Percent [
 	self attNamed: 'att-C' inClass: typ2.
 
 	resolver tolerance: 1.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.5.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.34.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.
-	self deny: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self deny: (typ2 equalContentAndDependencies: typ1 resolver: resolver)
+	self deny: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
 { #category : #tests }
@@ -71,20 +71,20 @@ FamixDiffQuasiEqualTest >> testType50Percent [
 	self methNamed: 'meth-C' inClass: typ2.
 
 	resolver tolerance: 1.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.5.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.4.
-	self deny: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self deny: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self deny: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.
-	self deny: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self deny: (typ2 equalContentAndDependencies: typ1 resolver: resolver)
+	self deny: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
 { #category : #tests }
@@ -100,16 +100,16 @@ FamixDiffQuasiEqualTest >> testTypeDifferent [
 	self methNamed: 'meth-C' inClass: typ3.
 
 	resolver tolerance: 1.
-	self assert: (typ1 equalContentAndDependencies: typ3 resolver: resolver).
-	self assert: (typ3 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ3 resolver: resolver).
+	self assert: (typ3 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.9.
-	self deny: (typ1 equalContentAndDependencies: typ3 resolver: resolver).
-	self deny: (typ3 equalContentAndDependencies: typ1 resolver: resolver).
+	self deny: (typ1 hasEqualContentAndDependencies: typ3 resolver: resolver).
+	self deny: (typ3 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.
-	self deny: (typ1 equalContentAndDependencies: typ3 resolver: resolver).
-	self deny: (typ3 equalContentAndDependencies: typ1 resolver: resolver)
+	self deny: (typ1 hasEqualContentAndDependencies: typ3 resolver: resolver).
+	self deny: (typ3 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
 { #category : #tests }
@@ -122,16 +122,16 @@ FamixDiffQuasiEqualTest >> testTypeEquals [
 	self methNamed: 'meth-B' inClass: typ2.
 
 	resolver tolerance: 1.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.5.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver).
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver).
 
 	resolver tolerance: 0.
-	self assert: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self assert: (typ2 equalContentAndDependencies: typ1 resolver: resolver)
+	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
 { #category : #tests }
@@ -139,8 +139,8 @@ FamixDiffQuasiEqualTest >> testTypeNotEnoughMembers [
 
 	typ1 := self typeNamed: 'AClass'.
 	typ2 := self typeNamed: 'AClass'.
-	self deny: (typ1 equalContentAndDependencies: typ2 resolver: resolver).
-	self deny: (typ2 equalContentAndDependencies: typ1 resolver: resolver)
+	self deny: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
+	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
 { #category : #running }
