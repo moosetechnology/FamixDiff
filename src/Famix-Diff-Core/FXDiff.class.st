@@ -100,7 +100,7 @@ FXDiff >> diffComputer: anObject [
 FXDiff >> initialize [
 
 	super initialize.
-	tolerance := 0.
+	tolerance := 0.2.
 	result := FamixDiffResult new orchestrator: self.
 	diffComputer := FamixDiffResolver new
 		                orchestrator: self;

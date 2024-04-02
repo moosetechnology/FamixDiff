@@ -27,10 +27,3 @@ FAMIXStructuralEntity >> quasiEqualAccesses: otherEntity tolerance: percentage [
 
 	^ true
 ]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXStructuralEntity >> renameMatch: otherEntity resolver: resolver [
-
-	(super renameMatch: otherEntity resolver: resolver) ifFalse: [ ^ false ].
-	^ self quasiEqualAccesses: otherEntity tolerance: resolver tolerance
-]
