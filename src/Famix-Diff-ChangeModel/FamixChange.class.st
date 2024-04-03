@@ -97,21 +97,6 @@ FamixChange >> isForAssociation [
 ]
 
 { #category : #testing }
-FamixChange >> isForBehaviouralEntity [
-	^ entity isKindOf: FAMIXBehaviouralEntity 
-]
-
-{ #category : #testing }
-FamixChange >> isForScopingEntity [
-	^ entity isKindOf: FAMIXScopingEntity.
-]
-
-{ #category : #testing }
-FamixChange >> isForType [
-	^ entity isKindOf: FAMIXType.
-]
-
-{ #category : #testing }
 FamixChange >> isKindOfAddition [
 	^ self isAddition
 		or: [ self isMove or: [ self isRename or: [ self isBody ] ] ]
