@@ -9,3 +9,8 @@ FamixTAnnotationInstance >> famixDiffGuard [
 	<famixDiff: #move priority: 0>
 	^ false
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FamixTAnnotationInstance >> shouldBeConsideredForDiff [
+	^true
+]

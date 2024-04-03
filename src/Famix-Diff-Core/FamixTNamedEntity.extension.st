@@ -7,3 +7,8 @@ FamixTNamedEntity >> compareNameWith: otherEntity [
 	<famixDiff: #move priority: 8>
 	^ self name = otherEntity name
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FamixTNamedEntity >> shouldBeConsideredForDiff [
+	^ true
+]

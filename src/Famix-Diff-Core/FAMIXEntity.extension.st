@@ -4,8 +4,3 @@ Extension { #name : #FAMIXEntity }
 FAMIXEntity class >> prefixLength [
 	^'FAMIX' size
 ]
-
-{ #category : #'*Famix-Diff-Core' }
-FAMIXEntity >> shouldBeConsideredForDiff [
-	^ false
-]
