@@ -69,11 +69,6 @@ FamixChange >> entity: anEntity [
 	entity := anEntity
 ]
 
-{ #category : #'as yet unclassified' }
-FamixChange >> entityMooseName [
-	^ entity mooseName
-]
-
 { #category : #accessing }
 FamixChange >> entityName [
 	

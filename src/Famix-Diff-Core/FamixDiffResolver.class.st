@@ -66,18 +66,16 @@ FamixDiffResolver >> changesDico: aCollection [
 ]
 
 { #category : #'run-associations' }
-FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs tolerance: anObject [
-	baseAssocs
-		do: [ :baseAss | 
-			targetAssocs
-				detect: [ :targetAss | targetAss matches: baseAss givenChanges: self changesDico ]
-				ifOne: [ :found | targetAssocs remove: found ]
-				ifNone: [ 
-					self assocChanges
-						add:
-							(FamixRemovalChange new
-								entity: baseAss;
-								yourself) ]	"not creating FAMIXMatchChange for associations" ].
+FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
+
+	baseAssocs do: [ :baseAss | 
+		targetAssocs
+			detect: [ :targetAss | targetAss matches: baseAss resolver: self ]
+			ifOne: [ :found | targetAssocs remove: found ]
+			ifNone: [ "not creating FAMIXMatchChange for associations"
+				self assocChanges add: (FamixRemovalChange new
+						 entity: baseAss;
+						 yourself) ] ].
 	self addAssociations: targetAssocs
 ]
 
@@ -105,7 +103,7 @@ FamixDiffResolver >> diff [
 { #category : #'run-associations' }
 FamixDiffResolver >> diffAssociations [
 
-	self changesDico values asSet asOrderedCollection do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
+	self changesDico values asSet do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
 { #category : #'run-entities' }
