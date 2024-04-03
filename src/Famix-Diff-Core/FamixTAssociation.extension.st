@@ -1,17 +1,17 @@
-Extension { #name : #FAMIXAssociation }
+Extension { #name : #FamixTAssociation }
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAssociation >> matches: otherAssoc resolver: resolver [
+FamixTAssociation >> matches: otherAssoc resolver: resolver [
 
 	self class = otherAssoc class ifFalse: [ ^ false ].
 
-	"this test could be simplified because the 'from' cannot be a Stub in any association"
 	(self myEntity: self source matches: otherAssoc source resolver: resolver) ifFalse: [ ^ false ].
-	^ self myEntity: self target matches: otherAssoc target resolver: resolver
+	^ self allTargets anySatisfy: [ :selfCandidate | 
+		  otherAssoc allTargets anySatisfy: [ :otherCandidate | self myEntity: selfCandidate matches: otherCandidate resolver: resolver ] ]
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAssociation >> myEntity: myEntity matches: otherEntity resolver: resolver [
+FamixTAssociation >> myEntity: myEntity matches: otherEntity resolver: resolver [
 
 	"two entities in an association matche if:
 		both are stubs and their full names match
