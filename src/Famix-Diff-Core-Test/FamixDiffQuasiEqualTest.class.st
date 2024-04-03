@@ -10,29 +10,37 @@ Class {
 }
 
 { #category : #running }
-FamixDiffQuasiEqualTest >> attNamed: aString inClass: aFmxType [
-	^ (FAMIXAttribute named: aString)
-		parentType: aFmxType;
-		yourself
+FamixDiffQuasiEqualTest >> attributeNamed: aString in: aFmxType [
+
+	^ (FamixStAttribute named: aString)
+		  parentType: aFmxType;
+		  yourself
 ]
 
 { #category : #running }
-FamixDiffQuasiEqualTest >> methNamed: aString inClass: aFmxType [
-	^ (FAMIXMethod named: aString)
-		parentType: aFmxType;
-		yourself
+FamixDiffQuasiEqualTest >> classNamed: aString [
+
+	^ FamixStClass named: aString
+]
+
+{ #category : #running }
+FamixDiffQuasiEqualTest >> methodNamed: aString in: aFmxType [
+
+	^ (FamixStMethod named: aString)
+		  parentType: aFmxType;
+		  yourself
 ]
 
 { #category : #running }
 FamixDiffQuasiEqualTest >> setUp [
 
-	typ1 := self typeNamed: 'AClass'.
-	self attNamed: 'att-A' inClass: typ1.
-	self methNamed: 'meth-A' inClass: typ1.
+	typ1 := self classNamed: 'AClass'.
+	self attributeNamed: 'att-A' in: typ1.
+	self methodNamed: 'meth-A' in: typ1.
 
-	typ2 := self typeNamed: 'AClass'.
-	self attNamed: 'att-A' inClass: typ2.
-	self methNamed: 'meth-A' inClass: typ2.
+	typ2 := self classNamed: 'AClass'.
+	self attributeNamed: 'att-A' in: typ2.
+	self methodNamed: 'meth-A' in: typ2.
 
 	resolver := FamixDiffResolver new.
 	resolver orchestrator: FXDiff new
@@ -41,8 +49,8 @@ FamixDiffQuasiEqualTest >> setUp [
 { #category : #tests }
 FamixDiffQuasiEqualTest >> testType33Percent [
 
-	self attNamed: 'att-B' inClass: typ1.
-	self attNamed: 'att-C' inClass: typ2.
+	self attributeNamed: 'att-B' in: typ1.
+	self attributeNamed: 'att-C' in: typ2.
 
 	resolver tolerance: 1.
 	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
@@ -64,11 +72,11 @@ FamixDiffQuasiEqualTest >> testType33Percent [
 { #category : #tests }
 FamixDiffQuasiEqualTest >> testType50Percent [
 
-	self attNamed: 'att-B' inClass: typ1.
-	self methNamed: 'meth-B' inClass: typ1.
+	self attributeNamed: 'att-B' in: typ1.
+	self methodNamed: 'meth-B' in: typ1.
 
-	self attNamed: 'att-C' inClass: typ2.
-	self methNamed: 'meth-C' inClass: typ2.
+	self attributeNamed: 'att-C' in: typ2.
+	self methodNamed: 'meth-C' in: typ2.
 
 	resolver tolerance: 1.
 	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
@@ -91,13 +99,13 @@ FamixDiffQuasiEqualTest >> testType50Percent [
 FamixDiffQuasiEqualTest >> testTypeDifferent [
 
 	| typ3 |
-	typ3 := self typeNamed: 'AClass'.
+	typ3 := self classNamed: 'AClass'.
 
-	self attNamed: 'att-B' inClass: typ1.
+	self attributeNamed: 'att-B' in: typ1.
 
-	self attNamed: 'att-C' inClass: typ3.
-	self attNamed: 'att-D' inClass: typ3.
-	self methNamed: 'meth-C' inClass: typ3.
+	self attributeNamed: 'att-C' in: typ3.
+	self attributeNamed: 'att-D' in: typ3.
+	self methodNamed: 'meth-C' in: typ3.
 
 	resolver tolerance: 1.
 	self assert: (typ1 hasEqualContentAndDependencies: typ3 resolver: resolver).
@@ -115,11 +123,11 @@ FamixDiffQuasiEqualTest >> testTypeDifferent [
 { #category : #tests }
 FamixDiffQuasiEqualTest >> testTypeEquals [
 
-	self attNamed: 'att-B' inClass: typ1.
-	self methNamed: 'meth-B' inClass: typ1.
+	self attributeNamed: 'att-B' in: typ1.
+	self methodNamed: 'meth-B' in: typ1.
 
-	self attNamed: 'att-B' inClass: typ2.
-	self methNamed: 'meth-B' inClass: typ2.
+	self attributeNamed: 'att-B' in: typ2.
+	self methodNamed: 'meth-B' in: typ2.
 
 	resolver tolerance: 1.
 	self assert: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
@@ -137,13 +145,8 @@ FamixDiffQuasiEqualTest >> testTypeEquals [
 { #category : #tests }
 FamixDiffQuasiEqualTest >> testTypeNotEnoughMembers [
 
-	typ1 := self typeNamed: 'AClass'.
-	typ2 := self typeNamed: 'AClass'.
+	typ1 := self classNamed: 'AClass'.
+	typ2 := self classNamed: 'AClass'.
 	self deny: (typ1 hasEqualContentAndDependencies: typ2 resolver: resolver).
 	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
-]
-
-{ #category : #running }
-FamixDiffQuasiEqualTest >> typeNamed: aString [
-	^ FAMIXType named: aString
 ]
