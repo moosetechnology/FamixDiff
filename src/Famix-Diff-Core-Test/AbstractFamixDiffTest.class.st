@@ -12,7 +12,7 @@ Class {
 { #category : #running }
 AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
 	| importer |
-	model := FAMIXModel new.
+	model := FamixStModel new.
 	model name: name.
 	importer := MoosePharoImporterTask new
 		model: model;

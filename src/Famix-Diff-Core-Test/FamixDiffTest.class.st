@@ -12,7 +12,7 @@ Class {
 FamixDiffTest >> createModelWith: somePackages [ 
 	| importer |
 	importer := MoosePharoImporterTask new
-		model: FAMIXModel new;
+		model: FamixStModel new;
 		addFromPackagesNamed: somePackages.
 	importer importingContext mergeClassAndMetaclass.
 	^importer basicRun
@@ -76,19 +76,19 @@ FamixDiffTest >> testDiffEntitiesP2P3P4 [
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 3.	"P2 A2diff B2diff"
 	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: 7.	"P4 A4diff A4diff.att1 A4diff.b3() B4diff + annotations"
 	self assert: (result entityChanges select: [ :e | e isMatch ]) size equals: 12 + 5 + 4 + 5 + 2 + 1.
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXLocalVariable ] ]) size equals: 12.
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXAttribute ] ]) size equals: 5.	"A3.att1 A3.att2 B3.att1 B3.att2 Object.DependentsFields"
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXMethod ] ]) size equals: 4.	"A3.b2 A3.c3 B3.c3"
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXClass ] ]) size equals: 5.	"A3 B3 C3 Object ProtoObject"
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXPackage ] ]) size equals: 2.	"P3 Kernel"
-	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FAMIXNamespace ] ]) size equals: 1	"Smalltalk"
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStLocalVariable ] ]) size equals: 12.
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStAttribute ] ]) size equals: 5.	"A3.att1 A3.att2 B3.att1 B3.att2 Object.DependentsFields"
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStMethod ] ]) size equals: 4.	"A3.b2 A3.c3 B3.c3"
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStClass ] ]) size equals: 5.	"A3 B3 C3 Object ProtoObject"
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStPackage ] ]) size equals: 2.	"P3 Kernel"
+	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStNamespace ] ]) size equals: 1	"Smalltalk"
 ]
 
 { #category : #'tests-run-entities' }
 FamixDiffTest >> testMakeChangeWith [
 
 	| entity change |
-	entity := FAMIXClass new
+	entity := FamixStClass new
 		          name: 'A';
 		          yourself.
 	change := FamixAddChange entity: entity.
@@ -101,10 +101,10 @@ FamixDiffTest >> testMakeChangeWith [
 FamixDiffTest >> testMakeChangeWithWith [
 
 	| entityA change entityB |
-	entityA := FAMIXClass new
+	entityA := FamixStClass new
 		           name: 'A';
 		           yourself.
-	entityB := FAMIXClass new
+	entityB := FamixStClass new
 		           name: 'B';
 		           yourself.
 	change := FamixRenameChange base: entityA target: entityB.
@@ -117,7 +117,7 @@ FamixDiffTest >> testMakeChangeWithWith [
 { #category : #'tests-run-entities' }
 FamixDiffTest >> testMatched [
 	| entity |
-	entity := FAMIXNamedEntity new.
+	entity := FamixStNamedEntity new.
 	self deny: (snapshot diffComputer matched: entity).
 	snapshot diffComputer changesDico at: entity put: FamixMoveChange new.
 	self assert: (snapshot diffComputer matched: entity)

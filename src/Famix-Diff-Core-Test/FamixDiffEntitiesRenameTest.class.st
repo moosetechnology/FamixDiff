@@ -83,13 +83,13 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 	self deny: (var1 renameMatch: var2 resolver: resolver).
 	self deny: (var2 renameMatch: var1 resolver: resolver). "now create one more access"
 
-	FAMIXAccess new
+	FamixStAccess new
 		variable: var1;
 		accessor: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.b3()').
-	FAMIXAccess new
+	FamixStAccess new
 		variable: var2;
 		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
-	FAMIXAccess new
+	FamixStAccess new
 		variable: var2;
 		accessor: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.b3()').
 	self assert: (var1 renameMatch: var2 resolver: resolver).

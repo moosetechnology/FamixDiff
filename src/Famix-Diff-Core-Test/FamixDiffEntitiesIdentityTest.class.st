@@ -29,10 +29,10 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNotPackageDifferent [
 	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P4').
 
 	"classes with same name but different packages"
-	snapshot targetModel add: (FAMIXClass new
+	snapshot targetModel add: (FamixStClass new
 			 name: 'A4diff';
 			 parentPackage: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P2');
-			 container: (snapshot targetModel entityNamed: 'Smalltalk')).
+			 typeContainer: (snapshot targetModel entityNamed: 'Smalltalk')).
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A4diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A4diff') resolver: resolver).
 	self deny: ((snapshot targetModel entityNamed: 'Smalltalk::A4diff') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A4diff') resolver: resolver)
 ]
@@ -42,7 +42,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassParentIsNil [
 
 	"classes with same name but different packages"
 
-	snapshot targetModel add: (FAMIXClass new name: 'A4diff').
+	snapshot targetModel add: (FamixStClass new name: 'A4diff').
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A4diff') identityMatch: (snapshot targetModel entityNamed: 'A4diff') resolver: resolver).
 	self deny: ((snapshot targetModel entityNamed: 'A4diff') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A4diff') resolver: resolver)
 ]
@@ -156,12 +156,12 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchVariable [
 
 	"testing variables 'toto'"
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto')
-			 identityMatch: (FAMIXLocalVariable new
+			 identityMatch: (FamixStLocalVariable new
 					  name: 'toto';
 					  parentBehaviouralEntity: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()');
 					  yourself)
 			 resolver: resolver).
-	self deny: ((FAMIXLocalVariable new
+	self deny: ((FamixStLocalVariable new
 			  name: 'toto';
 			  parentBehaviouralEntity: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()');
 			  yourself) identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto') resolver: resolver)
