@@ -11,12 +11,6 @@ FAMIXAssociation >> matches: otherAssoc resolver: resolver [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-FAMIXAssociation >> mooseNameOn: t1 [
-
-	self displayStringOn: t1
-]
-
-{ #category : #'*Famix-Diff-Core' }
 FAMIXAssociation >> myEntity: myEntity matches: otherEntity resolver: resolver [
 
 	"two entities in an association matche if:
@@ -25,7 +19,8 @@ FAMIXAssociation >> myEntity: myEntity matches: otherEntity resolver: resolver [
 
 	myEntity ifNil: [ ^ otherEntity isNil ].
 	otherEntity ifNil: [ ^ false ].
-	(myEntity isStub and: [ otherEntity isStub ]) ifTrue: [ ^ myEntity mooseName = otherEntity mooseName ].
+
+	(myEntity isStub and: [ otherEntity isStub ]) ifTrue: [ ^ myEntity displayString = otherEntity displayString ].
 	"	otherEntity isStub ifTrue: [^ false]." "There should not be a stub check..."
 	^ (resolver changes at: myEntity) = (resolver changes at: otherEntity)
 ]
