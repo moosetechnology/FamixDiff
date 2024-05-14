@@ -94,10 +94,10 @@ FamixDiffResolver >> delAssociations: assocs [
 FamixDiffResolver >> diff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
-	self diffEntities.
+	[self diffEntities.
 	self diffAssociations.
 	self result addAll: self changesDico values asSet.
-	self result addAll: self assocChanges asSet
+	self result addAll: self assocChanges asSet.] ensure:[self removeFamixDiffCaches]
 ]
 
 { #category : #'run-associations' }
@@ -242,6 +242,18 @@ FamixDiffResolver >> orchestrator [
 { #category : #accessing }
 FamixDiffResolver >> orchestrator: anObject [
 	orchestrator := anObject
+]
+
+{ #category : #run }
+FamixDiffResolver >> removeFamixDiffCaches [
+	"FamixDiff will create some class caches to speed up the diff computation process. Here we remove the caches because they are fast to build and we do not want to poluate the image."
+
+	MooseEntity allSubclassesDo: [ :class |
+		class properties ifNotNil: [ :properties |
+			properties
+				removeKey: 'FamixDiffIdentity' ifAbsent: [ "ignore" ];
+				removeKey: 'FamixDiffMove' ifAbsent: [ "ignore" ];
+				removeKey: 'FamixDiffRename' ifAbsent: [ "ignore" ] ] ]
 ]
 
 { #category : #'run-entities' }

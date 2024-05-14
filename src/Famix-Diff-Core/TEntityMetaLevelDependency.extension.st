@@ -26,19 +26,26 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: otherEntity resolver: resolver [
 
 	| selectors appliedSelectors |
-	appliedSelectors := OrderedCollection new.
-	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
-	selectors := (((Pragma allNamed: #famixDiff:priority: from: self class to: ProtoObject) select: [ :pragma | (pragma argumentNamed: #famixDiff) = aPragmaName ]) 
-		              sorted: [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma | pragma methodSelector ].
+	"Since we are passing here a lot, we are using a cache to collect the methods to apply. This cache is reset in FamixDiffResolver>>#removeFamixDiffCaches"
+	selectors := self class ensureProperties at: 'FamixDiff' , aPragmaName capitalized ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
 
-	selectors do: [ :selector | 
-		(appliedSelectors includes: selector) ifFalse: [ 
-			(self perform: selector withEnoughArguments: { 
+	appliedSelectors := OrderedCollection new.
+	selectors do: [ :selector |
+		(appliedSelectors includes: selector) ifFalse: [
+			(self perform: selector withEnoughArguments: {
 					 otherEntity.
 					 resolver }) ifFalse: [ ^ false ].
 			appliedSelectors add: selector ] ].
 
 	^ true
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> famixDiffMethodsToApplyFor: aPragmaName [
+	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
+
+	^ (((Pragma allNamed: #famixDiff:priority: from: self class to: MooseEntity) select: [ :pragma | (pragma argumentNamed: #famixDiff) = aPragmaName ]) sorted:
+		   [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma | pragma methodSelector ]
 ]
 
 { #category : #'*Famix-Diff-Core' }
