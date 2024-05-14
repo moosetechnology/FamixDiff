@@ -134,6 +134,17 @@ FamixDiffResolver >> entitiesToMatchIn: aModel [
 	^ aModel entities select: [ :e | self shouldMatch: e ]
 ]
 
+{ #category : #testing }
+FamixDiffResolver >> hasParentMatched: entity [
+	"Return true only if the parents of the entity are already matched.
+	
+	We use #parentsDo: instead of #parents because this is faster."
+
+	entity parentsDo: [ :parent | ((self shouldMatch: parent) not or: [ self matched: parent ]) ifFalse: [ ^ false ] ].
+
+	^ true
+]
+
 { #category : #'run-entities' }
 FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 
@@ -317,7 +328,5 @@ FamixDiffResolver >> tolerance: anInteger [
 { #category : #'run-entities' }
 FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
-	^ (self entitiesToMatchIn: aModel) select: [ :entity |
-		"We select only entites that have their parents already matched." 
-		  entity parents allSatisfy: [ :parent | (self shouldMatch: parent) not or: [ self matched: parent ] ] ]
+	^ (self entitiesToMatchIn: aModel) select: [ :entity | self hasParentMatched: entity ]
 ]
