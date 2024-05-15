@@ -260,7 +260,7 @@ FamixDiffResolver >> removeFamixDiffCaches [
 	"FamixDiff will create some class caches to speed up the diff computation process. Here we remove the caches because they are fast to build and we do not want to poluate the image."
 
 	MooseEntity allSubclassesDo: [ :class |
-		class properties ifNotNil: [ :properties | (properties keys collect: [ :key | key beginsWith: 'FamixDiff' ]) do: [ :key | properties removeKey: key ] ] ]
+		class properties ifNotNil: [ :properties | (properties keys select: [ :key | key beginsWith: 'FamixDiff' ]) do: [ :key | properties removeKey: key ] ] ]
 ]
 
 { #category : #'run-entities' }
