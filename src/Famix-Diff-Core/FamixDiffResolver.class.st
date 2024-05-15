@@ -111,13 +111,13 @@ FamixDiffResolver >> diffEntities [
 
 	| baseTodo targetTodo |
 	"loops on this block"
-	[ 
+	[
 	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
 	targetTodo := (self topEntitiesToMatchIn: self targetModel) asOrderedCollection.
 
 	"as soon as one return true, go to next loop iteration"
-	(self identityMatchesFrom: baseTodo to: targetTodo) or: [ 
-		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ (self moveMatchesFrom: baseTodo) or: [ self moveMatchesTo: targetTodo ] ] ] ] whileTrue.
+	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
+		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue.
 
 	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
 	(self entitiesToMatchIn: self baseModel) do: [ :e | self changesDico at: e put: (FamixRemovalChange entity: e) ].
@@ -162,7 +162,7 @@ FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
-		  progressMessage: 'Comparing two versions'
+		  progressMessage: 'Looking for identical entities'
 ]
 
 { #category : #initialization }
@@ -214,35 +214,19 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities i
 ]
 
 { #category : #'run-entities' }
-FamixDiffResolver >> moveMatchesFrom: entities [
+FamixDiffResolver >> moveMatchesFrom: baseEntities to: targetEntities [
 
 	^ self
 		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity resolver: self ]
-		  from: entities
-		  to: (self entitiesToMatchIn: self targetModel)
-		  ifMatch: [ :baseEntity :targetEntity | 
-			  | match |
-			  match := FamixMoveChange base: baseEntity target: targetEntity.
-			  self changesDico
-				  at: baseEntity put: match;
-				  at: targetEntity put: match ]
-		  progressMessage: 'Computing modifications'
-]
-
-{ #category : #'run-entities' }
-FamixDiffResolver >> moveMatchesTo: targetEntities [
-
-	^ self
-		  matches: [ :baseEntity :targetEntity | targetEntity moveMatch: baseEntity resolver: self ]
-		  from: (self entitiesToMatchIn: self baseModel)
+		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity | 
+		  ifMatch: [ :baseEntity :targetEntity |
 			  | match |
 			  match := FamixMoveChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
-		  progressMessage: 'Computing modifications'
+		  progressMessage: 'Computing moved entities from base model'
 ]
 
 { #category : #accessing }
