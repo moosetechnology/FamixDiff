@@ -1,7 +1,7 @@
 Extension { #name : #FamixTNamedEntity }
 
 { #category : #'*Famix-Diff-Core' }
-FamixTNamedEntity >> compareNameWith: otherEntity [
+FamixTNamedEntity >> compareNameWith: otherEntity resolver: aResolver [
 
 	<famixDiff: #identity priority: 3>
 	<famixDiff: #move priority: 3>

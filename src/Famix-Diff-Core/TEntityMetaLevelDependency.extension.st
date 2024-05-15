@@ -29,12 +29,11 @@ TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: o
 	"Since we are passing here a lot, we are using a cache to collect the methods to apply. This cache is reset in FamixDiffResolver>>#removeFamixDiffCaches"
 	selectors := self class ensureProperties at: 'FamixDiff' , aPragmaName ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
 
+	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
 	appliedSelectors := OrderedCollection new.
 	selectors do: [ :selector |
 		(appliedSelectors includes: selector) ifFalse: [
-			(self perform: selector withEnoughArguments: {
-					 otherEntity.
-					 resolver }) ifFalse: [ ^ false ].
+			(self perform: selector with: otherEntity with: resolver) ifFalse: [ ^ false ].
 			appliedSelectors add: selector ] ].
 
 	^ true
@@ -42,7 +41,6 @@ TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: o
 
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> famixDiffMethodsToApplyFor: aPragmaName [
-	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
 
 	^ (((Pragma allNamed: #famixDiff:priority: from: self class to: MooseEntity) select: [ :pragma | (pragma argumentNamed: #famixDiff) = aPragmaName ]) sorted:
 		   [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma | pragma methodSelector ]
@@ -93,7 +91,7 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> hasSameClassAs: otherEntity [
+TEntityMetaLevelDependency >> hasSameClassAs: otherEntity resolver: aResolver [
 
 	<famixDiff: #identity priority: 1>
 	<famixDiff: #rename priority: 1>
@@ -109,7 +107,7 @@ TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: resolver [
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> isNotStubWith: otherEntity [
+TEntityMetaLevelDependency >> isNotStubWith: otherEntity resolver: aResolver [
 
 	"stubs either are identical or nothing, no renaming or moving allowed"
 
