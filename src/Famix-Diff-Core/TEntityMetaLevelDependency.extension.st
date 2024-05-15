@@ -25,16 +25,11 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: otherEntity resolver: resolver [
 
-	| selectors appliedSelectors |
+	| selectors |
 	"Since we are passing here a lot, we are using a cache to collect the methods to apply. This cache is reset in FamixDiffResolver>>#removeFamixDiffCaches"
 	selectors := self class ensureProperties at: 'FamixDiff' , aPragmaName ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
 
-	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
-	appliedSelectors := OrderedCollection new.
-	selectors do: [ :selector |
-		(appliedSelectors includes: selector) ifFalse: [
-			(self perform: selector with: otherEntity with: resolver) ifFalse: [ ^ false ].
-			appliedSelectors add: selector ] ].
+	selectors do: [ :selector | (self perform: selector with: otherEntity with: resolver) ifFalse: [ ^ false ] ].
 
 	^ true
 ]
@@ -42,8 +37,16 @@ TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: o
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> famixDiffMethodsToApplyFor: aPragmaName [
 
-	^ (((Pragma allNamed: #famixDiff:priority: from: self class to: MooseEntity) select: [ :pragma | (pragma argumentNamed: #famixDiff) = aPragmaName ]) sorted:
-		   [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma | pragma methodSelector ]
+	| selectors tempSelectors |
+	tempSelectors := (((Pragma allNamed: #famixDiff:priority: from: self class to: MooseEntity) select: [ :pragma |
+		                   (pragma argumentNamed: #famixDiff) = aPragmaName ]) sorted: [ :pragma | pragma argumentNamed: #priority ] ascending) collect: [ :pragma |
+		                 pragma methodSelector ].
+
+	"Since we can have inheritance we can have multiple pragmas for methods with the same name and we do not want to apply them multiple times."
+	selectors := OrderedCollection new.
+	tempSelectors do: [ :selector | (selectors includes: selector) ifFalse: [ selectors add: selector ] ].
+
+	^ selectors
 ]
 
 { #category : #'*Famix-Diff-Core' }
