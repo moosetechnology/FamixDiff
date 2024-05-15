@@ -5,8 +5,8 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 
 	"I check that the parents of both entities are the same."
 
-	<famixDiff: #identity priority: 2>
-	<famixDiff: #rename priority: 2>
+	<famixDiff: #identity priority: 5>
+	<famixDiff: #rename priority: 5>
 	| baseParents targetParents |
 	baseParents := self parents.
 	targetParents := otherEntity parents.
