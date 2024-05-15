@@ -130,7 +130,6 @@ TEntityMetaLevelDependency >> moveMatch: otherEntity resolver: resolver [
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> renameMatch: otherEntity resolver: resolver [
 
-	self flag: #todo.
-	((self class allTraits includes: FamixTNamedEntity) and: [ (self name = otherEntity name) not ]) ifFalse: [ ^ false ].
+	(self isNamedEntity and: [ self name ~= otherEntity name ]) ifFalse: [ ^ false ].
 	^ self entityValidateAllMethodsUsing: #rename with: otherEntity resolver: resolver
 ]
