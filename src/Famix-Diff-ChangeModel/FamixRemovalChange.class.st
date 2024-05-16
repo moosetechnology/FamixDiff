@@ -6,12 +6,12 @@ I answer true to #isRemoval.
 Class {
 	#name : #FamixRemovalChange,
 	#superclass : #FamixChange,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
 FamixRemovalChange class >> changeName [
-	^ 'del'
+	^ 'Deletion'
 ]
 
 { #category : #visiting }

@@ -6,12 +6,13 @@ I answer true to #isAddition.
 Class {
 	#name : #FamixAddChange,
 	#superclass : #FamixChange,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
 FamixAddChange class >> changeName [
-	^ 'add'
+
+	^ 'Addition'
 ]
 
 { #category : #visiting }

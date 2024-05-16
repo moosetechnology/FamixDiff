@@ -8,12 +8,12 @@ I answer true to #isMove.
 Class {
 	#name : #FamixMoveChange,
 	#superclass : #FamixPairedChange,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
 FamixMoveChange class >> changeName [
-	^ 'mov'
+	^ 'Moved'
 ]
 
 { #category : #visiting }

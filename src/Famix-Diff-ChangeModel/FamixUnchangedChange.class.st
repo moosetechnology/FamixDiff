@@ -8,18 +8,18 @@ Class {
 	#category : #'Famix-Diff-ChangeModel'
 }
 
+{ #category : #accessing }
+FamixUnchangedChange class >> changeName [
+
+	^ 'Identity'
+]
+
 { #category : #visiting }
 FamixUnchangedChange >> accept: aVisitor [
-	aVisitor visitVersionChange: self
+	aVisitor visitUnchangedChange: self
 ]
 
 { #category : #testing }
 FamixUnchangedChange >> isVersion [
 	^ true
-]
-
-{ #category : #printing }
-FamixUnchangedChange >> printOn: stream [
-	super printOn: stream.
-	stream nextPutAll: ' ='
 ]

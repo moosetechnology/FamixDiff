@@ -8,12 +8,12 @@ I answer true to #isRename.
 Class {
 	#name : #FamixRenameChange,
 	#superclass : #FamixPairedChange,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
 FamixRenameChange class >> changeName [
-	^ 'ren'
+	^ 'Renaming'
 ]
 
 { #category : #visiting }

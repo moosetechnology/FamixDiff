@@ -4,7 +4,7 @@ I am able to visit any FamixChange and definied a behaviour belonging to the cha
 Class {
 	#name : #FamixChangeVisitor,
 	#superclass : #Object,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #visiting }
@@ -43,6 +43,6 @@ FamixChangeVisitor >> visitRenameChange: aRenameChange [
 ]
 
 { #category : #visiting }
-FamixChangeVisitor >> visitVersionChange: aVersionChange [
+FamixChangeVisitor >> visitUnchangedChange: aVersionChange [
 	^ self visitPairedChange: aVersionChange
 ]

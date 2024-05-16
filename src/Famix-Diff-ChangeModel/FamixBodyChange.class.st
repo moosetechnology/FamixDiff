@@ -8,12 +8,12 @@ I answer true to #isBody.
 Class {
 	#name : #FamixBodyChange,
 	#superclass : #FamixPairedChange,
-	#category : 'Famix-Diff-ChangeModel'
+	#category : #'Famix-Diff-ChangeModel'
 }
 
 { #category : #accessing }
 FamixBodyChange class >> changeName [
-	^ 'bod'
+	^ 'BodyChange'
 ]
 
 { #category : #visiting }
@@ -24,12 +24,4 @@ FamixBodyChange >> accept: aVisitor [
 { #category : #testing }
 FamixBodyChange >> isBody [
 	^ true
-]
-
-{ #category : #printing }
-FamixBodyChange >> printOn: stream [
-	super printOn: stream.
-	stream
-		<< ' -> ';
-		<< self targetEntity mooseName
 ]
