@@ -25,6 +25,19 @@ Class {
 	#category : #'Famix-Diff-Core'
 }
 
+{ #category : #accessing }
+FamixDiffResolver class >> generatedPackageName [
+	"In order to speed up FamixDiff we are generating some code. Here is the name of the package that will contain this code."
+
+	^ 'FamixDiff-Temporary-Generated-Package'
+]
+
+{ #category : #accessing }
+FamixDiffResolver class >> generatedPackageProtocol [
+
+	^ '*' , self generatedPackageName
+]
+
 { #category : #'run-associations' }
 FamixDiffResolver >> addAssociations: asociations [
 
@@ -116,7 +129,7 @@ FamixDiffResolver >> diffEntities [
 	| entitiesToMatchSize |
 	entitiesToMatchSize := (self entitiesToMatchIn: self baseModel) size.
 	job
-		progress: 1 - (entitiesToMatchSize / self baseModel entities size);
+		progress: 1 - (entitiesToMatchSize / (self baseModel entities size max: 1));
 		label: 'Diff computation in progress. ' , entitiesToMatchSize asString , ' left out of ' , self baseModel entities size asString.
 
 	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
@@ -242,14 +255,10 @@ FamixDiffResolver >> orchestrator: anObject [
 
 { #category : #run }
 FamixDiffResolver >> removeFamixDiffCaches [
-	"FamixDiff will create some class caches to speed up the diff computation process. Here we remove the caches because they are fast to build and we do not want to poluate the image."
+	"FamixDiff will generate some methods to speed up the diff computation process. Here we remove the generated code because we do not want to poluate the image.
+	For more info see TEntityMetaLevelDependency>>#identityMatch:resolver:"
 
-	MooseEntity allSubclassesDo: [ :class |
-		class properties ifNotNil: [ :properties |
-			properties
-				removeKey: #identity ifAbsent: [  ];
-				removeKey: #move ifAbsent: [  ];
-				removeKey: #rename ifAbsent: [  ] ] ]
+	self packageOrganizer removePackage: self class generatedPackageName
 ]
 
 { #category : #'run-entities' }

@@ -23,18 +23,6 @@ TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver
 ]
 
 { #category : #'*Famix-Diff-Core' }
-TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: otherEntity resolver: resolver [
-
-	| selectors |
-	"Since we are passing here a lot, we are using a cache to collect the methods to apply. This cache is reset in FamixDiffResolver>>#removeFamixDiffCaches"
-	selectors := self class ensureProperties at: aPragmaName ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
-
-	selectors do: [ :selector | (self perform: selector with: otherEntity with: resolver) ifFalse: [ ^ false ] ].
-
-	^ true
-]
-
-{ #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> famixDiffMethodsToApplyFor: aPragmaName [
 
 	| selectors tempSelectors |
@@ -47,6 +35,33 @@ TEntityMetaLevelDependency >> famixDiffMethodsToApplyFor: aPragmaName [
 	tempSelectors do: [ :selector | (selectors includes: selector) ifFalse: [ selectors add: selector ] ].
 
 	^ selectors
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> generateMethodNamed: aString basedOnPragmaName: aPragmaName [
+	"See TEntityMetaLevelDependency>>#identityMatch:resolver: to know why I am needed."
+
+	| methodBody |
+	methodBody := String streamContents: [ :stream |
+		              self printFamixDiffSelector: aString on: stream.
+		              stream
+			              cr;
+			              cr;
+			              tab.
+		              (self famixDiffMethodsToApplyFor: aPragmaName)
+			              do: [ :selector |
+				              stream nextPutAll: '(self '.
+				              self printFamixDiffSelector: selector on: stream.
+				              stream nextPutAll: ') ifFalse: [ ^ false ].' ]
+			              separatedBy: [
+				              stream
+					              cr;
+					              tab ].
+		              stream
+			              cr;
+			              tab;
+			              nextPutAll: ' ^ true' ].
+	self class compile: methodBody classified: FamixDiffResolver generatedPackageProtocol
 ]
 
 { #category : #'*Famix-Diff-Core' }
@@ -104,9 +119,16 @@ TEntityMetaLevelDependency >> hasSameClassAs: otherEntity resolver: aResolver [
 
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> identityMatch: otherEntity resolver: resolver [
-
 	"We consider that the entities are identical if all comparators declared for the entity with the following pragma are matching."
-	^ self entityValidateAllMethodsUsing: #identity with: otherEntity resolver: resolver
+
+	"The code here is a little weird but it is for performance reasons. Each entity will apply some filters to know if they are identical or not. Those filters are implemented on different traits composing the entities and we collect them via a pragma. But it takes some time to collect them.
+	In order to speed up things, the first time we get here for a specific class, we will have a message not understood and we will generate a method collecting all the filters and applying them.
+	Once the computation is finished, the resolver will remove this generated code from the system."
+	^ [ self isIdenticalTo: otherEntity resolver: resolver ]
+		  on: MessageNotUnderstood
+		  do: [
+			  self generateMethodNamed: #isIdenticalTo:resolver: basedOnPragmaName: #identity.
+			  self isIdenticalTo: otherEntity resolver: resolver ]
 ]
 
 { #category : #'*Famix-Diff-Core' }
@@ -124,12 +146,33 @@ TEntityMetaLevelDependency >> moveMatch: otherEntity resolver: resolver [
 
 	(self compareParentsWith: otherEntity resolver: resolver) ifTrue: [ ^ false ].
 
-	^ self entityValidateAllMethodsUsing: #move with: otherEntity resolver: resolver
+	"See comment in #identityMatch:resolver: to understand what we are doing here"
+	^ [ self isMovedOf: otherEntity resolver: resolver ]
+		  on: MessageNotUnderstood
+		  do: [
+			  self generateMethodNamed: #isMovedOf:resolver: basedOnPragmaName: #move.
+			  self isMovedOf: otherEntity resolver: resolver ]
+]
+
+{ #category : #'*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> printFamixDiffSelector: aString on: stream [
+
+	stream
+		nextPutAll: (aString splitOn: $:) first;
+		nextPutAll: ': otherEntity ';
+		nextPutAll: (aString splitOn: $:) second;
+		nextPutAll: ': resolver'
 ]
 
 { #category : #'*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> renameMatch: otherEntity resolver: resolver [
 
 	(self isNamedEntity and: [ self name ~= otherEntity name ]) ifFalse: [ ^ false ].
-	^ self entityValidateAllMethodsUsing: #rename with: otherEntity resolver: resolver
+
+	"See comment in #identityMatch:resolver: to understand what we are doing here"
+	^ [ self isRenamedOf: otherEntity resolver: resolver ]
+		  on: MessageNotUnderstood
+		  do: [
+			  self generateMethodNamed: #isRenamedOf:resolver: basedOnPragmaName: #rename.
+			  self isRenamedOf: otherEntity resolver: resolver ]
 ]
