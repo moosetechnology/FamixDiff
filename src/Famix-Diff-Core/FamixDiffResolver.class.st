@@ -109,9 +109,16 @@ FamixDiffResolver >> diffAssociations [
 { #category : #'run-entities' }
 FamixDiffResolver >> diffEntities [
 
+	[ :job |
 	| baseTodo targetTodo |
 	"loops on this block"
 	[
+	| entitiesToMatchSize |
+	entitiesToMatchSize := (self entitiesToMatchIn: self baseModel) size.
+	job
+		progress: 1 - (entitiesToMatchSize / self baseModel entities size);
+		label: 'Diff computation in progress. ' , entitiesToMatchSize asString , ' left out of ' , self baseModel entities size asString.
+
 	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
 	targetTodo := (self topEntitiesToMatchIn: self targetModel) asOrderedCollection.
 
@@ -123,7 +130,7 @@ FamixDiffResolver >> diffEntities [
 	(self entitiesToMatchIn: self baseModel) do: [ :e | self changesDico at: e put: (FamixRemovalChange entity: e) ].
 
 	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
-	(self entitiesToMatchIn: self targetModel) do: [ :e | self changesDico at: e put: (FamixAddChange entity: e) ]
+	(self entitiesToMatchIn: self targetModel) do: [ :e | self changesDico at: e put: (FamixAddChange entity: e) ] ] asJob run
 ]
 
 { #category : #'run-entities' }
@@ -209,7 +216,7 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities i
 			targetEntities detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ] ifOne: [ :targetEntity | 
 				ifMatchBlock value: baseEntity value: targetEntity.
 				matchFound := true ] ]
-		displayingProgress: aString.
+		"displayingProgress: aString".
 	^ matchFound
 ]
 
@@ -244,7 +251,11 @@ FamixDiffResolver >> removeFamixDiffCaches [
 	"FamixDiff will create some class caches to speed up the diff computation process. Here we remove the caches because they are fast to build and we do not want to poluate the image."
 
 	MooseEntity allSubclassesDo: [ :class |
-		class properties ifNotNil: [ :properties | (properties keys select: [ :key | key beginsWith: 'FamixDiff' ]) do: [ :key | properties removeKey: key ] ] ]
+		class properties ifNotNil: [ :properties |
+			properties
+				removeKey: #identity ifAbsent: [  ];
+				removeKey: #move ifAbsent: [  ];
+				removeKey: #rename ifAbsent: [  ] ] ]
 ]
 
 { #category : #'run-entities' }

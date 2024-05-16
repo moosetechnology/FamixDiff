@@ -27,7 +27,7 @@ TEntityMetaLevelDependency >> entityValidateAllMethodsUsing: aPragmaName with: o
 
 	| selectors |
 	"Since we are passing here a lot, we are using a cache to collect the methods to apply. This cache is reset in FamixDiffResolver>>#removeFamixDiffCaches"
-	selectors := self class ensureProperties at: 'FamixDiff' , aPragmaName ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
+	selectors := self class ensureProperties at: aPragmaName ifAbsentPut: [ self famixDiffMethodsToApplyFor: aPragmaName ].
 
 	selectors do: [ :selector | (self perform: selector with: otherEntity with: resolver) ifFalse: [ ^ false ] ].
 
