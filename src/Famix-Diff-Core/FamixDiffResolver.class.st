@@ -154,7 +154,6 @@ FamixDiffResolver >> hasParentMatched: entity [
 
 { #category : #'run-entities' }
 FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
-
 	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
 	 If there is a match, a FamixUnchangedChange is created and stored."
 
@@ -162,14 +161,13 @@ FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity | 
+		  ifMatch: [ :baseEntity :targetEntity |
 			  | match |
 			  targetEntities remove: targetEntity.
 			  match := FamixUnchangedChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
-		  progressMessage: 'Looking for identical entities'
 ]
 
 { #category : #initialization }
@@ -199,8 +197,7 @@ FamixDiffResolver >> matched: entity [
 ]
 
 { #category : #'run-entities' }
-FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock progressMessage: aString [
-
+FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock [
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
 	 matchblock takes 2 parameters: first is baseEntity, second is targetEntity being compared.
 	
@@ -211,12 +208,10 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities i
 
 	| matchFound |
 	matchFound := false.
-	baseEntities
-		do: [ :baseEntity | 
-			targetEntities detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ] ifOne: [ :targetEntity | 
-				ifMatchBlock value: baseEntity value: targetEntity.
-				matchFound := true ] ]
-		"displayingProgress: aString".
+	baseEntities do: [ :baseEntity |
+		targetEntities detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ] ifOne: [ :targetEntity |
+			ifMatchBlock value: baseEntity value: targetEntity.
+			matchFound := true ] ].
 	^ matchFound
 ]
 
@@ -233,7 +228,6 @@ FamixDiffResolver >> moveMatchesFrom: baseEntities to: targetEntities [
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
-		  progressMessage: 'Computing moved entities from base model'
 ]
 
 { #category : #accessing }
@@ -260,7 +254,6 @@ FamixDiffResolver >> removeFamixDiffCaches [
 
 { #category : #'run-entities' }
 FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
-
 	"Find the entities that have been renamed between base version and target version (using #renameMatch:resolver: message).
 	 If there is a match, a FamixRenameChange is created and stored."
 
@@ -268,13 +261,12 @@ FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
 		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity | 
+		  ifMatch: [ :baseEntity :targetEntity |
 			  | match |
 			  match := FamixRenameChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
 				  at: targetEntity put: match ]
-		  progressMessage: 'Computing renamed entities'
 ]
 
 { #category : #accessing }
