@@ -258,7 +258,7 @@ FamixDiffResolver >> removeFamixDiffCaches [
 	"FamixDiff will generate some methods to speed up the diff computation process. Here we remove the generated code because we do not want to poluate the image.
 	For more info see TEntityMetaLevelDependency>>#identityMatch:resolver:"
 
-	(self packageOrganizer packageNamed: self class generatedPackageName) removeFromSystem
+	self packageOrganizer packageNamed: self class generatedPackageName ifPresent: [ :package | package removeFromSystem ]
 ]
 
 { #category : #'run-entities' }
