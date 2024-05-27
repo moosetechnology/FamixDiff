@@ -29,5 +29,7 @@ FamixDiffResultTest >> testWithoutStubs [
 	withoutStubs := result withoutStubs.
 
 	self deny: result identicalTo: withoutStubs. "We want a new collection, not to update the original one."
-	self assert: (withoutStubs noneSatisfy: [ :change | change entity isStub ])
+	self assert: (withoutStubs noneSatisfy: [ :change | change entity isStub ]).
+	self assert: withoutStubs class equals: result class.
+	self assert: result orchestrator identicalTo: withoutStubs orchestrator
 ]

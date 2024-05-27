@@ -2,8 +2,8 @@ Class {
 	#name : #FamixDiffTest,
 	#superclass : #AbstractFamixDiffTest,
 	#instVars : [
-		'snapshot',
-		'result'
+		'result',
+		'snapshot'
 	],
 	#category : #'Famix-Diff-Core-Tests'
 }

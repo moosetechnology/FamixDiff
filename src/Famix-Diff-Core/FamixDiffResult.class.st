@@ -11,6 +11,14 @@ Class {
 	#category : #'Famix-Diff-Core'
 }
 
+{ #category : #accessing }
+FamixDiffResult class >> orchestrator: aFXDiff [
+
+	^ self new
+		  orchestrator: aFXDiff;
+		  yourself
+]
+
 { #category : #adding }
 FamixDiffResult >> addChanges [
 	^ self entityChanges allWithType: FamixAddChange
@@ -102,6 +110,12 @@ FamixDiffResult >> removalChanges [
 	^ self entityChanges allWithType: FamixRemovalChange
 ]
 
+{ #category : #private }
+FamixDiffResult >> species [
+
+	^ self class
+]
+
 { #category : #versions }
 FamixDiffResult >> versionChanges [
 	^ self entityChanges allWithType: FamixUnchangedChange 
@@ -111,5 +125,7 @@ FamixDiffResult >> versionChanges [
 FamixDiffResult >> withoutStubs [
 	"Returns all the results without the stubs"
 
-	^ self reject: [ :change | change entity isStub ]
+	^ (self reject: [ :change | change entity isStub ])
+		  orchestrator: orchestrator;
+		  yourself
 ]
