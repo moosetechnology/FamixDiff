@@ -8,7 +8,7 @@ TMooseSmalltalkModelImporterForTests >> importModelNamed: name fromPackages: pac
 	| model |
 	model := FamixStModel new.
 	model name: name.
-	MoosePharoImporterTask new
+	FamixStPharoImporterTask new
 		model: model;
 		addFromPackagesNamed: packages;
 		basicRun.

@@ -3,15 +3,12 @@ Class {
 	#superclass : #TestCase,
 	#traits : 'TMooseSmalltalkModelImporterForTests',
 	#classTraits : 'TMooseSmalltalkModelImporterForTests classTrait',
-	#instVars : [
-		'model'
-	],
 	#category : #'Famix-Diff-Core-Tests'
 }
 
 { #category : #running }
 AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
-	| importer |
+	| importer model |
 	model := FamixStModel new.
 	model name: name.
 	importer := FamixStPharoImporterTask new
@@ -21,14 +18,4 @@ AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
 	importer importingContext mergeClassAndMetaclass.
 	importer basicRun.
 	^ model
-]
-
-{ #category : #accessing }
-AbstractFamixDiffTest >> model [
-	^ model
-]
-
-{ #category : #accessing }
-AbstractFamixDiffTest >> model: anObject [
-	model := anObject
 ]
