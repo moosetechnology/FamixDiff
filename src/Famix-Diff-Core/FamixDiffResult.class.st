@@ -5,21 +5,10 @@ I contain the results of the diff made on 2 models.
 Class {
 	#name : #FamixDiffResult,
 	#superclass : #MooseGroup,
-	#instVars : [
-		'orchestrator'
-	],
 	#category : #'Famix-Diff-Core'
 }
 
 { #category : #accessing }
-FamixDiffResult class >> orchestrator: aFXDiff [
-
-	^ self new
-		  orchestrator: aFXDiff;
-		  yourself
-]
-
-{ #category : #adding }
 FamixDiffResult >> addChanges [
 	^ self entityChanges allWithType: FamixAddChange
 ]
@@ -41,14 +30,14 @@ FamixDiffResult >> allImpactingChanges [
 ]
 
 { #category : #accessing }
-FamixDiffResult >> assocChanges [
+FamixDiffResult >> associationChanges [
 	<navigation: 'All assocChanges'>
 	^ self select: [ :e | e isForAssociation ]
 ]
 
 { #category : #accessing }
-FamixDiffResult >> assocRemovalChanges [
-	^ self assocChanges allWithType: FamixRemovalChange
+FamixDiffResult >> associationRemovalChanges [
+	^ self associationChanges allWithType: FamixRemovalChange
 ]
 
 { #category : #accessing }
@@ -72,7 +61,7 @@ FamixDiffResult >> entityChanges [
 
 { #category : #accessing }
 FamixDiffResult >> kindOfAssocAdditionChanges [
-	^ self assocChanges select: #isKindOfAddition
+	^ self associationChanges select: #isKindOfAddition
 ]
 
 { #category : #accessing }
@@ -96,16 +85,6 @@ FamixDiffResult >> numberOfVersions [
 ]
 
 { #category : #accessing }
-FamixDiffResult >> orchestrator [
-	^ orchestrator
-]
-
-{ #category : #accessing }
-FamixDiffResult >> orchestrator: anObject [
-	orchestrator := anObject
-]
-
-{ #category : #accessing }
 FamixDiffResult >> removalChanges [
 	^ self entityChanges allWithType: FamixRemovalChange
 ]
@@ -116,7 +95,7 @@ FamixDiffResult >> species [
 	^ self class
 ]
 
-{ #category : #versions }
+{ #category : #accessing }
 FamixDiffResult >> versionChanges [
 	^ self entityChanges allWithType: FamixUnchangedChange 
 ]
@@ -125,7 +104,5 @@ FamixDiffResult >> versionChanges [
 FamixDiffResult >> withoutStubs [
 	"Returns all the results without the stubs"
 
-	^ (self reject: [ :change | change entity isStub ])
-		  orchestrator: orchestrator;
-		  yourself
+	^ self reject: [ :change | change entity isStub ]
 ]

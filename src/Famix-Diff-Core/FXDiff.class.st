@@ -52,8 +52,8 @@ FXDiff class >> runOnBaseModel: aBaseModel targetModel: aTargetModel [
 ]
 
 { #category : #accessing }
-FXDiff >> assocChanges [
-	^ self result assocChanges
+FXDiff >> associationChanges [
+	^ self result associationChanges
 ]
 
 { #category : #accessing }
@@ -101,7 +101,7 @@ FXDiff >> initialize [
 
 	super initialize.
 	tolerance := 0.2.
-	result := FamixDiffResult orchestrator: self.
+	result := FamixDiffResult new.
 	diffComputer := FamixDiffResolver new
 		                orchestrator: self;
 		                yourself

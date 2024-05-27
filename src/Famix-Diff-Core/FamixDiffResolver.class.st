@@ -42,19 +42,19 @@ FamixDiffResolver class >> generatedPackageProtocol [
 FamixDiffResolver >> addAssociations: asociations [
 
 	asociations do: [ :association | 
-		self assocChanges add: (FamixAddChange new
+		self associationChanges add: (FamixAddChange new
 				 entity: association;
 				 yourself) ]
 ]
 
 { #category : #accessing }
-FamixDiffResolver >> assocChanges [
-	^ assocChanges
+FamixDiffResolver >> assocChanges: aCollection [
+	^ assocChanges := aCollection
 ]
 
 { #category : #accessing }
-FamixDiffResolver >> assocChanges: aCollection [
-	^ assocChanges := aCollection
+FamixDiffResolver >> associationChanges [
+	^ assocChanges
 ]
 
 { #category : #accessing }
@@ -86,7 +86,7 @@ FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
 			detect: [ :targetAss | targetAss matches: baseAss resolver: self ]
 			ifOne: [ :found | targetAssocs remove: found ]
 			ifNone: [ "not creating FAMIXMatchChange for associations"
-				self assocChanges add: (FamixRemovalChange new
+				self associationChanges add: (FamixRemovalChange new
 						 entity: baseAss;
 						 yourself) ] ].
 	self addAssociations: targetAssocs
@@ -96,7 +96,7 @@ FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
 FamixDiffResolver >> delAssociations: assocs [
 	assocs
 		do: [ :a | 
-			self assocChanges
+			self associationChanges
 				add:
 					(FamixRemovalChange new
 						entity: a;
@@ -110,7 +110,7 @@ FamixDiffResolver >> diff [
 	[self diffEntities.
 	self diffAssociations.
 	self result addAll: self changesDico values asSet.
-	self result addAll: self assocChanges asSet.] ensure:[self removeFamixDiffCaches]
+	self result addAll: self associationChanges asSet.] ensure:[self removeFamixDiffCaches]
 ]
 
 { #category : #'run-associations' }

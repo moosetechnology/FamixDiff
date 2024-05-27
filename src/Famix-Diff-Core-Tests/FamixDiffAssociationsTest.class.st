@@ -30,12 +30,12 @@ FamixDiffAssociationsTest >> testAssocsAddP2 [
 		with: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().toto').
 	snapshot diffComputer changesDico: testChanges.
 	snapshot diffComputer diffAssociations.
-	self assert: snapshot diffComputer assocChanges size equals: 8.
+	self assert: snapshot diffComputer associationChanges size equals: 8.
 	self
-		assert: (snapshot diffComputer assocChanges select: [ :c | c isAddition ]) size
+		assert: (snapshot diffComputer associationChanges select: [ :c | c isAddition ]) size
 		equals: 4.
 	self
-		assert: (snapshot diffComputer assocChanges select: [ :c | c isRemoval ]) size
+		assert: (snapshot diffComputer associationChanges select: [ :c | c isRemoval ]) size
 		equals: 4
 ]
 
@@ -56,9 +56,9 @@ FamixDiffAssociationsTest >> testAssocsDelP3 [
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff.b3()').
 	snapshot diffComputer changesDico: testChanges.
 	snapshot diffComputer diffAssociations.
-	self assert: snapshot diffComputer assocChanges size equals: 4.
+	self assert: snapshot diffComputer associationChanges size equals: 4.
 	self
-		assert: (snapshot diffComputer assocChanges select: [ :c | c isRemoval ]) size
+		assert: (snapshot diffComputer associationChanges select: [ :c | c isRemoval ]) size
 		equals: 4
 ]
 
@@ -88,5 +88,5 @@ FamixDiffAssociationsTest >> testAssocsMatching [
 	snapshot diffComputer diffAssociations.
 
 	"because the invocations of new (in A3.c3()) does not have candidates, an exception is added"
-	self assert: snapshot assocChanges isEmpty
+	self assert: snapshot associationChanges isEmpty
 ]
