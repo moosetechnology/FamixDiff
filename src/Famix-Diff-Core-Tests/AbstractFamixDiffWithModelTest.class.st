@@ -6,7 +6,7 @@ Class {
 		'testChanges',
 		'resolver'
 	],
-	#category : #'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Tests'
 }
 
 { #category : #running }

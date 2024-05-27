@@ -106,3 +106,10 @@ FamixDiffResult >> removalChanges [
 FamixDiffResult >> versionChanges [
 	^ self entityChanges allWithType: FamixUnchangedChange 
 ]
+
+{ #category : #accessing }
+FamixDiffResult >> withoutStubs [
+	"Returns all the results without the stubs"
+
+	^ self reject: [ :change | change entity isStub ]
+]

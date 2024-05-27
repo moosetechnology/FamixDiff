@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Tests'
 }
 
 { #category : #running }
@@ -14,7 +14,7 @@ AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
 	| importer |
 	model := FamixStModel new.
 	model name: name.
-	importer := MoosePharoImporterTask new
+	importer := FamixStPharoImporterTask new
 		model: model;
 		addFromPackagesNamed: packages;
 		yourself.

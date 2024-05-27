@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixDiffAssociationsTest,
 	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : #'Famix-Diff-Core-Test'
+	#category : #'Famix-Diff-Core-Tests'
 }
 
 { #category : #tests }
