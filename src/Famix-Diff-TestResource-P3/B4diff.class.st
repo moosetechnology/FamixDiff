@@ -1,5 +1,5 @@
 Class {
 	#name : #B4diff,
 	#superclass : #Object,
-	#category : 'Moose-TestResources-ModelDiff-P4'
+	#category : #'Famix-Diff-TestResource-P3'
 }

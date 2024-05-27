@@ -66,8 +66,8 @@ FamixDiffAssociationsTest >> testAssocsDelP4 [
 FamixDiffAssociationsTest >> testAssocsMatching [
 	self
 		createChg: FamixUnchangedChange
-		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
+		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self
 		createChg: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff')

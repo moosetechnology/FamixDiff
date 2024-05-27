@@ -32,8 +32,8 @@ FamixDiffTest >> setUp [
 { #category : #tests }
 FamixDiffTest >> testDiffAssociations [
 	snapshot
-		baseModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3'));
-		targetModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2' #'Moose-TestResources-ModelDiff-P3')).
+		baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2'));
+		targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2')).
 	self runDiff.
 	self assert: result assocChanges size equals: 6.
 	self assert: (result assocChanges select: [ :c | c isAddition ]) size equals: 2.
@@ -43,7 +43,7 @@ FamixDiffTest >> testDiffAssociations [
 { #category : #tests }
 FamixDiffTest >> testDiffEntitiesAddP2 [
 	snapshot baseModel: MooseModel new.
-	snapshot targetModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2')).
+	snapshot targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1')).
 	self runDiff.
 	self assert: result entityChanges size equals: 7.
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 7	"Smalltalk P2 A2 B2 + stubs: ProtoObject Object Kernel"
@@ -51,7 +51,7 @@ FamixDiffTest >> testDiffEntitiesAddP2 [
 
 { #category : #tests }
 FamixDiffTest >> testDiffEntitiesDelP2 [
-	snapshot baseModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2')).
+	snapshot baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1')).
 	snapshot targetModel: MooseModel new.
 	self runDiff.
 	self assert: result entityChanges size equals: 7.
@@ -60,17 +60,18 @@ FamixDiffTest >> testDiffEntitiesDelP2 [
 
 { #category : #tests }
 FamixDiffTest >> testDiffEntitiesMatchP2 [
-	snapshot baseModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2')).
-	snapshot targetModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2')).
+
+	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
+	snapshot targetModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
 	self runDiff.
-	self assert: result entityChanges size equals: 14 / 2 "because in the old version result were duplicated".
+	self assert: result entityChanges size equals: 14 / 2. "because in the old version result were duplicated"
 	self assert: (result entityChanges select: [ :e | e isMatch ]) asSet size equals: 7
 ]
 
 { #category : #tests }
 FamixDiffTest >> testDiffEntitiesP2P3P4 [
-	snapshot baseModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P3' #'Moose-TestResources-ModelDiff-P4')).
-	snapshot targetModel: (self createModelWith: #(#'Moose-TestResources-ModelDiff-P2' #'Moose-TestResources-ModelDiff-P3')).
+	snapshot baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P2' #'Famix-Diff-TestResource-P3')).
+	snapshot targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2')).
 	self runDiff.
 	self assert: result entityChanges size equals: 38.
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 3.	"P2 A2diff B2diff"

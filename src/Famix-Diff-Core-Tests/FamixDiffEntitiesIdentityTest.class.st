@@ -11,9 +11,9 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNot [
 
 	self
 		createChg: FamixUnchangedChange
-		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
-	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P2').
+		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
+	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
 
 	"tests"
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A2diff') resolver: resolver).
@@ -25,13 +25,13 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNotPackageDifferent [
 
 	"setup: create changes for parents"
 
-	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P2').
-	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P4').
+	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
+	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P3').
 
 	"classes with same name but different packages"
 	snapshot targetModel add: (FamixStClass new
 			 name: 'A4diff';
-			 parentPackage: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P2');
+			 parentPackage: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P1');
 			 typeContainer: (snapshot targetModel entityNamed: 'Smalltalk')).
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A4diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A4diff') resolver: resolver).
 	self deny: ((snapshot targetModel entityNamed: 'Smalltalk::A4diff') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A4diff') resolver: resolver)
@@ -54,8 +54,8 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassSame [
 
 	self
 		createChg: FamixUnchangedChange
-		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
+		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff') resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') resolver: resolver)
 ]
@@ -78,17 +78,17 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchMethod [
 { #category : #tests }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchPackage [
 
-	self assert: ((snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-			 identityMatch: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
+	self assert: ((snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+			 identityMatch: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 resolver: resolver).
-	self assert: ((snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-			 identityMatch: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
+	self assert: ((snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2')
+			 identityMatch: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 resolver: resolver).
-	self deny: ((snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-			 identityMatch: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P2')
+	self deny: ((snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+			 identityMatch: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P1')
 			 resolver: resolver).
-	self deny: ((snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P2')
-			 identityMatch: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
+	self deny: ((snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P1')
+			 identityMatch: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 resolver: resolver)
 ]
 
@@ -96,8 +96,8 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchPackage [
 FamixDiffEntitiesIdentityTest >> testIdentityMatchStubs [
 
 	| basP3 tgtP3 basA3 tgtA3 basA3c3 tgtA3c3 tgtB3c3 basA3c3toto tgtA3c3toto |
-	basP3 := snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
-	tgtP3 := snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
+	basP3 := snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2'.
+	tgtP3 := snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2'.
 	basA3 := snapshot baseModel entityNamed: 'Smalltalk::A3diff'.
 	tgtA3 := snapshot targetModel entityNamed: 'Smalltalk::A3diff'.
 	basA3c3 := snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()'.

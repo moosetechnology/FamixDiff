@@ -10,8 +10,8 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 	(snapshot targetModel entityNamed: 'Smalltalk::A3diff') name: 'X3diff'.
 	self
 		createChg: FamixUnchangedChange
-		with: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
-		and: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3').
+		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') renameMatch: (snapshot targetModel entityNamed: 'Smalltalk::X3diff') resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::X3diff') renameMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') resolver: resolver)
 ]
@@ -32,12 +32,12 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 { #category : #tests }
 FamixDiffEntitiesRenameTest >> testRenameMatchPackage [
 
-	(snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3') name: 'Moose-TestResources-ModelDiff-X0'.
-	self assert: ((snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
+	(snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2') name: 'Moose-TestResources-ModelDiff-X0'.
+	self assert: ((snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 renameMatch: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-X0')
 			 resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-X0')
-			 renameMatch: (snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3')
+			 renameMatch: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 resolver: resolver)
 ]
 
@@ -45,8 +45,8 @@ FamixDiffEntitiesRenameTest >> testRenameMatchPackage [
 FamixDiffEntitiesRenameTest >> testRenameMatchStub [
 
 	| basA3 tgtA3 basA3c3 tgtA3c3 basP3 tgtP3 |
-	basP3 := snapshot baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
-	tgtP3 := snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3'.
+	basP3 := snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2'.
+	tgtP3 := snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2'.
 	basA3 := snapshot baseModel entityNamed: 'Smalltalk::A3diff'.
 	tgtA3 := snapshot targetModel entityNamed: 'Smalltalk::A3diff'.
 	basA3c3 := snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()'.

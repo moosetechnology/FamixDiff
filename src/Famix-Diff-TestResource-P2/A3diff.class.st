@@ -5,7 +5,7 @@ Class {
 		'att1',
 		'att2'
 	],
-	#category : 'Moose-TestResources-ModelDiff-P3'
+	#category : #'Famix-Diff-TestResource-P2'
 }
 
 { #category : #'as yet unclassified' }

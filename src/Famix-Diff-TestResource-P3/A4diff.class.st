@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'att1'
 	],
-	#category : 'Moose-TestResources-ModelDiff-P4'
+	#category : #'Famix-Diff-TestResource-P3'
 }
 
 { #category : #'as yet unclassified' }
