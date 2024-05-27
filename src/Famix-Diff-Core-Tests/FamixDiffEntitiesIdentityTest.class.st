@@ -10,10 +10,10 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNot [
 	"setup: create changes for parents"
 
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
-	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
+	self createChange: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
 
 	"tests"
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A2diff') resolver: resolver).
@@ -25,8 +25,8 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNotPackageDifferent [
 
 	"setup: create changes for parents"
 
-	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
-	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P3').
+	self createChange: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1').
+	self createChange: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P3').
 
 	"classes with same name but different packages"
 	snapshot targetModel add: (FamixStClass new
@@ -53,7 +53,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassSame [
 	"setup: create changes for parents"
 
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff') resolver: resolver).
@@ -65,8 +65,8 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchMethod [
 
 	"setup: create changes for parents"
 
-	self createChg: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff').
-	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff').
+	self createChange: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff').
+	self createChange: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()') resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()') identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()') resolver: resolver).
 	self deny: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()') identityMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.b2()') resolver: resolver).
@@ -115,12 +115,12 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchStubs [
 	basA3c3toto isStub: true.
 	tgtA3c3toto isStub: true.
 	self assert: (basP3 identityMatch: tgtP3 resolver: resolver).
-	self createChg: FamixUnchangedChange with: basP3 and: tgtP3.
+	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
 	self assert: (basA3 identityMatch: tgtA3 resolver: resolver).
-	self createChg: FamixUnchangedChange with: basA3 and: tgtA3.
+	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
 	self assert: (basA3c3 identityMatch: tgtA3c3 resolver: resolver).
 	self deny: (basA3c3 identityMatch: tgtB3c3 resolver: resolver).
-	self createChg: FamixUnchangedChange with: basA3c3 and: tgtA3c3.
+	self createChange: FamixUnchangedChange with: basA3c3 and: tgtA3c3.
 	self assert: (basA3c3toto identityMatch: tgtA3c3toto resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().toto')
 			 identityMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto')
@@ -133,10 +133,10 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchVariable [
 	"setup: create changes for parents"
 
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
-	self createChg: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff').
+	self createChange: FamixRemovalChange with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff').
 
 	"testing variable 'toto'"
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto')

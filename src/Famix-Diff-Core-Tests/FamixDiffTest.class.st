@@ -25,7 +25,9 @@ FamixDiffTest >> runDiff [
 ]
 
 { #category : #running }
-FamixDiffTest >> setUp [ 
+FamixDiffTest >> setUp [
+
+	super setUp.
 	snapshot := FXDiff new
 ]
 
@@ -41,25 +43,25 @@ FamixDiffTest >> testDiffAssociations [
 ]
 
 { #category : #tests }
-FamixDiffTest >> testDiffEntitiesAddP2 [
+FamixDiffTest >> testDiffEntitiesAddP1 [
 	snapshot baseModel: MooseModel new.
 	snapshot targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1')).
 	self runDiff.
 	self assert: result entityChanges size equals: 7.
-	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 7	"Smalltalk P2 A2 B2 + stubs: ProtoObject Object Kernel"
+	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 7	"Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel"
 ]
 
 { #category : #tests }
-FamixDiffTest >> testDiffEntitiesDelP2 [
+FamixDiffTest >> testDiffEntitiesDelP1 [
 	snapshot baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1')).
 	snapshot targetModel: MooseModel new.
 	self runDiff.
 	self assert: result entityChanges size equals: 7.
-	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: 7	"Smalltalk P2 A2 B2 + stubs: ProtoObject Object Kernel"
+	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: 7	"Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel"
 ]
 
 { #category : #tests }
-FamixDiffTest >> testDiffEntitiesMatchP2 [
+FamixDiffTest >> testDiffEntitiesMatchP1 [
 
 	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
 	snapshot targetModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
@@ -69,7 +71,7 @@ FamixDiffTest >> testDiffEntitiesMatchP2 [
 ]
 
 { #category : #tests }
-FamixDiffTest >> testDiffEntitiesP2P3P4 [
+FamixDiffTest >> testDiffEntitiesP1P2P3 [
 	snapshot baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P2' #'Famix-Diff-TestResource-P3')).
 	snapshot targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2')).
 	self runDiff.

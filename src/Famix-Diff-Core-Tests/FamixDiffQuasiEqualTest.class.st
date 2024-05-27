@@ -34,6 +34,7 @@ FamixDiffQuasiEqualTest >> methodNamed: aString in: aFmxType [
 { #category : #running }
 FamixDiffQuasiEqualTest >> setUp [
 
+	super setUp.
 	typ1 := self classNamed: 'AClass'.
 	self attributeNamed: 'att-A' in: typ1.
 	self methodNamed: 'meth-A' in: typ1.

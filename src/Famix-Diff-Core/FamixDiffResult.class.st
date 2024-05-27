@@ -43,7 +43,7 @@ FamixDiffResult >> assocRemovalChanges [
 	^ self assocChanges allWithType: FamixRemovalChange
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FamixDiffResult >> bodyChanges [
 	^ self select: #isBody
 ]

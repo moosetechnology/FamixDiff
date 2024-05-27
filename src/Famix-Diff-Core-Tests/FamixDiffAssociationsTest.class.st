@@ -5,28 +5,28 @@ Class {
 }
 
 { #category : #tests }
-FamixDiffAssociationsTest >> testAssocsAddP3 [
+FamixDiffAssociationsTest >> testAssocsAddP2 [
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::C3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::C3diff').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto').
 	self
-		createChg: FamixAddChange
+		createChange: FamixAddChange
 		with: (snapshot targetModel entityNamed: 'Smalltalk::A3diff').
 	self
-		createChg: FamixAddChange
+		createChange: FamixAddChange
 		with: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
 	self
-		createChg: FamixAddChange
+		createChange: FamixAddChange
 		with: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().toto').
 	snapshot diffComputer changesDico: testChanges.
 	snapshot diffComputer diffAssociations.
@@ -40,19 +40,19 @@ FamixDiffAssociationsTest >> testAssocsAddP3 [
 ]
 
 { #category : #tests }
-FamixDiffAssociationsTest >> testAssocsDelP4 [
+FamixDiffAssociationsTest >> testAssocsDelP3 [
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::B3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::B3diff').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::B4diff').
 	self
-		createChg: FamixRemovalChange
+		createChange: FamixRemovalChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A4diff.b3()').
 	snapshot diffComputer changesDico: testChanges.
 	snapshot diffComputer diffAssociations.
@@ -65,23 +65,23 @@ FamixDiffAssociationsTest >> testAssocsDelP4 [
 { #category : #tests }
 FamixDiffAssociationsTest >> testAssocsMatching [
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff').
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::C3diff')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::C3diff').
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()').
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3().toto')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3().toto').
 	snapshot diffComputer changesDico: testChanges.

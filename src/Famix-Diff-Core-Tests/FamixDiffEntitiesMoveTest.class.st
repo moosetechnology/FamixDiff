@@ -8,10 +8,10 @@ Class {
 FamixDiffEntitiesMoveTest >> testMoveMatchClass [
 
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
-	self createChg: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1'). "changing package of A3 in target model"
+	self createChange: FamixAddChange with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P1'). "changing package of A3 in target model"
 	(snapshot targetModel entityNamed: 'Smalltalk::A3diff') parentPackage: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P1').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') moveMatch: (snapshot targetModel entityNamed: 'Smalltalk::A3diff') resolver: resolver).
 	self assert: ((snapshot targetModel entityNamed: 'Smalltalk::A3diff') moveMatch: (snapshot baseModel entityNamed: 'Smalltalk::A3diff') resolver: resolver)

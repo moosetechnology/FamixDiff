@@ -10,16 +10,16 @@ Class {
 }
 
 { #category : #running }
-AbstractFamixDiffWithModelTest >> createChg: chgClass with: entity [
+AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 
-	testChanges at: entity put: (chgClass entity: entity)
+	testChanges at: entity put: (changeClass entity: entity)
 ]
 
 { #category : #running }
-AbstractFamixDiffWithModelTest >> createChg: chgClass with: baseEntity and: targetEntity [
+AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and: targetEntity [
 
 	| change |
-	change := chgClass base: baseEntity target: targetEntity.
+	change := changeClass base: baseEntity target: targetEntity.
 	testChanges at: baseEntity put: change.
 	testChanges at: targetEntity put: change
 ]
@@ -28,6 +28,7 @@ AbstractFamixDiffWithModelTest >> createChg: chgClass with: baseEntity and: targ
 AbstractFamixDiffWithModelTest >> setUp [
 
 	| model1 model2 |
+	super setUp.
 	model1 := self importModelNamed: 'base' fromPackages: #( #'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2' ).
 	model2 := self importModelNamed: 'target' fromPackages: #( #'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2' ).
 	snapshot := FXDiff baseModel: model1 targetModel: model2.
@@ -36,5 +37,5 @@ AbstractFamixDiffWithModelTest >> setUp [
 	resolver
 		changesDico: testChanges;
 		orchestrator: snapshot.
-	self createChg: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk') and: (snapshot targetModel entityNamed: 'Smalltalk')
+	self createChange: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk') and: (snapshot targetModel entityNamed: 'Smalltalk')
 ]

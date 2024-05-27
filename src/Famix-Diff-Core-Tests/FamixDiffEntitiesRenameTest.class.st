@@ -9,7 +9,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 
 	(snapshot targetModel entityNamed: 'Smalltalk::A3diff') name: 'X3diff'.
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 		and: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2').
 	self assert: ((snapshot baseModel entityNamed: 'Smalltalk::A3diff') renameMatch: (snapshot targetModel entityNamed: 'Smalltalk::X3diff') resolver: resolver).
@@ -22,7 +22,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 	(snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()') name: 'x3'.
 	"Note: does not change the mooseName, so we still look for it later using 'Smalltalk::B3diff.c3()'"
 	(snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()') signature: 'x3()'.
-	self createChg: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk::B3diff') and: (snapshot targetModel entityNamed: 'Smalltalk::B3diff').
+	self createChange: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk::B3diff') and: (snapshot targetModel entityNamed: 'Smalltalk::B3diff').
 	self assert:
 		((snapshot baseModel entityNamed: 'Smalltalk::B3diff.c3()') renameMatch: (snapshot targetModel entityNamed: 'Smalltalk::B3diff.c3()') resolver: resolver).
 	self assert:
@@ -32,11 +32,13 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 { #category : #tests }
 FamixDiffEntitiesRenameTest >> testRenameMatchPackage [
 
-	(snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2') name: 'Moose-TestResources-ModelDiff-X0'.
-	self assert: ((snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
-			 renameMatch: (snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-X0')
+	(snapshot targetModel entityNamed: 'Famix-Diff-TestResource-P2') name: 'Famix-Diff-TestResource-X0'.
+	self assert:
+		((snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
+			 renameMatch: (snapshot targetModel entityNamed: 'Famix-Diff-TestResource-X0')
 			 resolver: resolver).
-	self assert: ((snapshot targetModel entityNamed: 'Moose-TestResources-ModelDiff-X0')
+	self assert:
+		((snapshot targetModel entityNamed: 'Famix-Diff-TestResource-X0')
 			 renameMatch: (snapshot baseModel entityNamed: 'Famix-Diff-TestResource-P2')
 			 resolver: resolver)
 ]
@@ -54,13 +56,13 @@ FamixDiffEntitiesRenameTest >> testRenameMatchStub [
 	basA3c3 isStub: true.
 	tgtA3c3 isStub: true.
 	self deny: (basA3c3 renameMatch: tgtA3c3 givenChanges: testChanges)."
-	self createChg: FamixUnchangedChange with: basP3 and: tgtP3.
+	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
 	tgtA3 name: 'X3'.
 	self assert: (basA3 renameMatch: tgtA3 resolver: resolver).
 	basA3 isStub: true.
 	tgtA3 isStub: true.
 	self deny: (basA3 renameMatch: tgtA3 resolver: resolver).
-	self createChg: FamixUnchangedChange with: basA3 and: tgtA3.
+	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
 	tgtA3c3 name: 'x3'.
 	tgtA3c3 signature: 'x3()'.
 	self assert: (basA3c3 renameMatch: tgtA3c3 resolver: resolver).
@@ -74,7 +76,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariable [
 
 	| var1 var2 |
 	self
-		createChg: FamixUnchangedChange
+		createChange: FamixUnchangedChange
 		with: (snapshot baseModel entityNamed: 'Smalltalk::A3diff.c3()')
 		and: (snapshot targetModel entityNamed: 'Smalltalk::A3diff.c3()'). "creating fake accesses because maching of variables depends on them
 	 First we don't create enough accesses (need at least 1)"
