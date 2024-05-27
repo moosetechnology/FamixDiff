@@ -44,13 +44,16 @@ FamixDiffTest >> testDiffAssociations [
 
 { #category : #tests }
 FamixDiffTest >> testDiffEntitiesAddP1 [
+
 	snapshot baseModel: MooseModel new.
-	snapshot targetModel: (self createModelWith: #(#'Famix-Diff-TestResource-P1')).
+	snapshot targetModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
 	self runDiff.
-	self assert: result entityChanges size equals: 7.
+	self assert: result entityChanges size equals: (SystemVersion current major < 12
+			 ifTrue: [ 8 ]
+			 ifFalse: [ 7 ]).
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: (SystemVersion current major < 12
-	ifTrue: [ 8 ]
-	ifFalse: [ 7 ])	"Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel"
+			 ifTrue: [ 8 ]
+			 ifFalse: [ 7 ]) "Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel"
 ]
 
 { #category : #tests }
@@ -59,7 +62,9 @@ FamixDiffTest >> testDiffEntitiesDelP1 [
 	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
 	snapshot targetModel: MooseModel new.
 	self runDiff.
-	self assert: result entityChanges size equals: 7.
+	self assert: result entityChanges size equals: (SystemVersion current major < 12
+	ifTrue: [ 8 ]
+	ifFalse: [ 7 ]).
 	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: (SystemVersion current major < 12
 			 ifTrue: [ 8 ]
 			 ifFalse: [ 7 ]) "Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel"
@@ -90,7 +95,9 @@ FamixDiffTest >> testDiffEntitiesP1P2P3 [
 			 ifFalse: [ 38 ]).
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 3. "P2 A2diff B2diff"
 	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: 7. "P4 A4diff A4diff.att1 A4diff.b3() B4diff + annotations"
-	self assert: (result entityChanges select: [ :e | e isMatch ]) size equals: 12 + 4 + 4 + 5 + 2 + 1.
+	self assert: (result entityChanges select: [ :e | e isMatch ]) size equals: 12 + 4 + 4 + 5 + 2 + 1 + (SystemVersion current major < 12
+			 ifTrue: [ 1 ]
+			 ifFalse: [ 0 ]).
 	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStLocalVariable ] ]) size equals: 12.
 	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStAttribute ] ]) size equals: 4. "A3.att1 A3.att2 B3.att1 B3.att2"
 	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStMethod ] ]) size equals: 4. "A3.b2 A3.c3 B3.c3"
