@@ -20,6 +20,6 @@ FamixUnchangedChange >> accept: aVisitor [
 ]
 
 { #category : #testing }
-FamixUnchangedChange >> isVersion [
+FamixUnchangedChange >> isUnchanged [
 	^ true
 ]

@@ -124,7 +124,7 @@ FamixChange >> isRename [
 ]
 
 { #category : #testing }
-FamixChange >> isVersion [
+FamixChange >> isUnchanged [
 
 	^false
 ]
