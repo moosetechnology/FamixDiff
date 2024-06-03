@@ -136,7 +136,7 @@ FamixChange >> printOn: stream [
 		<< '(';
 		<< entity class name;
 		<< ') ';
-		<< entity mooseName
+		<< entity displayFullString
 ]
 
 { #category : #accessing }

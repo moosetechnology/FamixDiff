@@ -107,10 +107,11 @@ FamixDiffResolver >> delAssociations: assocs [
 FamixDiffResolver >> diff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
-	[self diffEntities.
+	[
+	self diffEntities.
 	self diffAssociations.
 	self result addAll: self changesDico values asSet.
-	self result addAll: self associationChanges asSet.] ensure:[self removeFamixDiffCaches]
+	self result addAll: self associationChanges asSet ] ensure: [ self removeFamixDiffCaches ]
 ]
 
 { #category : #'run-associations' }
