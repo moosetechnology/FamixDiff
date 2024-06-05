@@ -136,12 +136,13 @@ FamixDiffResolver >> diffEntities [
 
 	[ :job |
 	| baseTodo targetTodo |
+	job max: self baseModel entities size.
 	"loops on this block"
 	[
 	| entitiesToMatchSize |
 	entitiesToMatchSize := (self entitiesToMatchIn: self baseModel) size.
 	job
-		progress: 1 - (entitiesToMatchSize / (self baseModel entities size max: 1));
+		currentValue: (job max - entitiesToMatchSize);
 		label: 'Diff computation in progress. ' , entitiesToMatchSize asString , ' left out of ' , self baseModel entities size asString.
 
 	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
