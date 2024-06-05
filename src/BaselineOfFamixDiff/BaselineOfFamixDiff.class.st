@@ -12,11 +12,8 @@ BaselineOfFamixDiff >> baseline: spec [
 		spec
 			package: 'Famix-Diff-ChangeModel';
 			package: 'Famix-Diff-Core' with: [ spec requires: #( 'Famix-Diff-ChangeModel' ) ];
-			package: 'Famix-Diff-Core-Tests' with: [ spec requires: #( 'Famix-Diff-Core' ) ];
-			package: 'Famix-Diff-TestResource-P1';
-			package: 'Famix-Diff-TestResource-P2';
-			package: 'Famix-Diff-TestResource-P3'.
+			package: 'Famix-Diff-Core-Tests' with: [ spec requires: #( 'Famix-Diff-Core' ) ].
 		spec
 			group: 'core' with: #( 'Famix-Diff-Core' 'Famix-Diff-ChangeModel' );
-			group: 'core-tests' with: #( 'core' 'Famix-Diff-Core-Tests' 'Famix-Diff-TestResource-P1' 'Famix-Diff-TestResource-P2' 'Famix-Diff-TestResource-P3' ) ]
+			group: 'core-tests' with: #( 'core' 'Famix-Diff-Core-Tests' ) ]
 ]

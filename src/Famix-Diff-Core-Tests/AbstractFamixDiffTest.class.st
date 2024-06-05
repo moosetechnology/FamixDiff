@@ -6,6 +6,12 @@ Class {
 	#category : #'Famix-Diff-Core-Tests'
 }
 
+{ #category : #accessing }
+AbstractFamixDiffTest class >> resources [
+
+	^ { FamixDiffTestModelsGenerator1 }
+]
+
 { #category : #running }
 AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
 	| importer model |
