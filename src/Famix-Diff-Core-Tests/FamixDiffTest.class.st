@@ -23,6 +23,89 @@ FamixDiffTest >> createModelWith: somePackages [
 ]
 
 { #category : #tests }
+FamixDiffTest >> createTestDiffForAdditionsAndRemovalsEdgeCases [
+
+	| baseModel targetModel |
+	self generateModel1.
+	baseModel := self importModelNamed: 'base' fromPackages: {
+			             self packageName1.
+			             self packageName2 }.
+	self packageOrganizer
+		packageNamed: self packageName1 ifPresent: [ :package | package removeFromSystem ];
+		packageNamed: self packageName2 ifPresent: [ :package | package removeFromSystem ].
+
+	self generateModel2.
+	targetModel := self importModelNamed: 'target' fromPackages: {
+			               self packageName2.
+			               self packageName3 }.
+	self packageOrganizer
+		packageNamed: self packageName2 ifPresent: [ :package | package removeFromSystem ];
+		packageNamed: self packageName3 ifPresent: [ :package | package removeFromSystem ].
+
+	snapshot
+		baseModel: baseModel;
+		targetModel: targetModel.
+	self runDiff
+]
+
+{ #category : #tests }
+FamixDiffTest >> generateModel1 [
+
+	| c1 c2 |
+	c1 := self class classInstaller make: [ :builder |
+		      builder
+			      name: #C1;
+			      package: self packageName1 ].
+	c1 compile: 'm1 ^ true'.
+	c1 compile: 'm2 | temp | temp := false. ^ temp'.
+
+	c2 := self class classInstaller make: [ :builder |
+		      builder
+			      name: #C2;
+			      package: self packageName2 ].
+
+	c2 compile: 'm3 ^ 1'.
+	c2 compile: 'm4 | temp2 | temp2 := 3. ^ temp2'
+]
+
+{ #category : #tests }
+FamixDiffTest >> generateModel2 [
+
+	| c2 c3 |
+	c2 := self class classInstaller make: [ :builder |
+		      builder
+			      name: #C2;
+			      package: self packageName2 ].
+	c2 compile: 'm2 | temp | temp := false. ^ temp'.
+	c2 compile: 'm3 ^ 1'.
+
+	c3 := self class classInstaller make: [ :builder |
+		      builder
+			      name: #C3;
+			      package: self packageName3 ].
+	c3 compile: 'm4 |temp2 | temp2 := 3. ^ temp2'.
+	c3 compile: 'm5 |temp3 | temp3 := 5. ^ temp3'
+]
+
+{ #category : #accessing }
+FamixDiffTest >> packageName1 [
+
+	^ 'Famix-Diff-TestResource2-P1'
+]
+
+{ #category : #accessing }
+FamixDiffTest >> packageName2 [
+
+	^ 'Famix-Diff-TestResource2-P2'
+]
+
+{ #category : #accessing }
+FamixDiffTest >> packageName3 [
+
+	^ 'Famix-Diff-TestResource2-P3'
+]
+
+{ #category : #tests }
 FamixDiffTest >> runDiff [
 	^ result := snapshot run result
 ]
@@ -32,6 +115,23 @@ FamixDiffTest >> setUp [
 
 	super setUp.
 	snapshot := FXDiff new
+]
+
+{ #category : #tests }
+FamixDiffTest >> testAddedEntities [
+
+	| addition |
+	self createTestDiffForAdditionsAndRemovalsEdgeCases.
+	addition := result additions.
+
+	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStPackage ]) size equals: 1.
+	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStPackage ]) name equals: self packageName3.
+	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStClass ]) size equals: 1.
+	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStClass ]) name equals: #C3.
+	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStMethod ]) size equals: 1.
+	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStMethod ]) name equals: #m5.
+	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) size equals: 1.
+	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) name equals: #temp3
 ]
 
 { #category : #tests }

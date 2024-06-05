@@ -11,6 +11,13 @@ Class {
 { #category : #accessing }
 FamixDiffResult >> additionChanges [
 
+	self deprecated: 'Use #additions instead' transformWith: '`@rcv additionChanges' -> '`@rcv additions'.
+	^ self additions
+]
+
+{ #category : #accessing }
+FamixDiffResult >> additions [
+
 	^ self select: [ :change | change isAddition ]
 ]
 
@@ -49,6 +56,13 @@ FamixDiffResult >> realChanges [
 
 { #category : #accessing }
 FamixDiffResult >> removalChanges [
+
+	self deprecated: 'Use #removals instead' transformWith: '`@rcv removalChanges' -> '`@rcv removals'.
+	^ self removals
+]
+
+{ #category : #accessing }
+FamixDiffResult >> removals [
 
 	^ self select: [ :change | change isRemoval ]
 ]

@@ -47,6 +47,17 @@ FamixDiffResolver >> addAssociations: asociations [
 				 yourself) ]
 ]
 
+{ #category : #'run-entities' }
+FamixDiffResolver >> addedEntitiesFrom: targetEntities [
+	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
+
+	targetEntities ifEmpty: [ ^ false ].
+
+	targetEntities do: [ :entity | self changesDico at: entity put: (FamixAddChange entity: entity) ].
+
+	^ true
+]
+
 { #category : #accessing }
 FamixDiffResolver >> assocChanges: aCollection [
 	^ assocChanges := aCollection
@@ -138,13 +149,9 @@ FamixDiffResolver >> diffEntities [
 
 	"as soon as one return true, go to next loop iteration"
 	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
-		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue.
-
-	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
-	(self entitiesToMatchIn: self baseModel) do: [ :e | self changesDico at: e put: (FamixRemovalChange entity: e) ].
-
-	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
-	(self entitiesToMatchIn: self targetModel) do: [ :e | self changesDico at: e put: (FamixAddChange entity: e) ] ] asJob run
+		(self renameMatchesFrom: baseTodo to: targetTodo) or: [
+			(self moveMatchesFrom: baseTodo to: targetTodo) or: [ (self removedEntitiesFrom: baseTodo) or: [ self addedEntitiesFrom: targetTodo ] ] ] ] ] whileTrue ]
+		asJob run
 ]
 
 { #category : #'run-entities' }
@@ -260,6 +267,17 @@ FamixDiffResolver >> removeFamixDiffCaches [
 	For more info see TEntityMetaLevelDependency>>#identityMatch:resolver:"
 
 	self packageOrganizer packageNamed: self class generatedPackageName ifPresent: [ :package | package removeFromSystem ]
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> removedEntitiesFrom: baseEntities [
+	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
+
+	baseEntities ifEmpty: [ ^ false ].
+
+	baseEntities do: [ :entity | self changesDico at: entity put: (FamixRemovalChange entity: entity) ].
+
+	^ true
 ]
 
 { #category : #'run-entities' }
