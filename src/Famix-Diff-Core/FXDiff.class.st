@@ -26,7 +26,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #FXDiff,
-	#superclass : #MooseOperator,
+	#superclass : #Object,
 	#instVars : [
 		'baseModel',
 		'result',
@@ -67,21 +67,9 @@ FXDiff >> baseModel: aBaseModel [
 	baseModel := aBaseModel
 ]
 
-{ #category : #private }
-FXDiff >> basicRun [
-
-	diffComputer diff
-]
-
 { #category : #accessing }
 FXDiff >> changes: aCollection [
 	^ self result changes: aCollection
-]
-
-{ #category : #accessing }
-FXDiff >> description [
-
-	^ 'I am a task to produce a FamixDiff between two models.'
 ]
 
 { #category : #accessing }
@@ -118,11 +106,11 @@ FXDiff >> result: anObject [
 ]
 
 { #category : #private }
-FXDiff >> setUp [
+FXDiff >> run [
 
-	super setUp.
 	self assert: (self baseModel isKindOf: MooseModel).
-	self assert: (self targetModel isKindOf: MooseModel)
+	self assert: (self targetModel isKindOf: MooseModel).
+	diffComputer diff
 ]
 
 { #category : #accessing }
