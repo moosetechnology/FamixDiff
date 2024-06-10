@@ -124,14 +124,14 @@ FamixDiffTest >> testAddedEntities [
 	self createTestDiffForAdditionsAndRemovalsEdgeCases.
 	addition := result additions.
 
-	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStPackage ]) size equals: 1.
-	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStPackage ]) name equals: self packageName3.
-	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStClass ]) size equals: 1.
-	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStClass ]) name equals: #C3.
-	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStMethod ]) size equals: 1.
-	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStMethod ]) name equals: #m5.
-	self assert: (result select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) size equals: 1.
-	self assert: (result detect: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) name equals: #temp3
+	self assert: (addition select: [ :change | change baseEntity isKindOf: FamixStPackage ]) size equals: 1.
+	self assert: (addition detect: [ :change | change baseEntity isKindOf: FamixStPackage ]) entity name equals: self packageName3.
+	self assert: (addition select: [ :change | change baseEntity isKindOf: FamixStClass ]) size equals: 1.
+	self assert: (addition detect: [ :change | change baseEntity isKindOf: FamixStClass ]) entity name equals: #C3.
+	self assert: (addition select: [ :change | change baseEntity isKindOf: FamixStMethod ]) size equals: 1.
+	self assert: (addition detect: [ :change | change baseEntity isKindOf: FamixStMethod ]) entity name equals: #m5.
+	self assert: (addition select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) size equals: 1.
+	self assert: (addition detect: [ :change | change baseEntity isKindOf: FamixStLocalVariable ]) entity name equals: #temp3
 ]
 
 { #category : #tests }

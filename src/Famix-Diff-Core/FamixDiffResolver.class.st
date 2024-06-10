@@ -135,24 +135,17 @@ FamixDiffResolver >> diffAssociations [
 FamixDiffResolver >> diffEntities [
 
 	[ :job |
-	| baseTodo targetTodo |
 	job max: self baseModel entities size.
 	"loops on this block"
 	[
-	| entitiesToMatchSize |
-	entitiesToMatchSize := (self entitiesToMatchIn: self baseModel) size.
-	job
-		currentValue: (job max - entitiesToMatchSize);
-		label: 'Diff computation in progress. ' , entitiesToMatchSize asString , ' left out of ' , self baseModel entities size asString.
+	self updateProgressBarOf: job.
+	self findNextIdentitiesRenamingsOrMovedEntities.
 
-	baseTodo := (self topEntitiesToMatchIn: self baseModel) asOrderedCollection.
-	targetTodo := (self topEntitiesToMatchIn: self targetModel) asOrderedCollection.
+	self updateProgressBarOf: job.
 
-	"as soon as one return true, go to next loop iteration"
-	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
-		(self renameMatchesFrom: baseTodo to: targetTodo) or: [
-			(self moveMatchesFrom: baseTodo to: targetTodo) or: [ (self removedEntitiesFrom: baseTodo) or: [ self addedEntitiesFrom: targetTodo ] ] ] ] ] whileTrue ]
-		asJob run
+	self lookForMovedEntitiesInUnmatchedEntities or: [
+		self updateProgressBarOf: job.
+		self lookForAddedAndRemovedEntities ] ] whileTrue ] asJob run
 ]
 
 { #category : #'run-entities' }
@@ -161,6 +154,19 @@ FamixDiffResolver >> entitiesToMatchIn: aModel [
 	"not stub, not matched entities"
 
 	^ aModel entities select: [ :e | self shouldMatch: e ]
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> findNextIdentitiesRenamingsOrMovedEntities [
+
+	[
+	| baseTodo targetTodo |
+	baseTodo := self topEntitiesToMatchIn: self baseModel.
+	targetTodo := self topEntitiesToMatchIn: self targetModel.
+
+	"as soon as one return true, go to next loop iteration"
+	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
+		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue
 ]
 
 { #category : #testing }
@@ -213,6 +219,24 @@ FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
 	^ false
 ]
 
+{ #category : #'run-entities' }
+FamixDiffResolver >> lookForAddedAndRemovedEntities [
+
+	[
+	| baseTodo targetTodo |
+	baseTodo := self topEntitiesToMatchIn: self baseModel.
+	targetTodo := self topEntitiesToMatchIn: self targetModel.
+	(self addedEntitiesFrom: targetTodo) or: [ self removedEntitiesFrom: baseTodo ] ] whileTrue.
+
+	^ false
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
+
+	^ self moveMatchesFrom: (self entitiesToMatchIn: self baseModel) to: (self entitiesToMatchIn: self targetModel)
+]
+
 { #category : #testing }
 FamixDiffResolver >> matched: entity [
 	^ self changesDico includesKey: entity
@@ -246,6 +270,7 @@ FamixDiffResolver >> moveMatchesFrom: baseEntities to: targetEntities [
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity |
 			  | match |
+			  targetEntities remove: targetEntity.
 			  match := FamixMoveChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
@@ -292,6 +317,7 @@ FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
 		  to: targetEntities
 		  ifMatch: [ :baseEntity :targetEntity |
 			  | match |
+			  targetEntities remove: targetEntity.
 			  match := FamixRenameChange base: baseEntity target: targetEntity.
 			  self changesDico
 				  at: baseEntity put: match;
@@ -341,4 +367,15 @@ FamixDiffResolver >> tolerance: anInteger [
 FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
 	^ (self entitiesToMatchIn: aModel) select: [ :entity | self hasParentMatched: entity ]
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> updateProgressBarOf: job [
+
+	| entitiesToMatchSize |
+	entitiesToMatchSize := (self entitiesToMatchIn: self baseModel) size.
+
+	job
+		label: 'Diff computation in progress. ' , entitiesToMatchSize asString , ' left out of ' , job max asString;
+		currentValue: job max - entitiesToMatchSize
 ]
