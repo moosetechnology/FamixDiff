@@ -7,10 +7,7 @@ Class {
 { #category : #tests }
 FamixDiffEntitiesMoveTest >> testMoveMatchClass [
 
-	self
-		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Famix-Diff-TestResource-P2')
-		and: (self targetEntityNamed: 'Famix-Diff-TestResource-P2').
+	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Famix-Diff-TestResource-P2') and: (self targetEntityNamed: 'Famix-Diff-TestResource-P2').
 	self createChange: FamixAddChange with: (self baseEntityNamed: 'Famix-Diff-TestResource-P1'). "changing package of A3 in target model"
 	(self targetEntityNamed: 'Smalltalk::A3diff') parentPackage: (self targetEntityNamed: 'Famix-Diff-TestResource-P1').
 	self assert: ((self baseEntityNamed: 'Smalltalk::A3diff') moveMatch: (self targetEntityNamed: 'Smalltalk::A3diff') resolver: self resolver).
@@ -22,10 +19,8 @@ FamixDiffEntitiesMoveTest >> testMoveMatchMethod [
 	"moving c3 metod"
 
 	(self targetEntityNamed: 'Smalltalk::A3diff.c3()') parentType: (self targetEntityNamed: 'Smalltalk::A2diff').
-	self assert:
-		((self baseEntityNamed: 'Smalltalk::A3diff.c3()') moveMatch: (self targetEntityNamed: 'Smalltalk::A2diff.c3()') resolver: self resolver).
-	self assert:
-		((self targetEntityNamed: 'Smalltalk::A2diff.c3()') moveMatch: (self baseEntityNamed: 'Smalltalk::A3diff.c3()') resolver: self resolver)
+	self assert: ((self baseEntityNamed: 'Smalltalk::A3diff.c3()') moveMatch: (self targetEntityNamed: 'Smalltalk::A2diff.c3()') resolver: self resolver).
+	self assert: ((self targetEntityNamed: 'Smalltalk::A2diff.c3()') moveMatch: (self baseEntityNamed: 'Smalltalk::A3diff.c3()') resolver: self resolver)
 ]
 
 { #category : #tests }
