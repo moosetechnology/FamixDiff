@@ -21,6 +21,46 @@ FamixDiffResultTest >> setUp [
 ]
 
 { #category : #tests }
+FamixDiffResultTest >> testAdditions [
+
+	| additions |
+	additions := result additions.
+	self assert: additions size equals: 5.
+	additions do: [ :change | self assert: change isAddition ].
+	self assert: additions class equals: result class
+]
+
+{ #category : #tests }
+FamixDiffResultTest >> testMoves [
+
+	| moves |
+	moves := result moves.
+	self assert: moves size equals: 0.
+	moves do: [ :change | self assert: change isMove ].
+	self assert: moves class equals: result class
+]
+
+{ #category : #tests }
+FamixDiffResultTest >> testRemovals [
+
+	| removals |
+	removals := result removals.
+	self assert: removals size equals: 11.
+	removals do: [ :change | self assert: change isRemoval ].
+	self assert: removals class equals: result class
+]
+
+{ #category : #tests }
+FamixDiffResultTest >> testRenames [
+
+	| moves |
+	moves := result renames.
+	self assert: moves size equals: 0.
+	moves do: [ :change | self assert: change isRename ].
+	self assert: moves class equals: result class
+]
+
+{ #category : #tests }
 FamixDiffResultTest >> testWithoutStubs [
 
 	| withoutStubs |

@@ -231,3 +231,32 @@ FamixDiffTest >> testMatched [
 	snapshot diffComputer changesDico at: entity put: FamixMoveChange new.
 	self assert: (snapshot diffComputer matched: entity)
 ]
+
+{ #category : #tests }
+FamixDiffTest >> testMovedEntities [
+
+	| moves |
+	self createTestDiffForAdditionsAndRemovalsEdgeCases.
+	moves := result moves.
+
+	self assertEmpty: (moves select: [ :change | change baseEntity isKindOf: FamixStPackage ]).
+	self assertEmpty: (moves select: [ :change | change baseEntity isKindOf: FamixStClass ]).
+	self assert: (moves select: [ :change | change baseEntity isKindOf: FamixStMethod ]) size equals: 2.
+	self assertEmpty: (moves select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ])
+]
+
+{ #category : #tests }
+FamixDiffTest >> testRemovedEntities [
+
+	| removals |
+	self createTestDiffForAdditionsAndRemovalsEdgeCases.
+	removals := result removals.
+
+	self assert: (removals select: [ :change | change baseEntity isKindOf: FamixStPackage ]) size equals: 1.
+	self assert: (removals detect: [ :change | change baseEntity isKindOf: FamixStPackage ]) entity name equals: self packageName1.
+	self assert: (removals select: [ :change | change baseEntity isKindOf: FamixStClass ]) size equals: 1.
+	self assert: (removals detect: [ :change | change baseEntity isKindOf: FamixStClass ]) entity name equals: #C1.
+	self assert: (removals select: [ :change | change baseEntity isKindOf: FamixStMethod ]) size equals: 1.
+	self assert: (removals detect: [ :change | change baseEntity isKindOf: FamixStMethod ]) entity name equals: #m1.
+	self assertEmpty: (removals select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ])
+]

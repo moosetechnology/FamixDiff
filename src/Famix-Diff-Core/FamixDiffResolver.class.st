@@ -180,6 +180,14 @@ FamixDiffResolver >> hasParentMatched: entity [
 	^ true
 ]
 
+{ #category : #testing }
+FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
+
+	entity parentsDo: [ :parent | ((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [ ^ false ] ].
+
+	^ true
+]
+
 { #category : #'run-entities' }
 FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
@@ -234,7 +242,23 @@ FamixDiffResolver >> lookForAddedAndRemovedEntities [
 { #category : #'run-entities' }
 FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
 
-	^ self moveMatchesFrom: (self entitiesToMatchIn: self baseModel) to: (self entitiesToMatchIn: self targetModel)
+	| unmatchedBasedEntities unmatchedTargetEntities |
+	unmatchedBasedEntities := self topEntitiesToMatchIn: self baseModel.
+	unmatchedTargetEntities := self topEntitiesToMatchIn: self targetModel.
+	[
+	| baseTodo targetTodo |
+	baseTodo := self topEntitiesToMatchIn: self baseModel ignoringParentsIn: unmatchedBasedEntities.
+	targetTodo := self topEntitiesToMatchIn: self targetModel ignoringParentsIn: unmatchedTargetEntities.
+
+	((self moveMatchesFrom: baseTodo to: unmatchedTargetEntities) or: [
+		 (self moveMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: unmatchedBasedEntities to: targetTodo ] ]) ifTrue: [ ^ true ].
+
+	unmatchedBasedEntities addAll: baseTodo.
+	unmatchedTargetEntities addAll: targetTodo.
+
+	baseTodo isEmpty or: [ targetTodo isEmpty ] ] whileFalse.
+
+	^ false
 ]
 
 { #category : #testing }
@@ -367,6 +391,13 @@ FamixDiffResolver >> tolerance: anInteger [
 FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
 	^ (self entitiesToMatchIn: aModel) select: [ :entity | self hasParentMatched: entity ]
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> topEntitiesToMatchIn: aModel ignoringParentsIn: aCollection [
+
+	^ (self entitiesToMatchIn: aModel) select: [ :entity |
+		  (aCollection includes: entity) not and: [ self hasParentMatched: entity ignoringParentsIn: aCollection ] ]
 ]
 
 { #category : #'run-entities' }

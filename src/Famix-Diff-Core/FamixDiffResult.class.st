@@ -48,6 +48,12 @@ FamixDiffResult >> entityChanges [
 ]
 
 { #category : #accessing }
+FamixDiffResult >> moves [
+
+	^ self select: [ :change | change isMove ]
+]
+
+{ #category : #accessing }
 FamixDiffResult >> realChanges [
 	"I return all the changes actually representing a change, rejecting identical changes."
 
@@ -65,6 +71,12 @@ FamixDiffResult >> removalChanges [
 FamixDiffResult >> removals [
 
 	^ self select: [ :change | change isRemoval ]
+]
+
+{ #category : #accessing }
+FamixDiffResult >> renames [
+
+	^ self select: [ :change | change isRename ]
 ]
 
 { #category : #private }
