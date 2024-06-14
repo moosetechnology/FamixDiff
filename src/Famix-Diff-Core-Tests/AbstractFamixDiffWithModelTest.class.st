@@ -16,7 +16,10 @@ AbstractFamixDiffWithModelTest >> baseEntityNamed: aString [
 { #category : #running }
 AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 
-	self resolver changesDico at: entity put: (changeClass entity: entity)
+	| change |
+	change := changeClass entity: entity.
+	self resolver changesDico at: entity put: change.
+	diff result add: change
 ]
 
 { #category : #running }
@@ -26,7 +29,8 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and
 	change := changeClass base: baseEntity target: targetEntity.
 	self resolver changesDico
 		at: baseEntity put: change;
-		at: targetEntity put: change
+		at: targetEntity put: change.
+	diff result add: change
 ]
 
 { #category : #accessing }

@@ -120,15 +120,15 @@ FamixDiffResolver >> diff [
 
 	[
 	self diffEntities.
-	self diffAssociations.
 	self result addAll: self changesDico values asSet.
+	self diffAssociations.
 	self result addAll: self associationChanges asSet ] ensure: [ self removeFamixDiffCaches ]
 ]
 
 { #category : #'run-associations' }
 FamixDiffResolver >> diffAssociations [
 
-	self changesDico values asSet do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
+	self result do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
 { #category : #'run-entities' }
