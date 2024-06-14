@@ -32,7 +32,7 @@ Class {
 		'result',
 		'targetModel',
 		'tolerance',
-		'diffComputer'
+		'resolver'
 	],
 	#category : #'Famix-Diff-Core'
 }
@@ -72,27 +72,26 @@ FXDiff >> changes: aCollection [
 	^ self result changes: aCollection
 ]
 
-{ #category : #accessing }
-FXDiff >> diffComputer [
-	^ diffComputer
-]
-
-{ #category : #accessing }
-FXDiff >> diffComputer: anObject [
-	diffComputer := anObject new
-		orchestrator: self;
-		yourself
-]
-
 { #category : #initialization }
 FXDiff >> initialize [
 
 	super initialize.
 	tolerance := 0.2.
 	result := FamixDiffResult new.
-	diffComputer := FamixDiffResolver new
-		                orchestrator: self;
-		                yourself
+	self resolver: FamixDiffResolver new
+]
+
+{ #category : #accessing }
+FXDiff >> resolver [
+	^ resolver
+]
+
+{ #category : #accessing }
+FXDiff >> resolver: anObject [
+
+	resolver := anObject
+		            orchestrator: self;
+		            yourself
 ]
 
 { #category : #accessing }
@@ -110,7 +109,7 @@ FXDiff >> run [
 
 	self assert: (self baseModel isKindOf: MooseModel).
 	self assert: (self targetModel isKindOf: MooseModel).
-	diffComputer diff
+	resolver diff
 ]
 
 { #category : #accessing }

@@ -225,11 +225,12 @@ FamixDiffTest >> testMakeChangeWithWith [
 
 { #category : #'tests-run-entities' }
 FamixDiffTest >> testMatched [
+
 	| entity |
 	entity := FamixStNamedEntity new.
-	self deny: (snapshot diffComputer matched: entity).
-	snapshot diffComputer changesDico at: entity put: FamixMoveChange new.
-	self assert: (snapshot diffComputer matched: entity)
+	self deny: (snapshot resolver matched: entity).
+	snapshot resolver changesDico at: entity put: FamixMoveChange new.
+	self assert: (snapshot resolver matched: entity)
 ]
 
 { #category : #tests }

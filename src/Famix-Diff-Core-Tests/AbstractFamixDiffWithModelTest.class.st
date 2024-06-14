@@ -2,17 +2,21 @@ Class {
 	#name : #AbstractFamixDiffWithModelTest,
 	#superclass : #AbstractFamixDiffTest,
 	#instVars : [
-		'snapshot',
-		'testChanges',
-		'resolver'
+		'diff'
 	],
 	#category : #'Famix-Diff-Core-Tests'
 }
 
+{ #category : #accessing }
+AbstractFamixDiffWithModelTest >> baseEntityNamed: aString [
+
+	^ diff baseModel entityNamed: aString
+]
+
 { #category : #running }
 AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 
-	testChanges at: entity put: (changeClass entity: entity)
+	self resolver changesDico at: entity put: (changeClass entity: entity)
 ]
 
 { #category : #running }
@@ -20,8 +24,15 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and
 
 	| change |
 	change := changeClass base: baseEntity target: targetEntity.
-	testChanges at: baseEntity put: change.
-	testChanges at: targetEntity put: change
+	self resolver changesDico
+		at: baseEntity put: change;
+		at: targetEntity put: change
+]
+
+{ #category : #accessing }
+AbstractFamixDiffWithModelTest >> resolver [
+
+	^ diff resolver
 ]
 
 { #category : #running }
@@ -31,11 +42,12 @@ AbstractFamixDiffWithModelTest >> setUp [
 	super setUp.
 	model1 := self importModelNamed: 'base' fromPackages: #( #'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2' ).
 	model2 := self importModelNamed: 'target' fromPackages: #( #'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2' ).
-	snapshot := FXDiff baseModel: model1 targetModel: model2.
-	testChanges := Dictionary new.
-	resolver := FamixDiffResolver new.
-	resolver
-		changesDico: testChanges;
-		orchestrator: snapshot.
-	self createChange: FamixUnchangedChange with: (snapshot baseModel entityNamed: 'Smalltalk') and: (snapshot targetModel entityNamed: 'Smalltalk')
+	diff := FXDiff baseModel: model1 targetModel: model2.
+	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk') and: (self targetEntityNamed: 'Smalltalk')
+]
+
+{ #category : #accessing }
+AbstractFamixDiffWithModelTest >> targetEntityNamed: aString [
+
+	^ diff targetModel entityNamed: aString
 ]
