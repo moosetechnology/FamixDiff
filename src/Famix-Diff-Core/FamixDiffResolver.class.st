@@ -197,13 +197,7 @@ FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
 		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity |
-			  | match |
-			  targetEntities remove: targetEntity.
-			  match := FamixUnchangedChange base: baseEntity target: targetEntity.
-			  self changesDico
-				  at: baseEntity put: match;
-				  at: targetEntity put: match ]
+		  changeType: FamixUnchangedChange
 ]
 
 { #category : #initialization }
@@ -267,21 +261,26 @@ FamixDiffResolver >> matched: entity [
 ]
 
 { #category : #'run-entities' }
-FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities ifMatch: ifMatchBlock [
+FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities changeType: aChangeClass [
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
-	 matchblock takes 2 parameters: first is baseEntity, second is targetEntity being compared.
 	
-	 When a match is found, ifMatchBlock is evaluated with the base entity as first parameter and the target entity as second parameter.
-	 The progress message is displayed by the UI during the computation.
+	 When a match is found, ia change is created and added to the change dictionary.
 	
 	 This algorithm essentially takes each entity from baseEntities and try to match them with an entity in targetEntity list."
 
 	| matchFound |
 	matchFound := false.
 	baseEntities do: [ :baseEntity |
-		targetEntities detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ] ifOne: [ :targetEntity |
-			ifMatchBlock value: baseEntity value: targetEntity.
-			matchFound := true ] ].
+		targetEntities
+			detect: [ :targetEntity | matchblock value: baseEntity value: targetEntity ]
+			ifFound: [ :targetEntity |
+				| match |
+				targetEntities remove: targetEntity.
+				match := aChangeClass base: baseEntity target: targetEntity.
+				self changesDico
+					at: baseEntity put: match;
+					at: targetEntity put: match.
+				matchFound := true ] ].
 	^ matchFound
 ]
 
@@ -292,13 +291,7 @@ FamixDiffResolver >> moveMatchesFrom: baseEntities to: targetEntities [
 		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity |
-			  | match |
-			  targetEntities remove: targetEntity.
-			  match := FamixMoveChange base: baseEntity target: targetEntity.
-			  self changesDico
-				  at: baseEntity put: match;
-				  at: targetEntity put: match ]
+		  changeType: FamixMoveChange
 ]
 
 { #category : #accessing }
@@ -339,13 +332,7 @@ FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
 		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity resolver: self ]
 		  from: baseEntities
 		  to: targetEntities
-		  ifMatch: [ :baseEntity :targetEntity |
-			  | match |
-			  targetEntities remove: targetEntity.
-			  match := FamixRenameChange base: baseEntity target: targetEntity.
-			  self changesDico
-				  at: baseEntity put: match;
-				  at: targetEntity put: match ]
+		  changeType: FamixRenameChange
 ]
 
 { #category : #accessing }
