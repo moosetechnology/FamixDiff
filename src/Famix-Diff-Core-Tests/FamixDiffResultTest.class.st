@@ -61,6 +61,16 @@ FamixDiffResultTest >> testRenames [
 ]
 
 { #category : #tests }
+FamixDiffResultTest >> testWithRootAdditionsAndRemovals [
+
+	| subResult |
+	subResult := result withRootAdditionsAndRemovals.
+	self assert: subResult additions size equals: 1.
+	self assert: subResult additions anyOne entity mooseName equals: #'Famix-Diff-TestResource-P1'.
+	self assert: subResult removals size equals: 3 "1 package and a pragma with its type"
+]
+
+{ #category : #tests }
 FamixDiffResultTest >> testWithoutStubs [
 
 	| withoutStubs |

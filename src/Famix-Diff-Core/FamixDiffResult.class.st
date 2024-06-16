@@ -86,6 +86,16 @@ FamixDiffResult >> species [
 ]
 
 { #category : #accessing }
+FamixDiffResult >> withRootAdditionsAndRemovals [
+	"When entities are not found in the base or target model we create additions and removals. This API method return a new set of changes that keeps only the top level additions and removals. If we add a package for example it will remove all its added classes methods and variables to keep a high level view of the changes."
+
+	^ self select: [ :change |
+		  change entity isAssociation not and: [
+			  (change isAddition and: [ change entity parents noneSatisfy: [ :parent | self additions anySatisfy: [ :change2 | change2 entity = parent ] ] ]) or: [
+				  change isRemoval and: [ change entity parents noneSatisfy: [ :parent | self removals anySatisfy: [ :change2 | change2 entity = parent ] ] ] ] ] ]
+]
+
+{ #category : #accessing }
 FamixDiffResult >> withoutStubs [
 	"Returns all the results without the stubs"
 
