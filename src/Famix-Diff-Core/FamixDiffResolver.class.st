@@ -138,14 +138,24 @@ FamixDiffResolver >> diffEntities [
 	job max: self baseModel entities size.
 	"loops on this block"
 	[
+	[
+	| baseTodo targetTodo |
 	self updateProgressBarOf: job.
-	self findNextIdentitiesRenamingsOrMovedEntities.
+	baseTodo := self topEntitiesToMatchIn: self baseModel.
+	targetTodo := self topEntitiesToMatchIn: self targetModel. "as soon as one return true, go to next loop iteration"
+	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
+		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue.
 
 	self updateProgressBarOf: job.
 
-	self lookForMovedEntitiesInUnmatchedEntities or: [
-		self updateProgressBarOf: job.
-		self lookForAddedAndRemovedEntities ] ] whileTrue ] asJob run
+	self lookForMovedEntitiesInUnmatchedEntities ] whileTrue.
+
+	self updateProgressBarOf: job.
+	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
+	(self entitiesToMatchIn: self targetModel) do: [ :entity | self changesDico at: entity put: (FamixAddChange entity: entity) ].
+
+	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
+	(self entitiesToMatchIn: self baseModel) do: [ :entity | self changesDico at: entity put: (FamixRemovalChange entity: entity) ] ] asJob run
 ]
 
 { #category : #'run-entities' }
@@ -154,19 +164,6 @@ FamixDiffResolver >> entitiesToMatchIn: aModel [
 	"not stub, not matched entities"
 
 	^ aModel entities select: [ :e | self shouldMatch: e ]
-]
-
-{ #category : #'run-entities' }
-FamixDiffResolver >> findNextIdentitiesRenamingsOrMovedEntities [
-
-	[
-	| baseTodo targetTodo |
-	baseTodo := self topEntitiesToMatchIn: self baseModel.
-	targetTodo := self topEntitiesToMatchIn: self targetModel.
-
-	"as soon as one return true, go to next loop iteration"
-	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
-		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue
 ]
 
 { #category : #testing }
@@ -217,18 +214,6 @@ FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
 	(changes at: baseEntity ifAbsent: [ #unknown ]) = (changes at: targetEntity ifAbsent: [ #unknown2 ]) ifTrue: [ ^ true ].
 
 	(baseEntity isStub or: [ targetEntity isStub ]) ifTrue: [ ^ baseEntity mooseName = targetEntity mooseName ].
-
-	^ false
-]
-
-{ #category : #'run-entities' }
-FamixDiffResolver >> lookForAddedAndRemovedEntities [
-
-	[
-	| baseTodo targetTodo |
-	baseTodo := self topEntitiesToMatchIn: self baseModel.
-	targetTodo := self topEntitiesToMatchIn: self targetModel.
-	(self addedEntitiesFrom: targetTodo) or: [ self removedEntitiesFrom: baseTodo ] ] whileTrue.
 
 	^ false
 ]
