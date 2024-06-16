@@ -104,6 +104,8 @@ FamixChange >> isKindOfAddition [
 
 { #category : #testing }
 FamixChange >> isMatch [
+	"A change is considered as a match if we are able to find an entity in the base and target model. This can be an identical entity but alse a renamed or moved entity."
+
 	^ false
 ]
 
