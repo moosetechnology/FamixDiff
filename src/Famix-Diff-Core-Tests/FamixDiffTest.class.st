@@ -107,7 +107,16 @@ FamixDiffTest >> packageName3 [
 
 { #category : #tests }
 FamixDiffTest >> runDiff [
-	^ result := snapshot run result
+
+	| baseEntitiesToMatch targetEntitiesToMatch |
+	baseEntitiesToMatch := snapshot resolver entitiesToMatchIn: snapshot baseModel.
+	targetEntitiesToMatch := snapshot resolver entitiesToMatchIn: snapshot targetModel.
+
+	result := snapshot run result.
+
+	"Here we ensure that the generated result has the night number of changes"
+	self assert: baseEntitiesToMatch size equals: (result entityChanges reject: [ :change | change isAddition ]) size. "We should have a change that is not an addition for all entities of the base model."
+	self assert: targetEntitiesToMatch size equals: (result entityChanges reject: [ :change | change isRemoval ]) size "We should have a change that is not a removal for all entities of the target model."
 ]
 
 { #category : #running }
