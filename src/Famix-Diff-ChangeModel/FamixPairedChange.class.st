@@ -36,6 +36,14 @@ FamixPairedChange >> baseEntityName [
 	^ self baseEntity name
 ]
 
+{ #category : #accessing }
+FamixPairedChange >> entities [
+
+	^ {
+		  self baseEntity.
+		  self targetEntity }
+]
+
 { #category : #comparing }
 FamixPairedChange >> hash [
 	^ (super hash bitXor: self targetEntity hash) bitXor: self targetEntityName hash

@@ -59,6 +59,12 @@ FamixChange >> changeName [
 ]
 
 { #category : #accessing }
+FamixChange >> entities [
+
+	^ { self entity }
+]
+
+{ #category : #accessing }
 FamixChange >> entity [
 	
 	^ entity
