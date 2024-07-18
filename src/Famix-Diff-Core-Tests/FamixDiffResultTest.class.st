@@ -31,6 +31,16 @@ FamixDiffResultTest >> testAdditions [
 ]
 
 { #category : #tests }
+FamixDiffResultTest >> testGroupAdditionsAndRemovalsByRoots [
+
+	| subResult |
+	subResult := result groupAdditionsAndRemovalsByRoots.
+	self assert: subResult additions size equals: 1.
+	self assert: subResult additions anyOne entity mooseName equals: #'Famix-Diff-TestResource-P1'.
+	self assert: subResult removals size equals: 3 "1 package and a pragma with its type"
+]
+
+{ #category : #tests }
 FamixDiffResultTest >> testMoves [
 
 	| moves |
@@ -58,16 +68,6 @@ FamixDiffResultTest >> testRenames [
 	self assert: moves size equals: 0.
 	moves do: [ :change | self assert: change isRename ].
 	self assert: moves class equals: result class
-]
-
-{ #category : #tests }
-FamixDiffResultTest >> testWithRootAdditionsAndRemovals [
-
-	| subResult |
-	subResult := result withRootAdditionsAndRemovals.
-	self assert: subResult additions size equals: 1.
-	self assert: subResult additions anyOne entity mooseName equals: #'Famix-Diff-TestResource-P1'.
-	self assert: subResult removals size equals: 3 "1 package and a pragma with its type"
 ]
 
 { #category : #tests }
