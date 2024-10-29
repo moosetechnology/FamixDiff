@@ -60,7 +60,7 @@ FamixDiffResultTest >> testRemovals [
 	| removals |
 	removals := result removals.
 
-	self assert: removals size equals: 11.
+	self assert: removals size equals: 12.
 	removals do: [ :change | 
 		self assert: change isRemoval ].
 	self assert: removals class equals: result class
