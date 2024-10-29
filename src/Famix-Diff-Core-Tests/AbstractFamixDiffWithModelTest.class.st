@@ -7,6 +7,24 @@ Class {
 	#category : #'Famix-Diff-Core-Tests'
 }
 
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> assertIdentityMatch: entity1 to: entity2 [
+
+	self assert: (entity1 identityMatch: entity2 resolver: self resolver)
+]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> assertMoveMatch: entity1 to: entity2 [
+
+	self assert: (entity1 moveMatch: entity2 resolver: self resolver)
+]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> assertRenameMatch: entity1 to: entity2 [
+
+	self assert: (entity1 renameMatch: entity2 resolver: self resolver)
+]
+
 { #category : #accessing }
 AbstractFamixDiffWithModelTest >> baseEntityNamed: aString [
 
@@ -31,6 +49,24 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and
 		at: baseEntity put: change;
 		at: targetEntity put: change.
 	diff result add: change
+]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> denyIdentityMatch: entity1 to: entity2 [
+
+	self deny: (entity1 identityMatch: entity2 resolver: self resolver)
+]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> denyMoveMatch: entity1 to: entity2 [
+
+	self deny: (entity1 moveMatch: entity2 resolver: self resolver)
+]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> denyRenameMatch: entity1 to: entity2 [
+
+	self deny: (entity1 renameMatch: entity2 resolver: self resolver)
 ]
 
 { #category : #accessing }
