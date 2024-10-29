@@ -8,3 +8,10 @@ FamixTComment >> isIdenticalTo: otherEntity resolver: resolver [
 	(self content = otherEntity content) ifFalse: [ ^ false ].
 	 ^ true
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FamixTComment >> moveMatch: otherEntity resolver: resolver [
+	"Comments are never moved"
+
+	^false
+]
