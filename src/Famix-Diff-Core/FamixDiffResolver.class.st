@@ -119,10 +119,12 @@ FamixDiffResolver >> diff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
 	[
-	self diffEntities.
-	self result addAll: self changesDico values asSet.
-	self diffAssociations.
-	self result addAll: self associationChanges asSet ] ensure: [ self removeFamixDiffCaches ]
+		self diffEntities.
+		self result addAll: self changesDico values asSet.
+		self diffAssociations.
+		self result addAll: self associationChanges asSet
+	]
+		ensure: [ self removeFamixDiffCaches ]
 ]
 
 { #category : #'run-associations' }
@@ -135,27 +137,20 @@ FamixDiffResolver >> diffAssociations [
 FamixDiffResolver >> diffEntities [
 
 	[ :job |
-	job max: self baseModel entities size.
-	"loops on this block"
-	[
-	[
-	| baseTodo targetTodo |
-	self updateProgressBarOf: job.
-	baseTodo := self topEntitiesToMatchIn: self baseModel.
-	targetTodo := self topEntitiesToMatchIn: self targetModel. "as soon as one return true, go to next loop iteration"
-	(self identityMatchesFrom: baseTodo to: targetTodo) or: [
-		(self renameMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: baseTodo to: targetTodo ] ] ] whileTrue.
+		"loops on this block"
+		job max: self baseModel entities size.
+		[
+			[
+				self updateProgressBarOf: job.
+				self matchTopLevelEntities
+			] whileTrue.
+			self updateProgressBarOf: job.
+			self lookForMovedEntitiesInUnmatchedEntities
+		] whileTrue.
 
-	self updateProgressBarOf: job.
-
-	self lookForMovedEntitiesInUnmatchedEntities ] whileTrue.
-
-	self updateProgressBarOf: job.
-	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
-	(self entitiesToMatchIn: self targetModel) do: [ :entity | self changesDico at: entity put: (FamixAddChange entity: entity) ].
-
-	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
-	(self entitiesToMatchIn: self baseModel) do: [ :entity | self changesDico at: entity put: (FamixRemovalChange entity: entity) ] ] asJob run
+		self updateProgressBarOf: job.
+		self recordAddRemoveChanges
+	] asJob run
 ]
 
 { #category : #'run-entities' }
@@ -164,6 +159,40 @@ FamixDiffResolver >> entitiesToMatchIn: aModel [
 	"not stub, not matched entities"
 
 	^ aModel entities select: [ :e | self shouldMatch: e ]
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> findIdentityMatchesFrom: baseEntities to: targetEntities [
+	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
+	 If there is a match, a FamixUnchangedChange is created and stored."
+
+	^ self
+		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity resolver: self ]
+		  from: baseEntities
+		  to: targetEntities
+		  changeType: FamixUnchangedChange
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> findMoveMatchesFrom: baseEntities to: targetEntities [
+
+	^ self
+		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity resolver: self ]
+		  from: baseEntities
+		  to: targetEntities
+		  changeType: FamixMoveChange
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> findRenameMatchesFrom: baseEntities to: targetEntities [
+	"Find the entities that have been renamed between base version and target version (using #renameMatch:resolver: message).
+	 If there is a match, a FamixRenameChange is created and stored."
+
+	^ self
+		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity resolver: self ]
+		  from: baseEntities
+		  to: targetEntities
+		  changeType: FamixRenameChange
 ]
 
 { #category : #testing }
@@ -183,18 +212,6 @@ FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 	entity parentsDo: [ :parent | ((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [ ^ false ] ].
 
 	^ true
-]
-
-{ #category : #'run-entities' }
-FamixDiffResolver >> identityMatchesFrom: baseEntities to: targetEntities [
-	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
-	 If there is a match, a FamixUnchangedChange is created and stored."
-
-	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity identityMatch: targetEntity resolver: self ]
-		  from: baseEntities
-		  to: targetEntities
-		  changeType: FamixUnchangedChange
 ]
 
 { #category : #initialization }
@@ -229,8 +246,8 @@ FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
 	baseTodo := self topEntitiesToMatchIn: self baseModel ignoringParentsIn: unmatchedBasedEntities.
 	targetTodo := self topEntitiesToMatchIn: self targetModel ignoringParentsIn: unmatchedTargetEntities.
 
-	((self moveMatchesFrom: baseTodo to: unmatchedTargetEntities) or: [
-		 (self moveMatchesFrom: baseTodo to: targetTodo) or: [ self moveMatchesFrom: unmatchedBasedEntities to: targetTodo ] ]) ifTrue: [ ^ true ].
+	((self findMoveMatchesFrom: baseTodo to: unmatchedTargetEntities) or: [
+		 (self findMoveMatchesFrom: baseTodo to: targetTodo) or: [ self findMoveMatchesFrom: unmatchedBasedEntities to: targetTodo ] ]) ifTrue: [ ^ true ].
 
 	unmatchedBasedEntities addAll: baseTodo.
 	unmatchedTargetEntities addAll: targetTodo.
@@ -238,6 +255,22 @@ FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
 	baseTodo isEmpty or: [ targetTodo isEmpty ] ] whileFalse.
 
 	^ false
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> matchTopLevelEntities [
+	"Tries to find some match between top level entities (those with parent matched, but not matched themselves)
+	 return whether it could create new matches or not"
+
+	| baseTodo targetTodo |
+
+	baseTodo := self topEntitiesToMatchIn: self baseModel.
+	targetTodo := self topEntitiesToMatchIn: self targetModel.
+
+	^(self findIdentityMatchesFrom: baseTodo to: targetTodo) or:
+		[ (self findRenameMatchesFrom: baseTodo to: targetTodo) or:
+		[ self findMoveMatchesFrom: baseTodo to: targetTodo ] ]
+
 ]
 
 { #category : #testing }
@@ -248,9 +281,7 @@ FamixDiffResolver >> matched: entity [
 { #category : #'run-entities' }
 FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities changeType: aChangeClass [
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
-	
-	 When a match is found, ia change is created and added to the change dictionary.
-	
+	 When a match is found, aChangeClass instance is created and added to the change dictionary.
 	 This algorithm essentially takes each entity from baseEntities and try to match them with an entity in targetEntity list."
 
 	| matchFound |
@@ -269,16 +300,6 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities c
 	^ matchFound
 ]
 
-{ #category : #'run-entities' }
-FamixDiffResolver >> moveMatchesFrom: baseEntities to: targetEntities [
-
-	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity moveMatch: targetEntity resolver: self ]
-		  from: baseEntities
-		  to: targetEntities
-		  changeType: FamixMoveChange
-]
-
 { #category : #accessing }
 FamixDiffResolver >> orchestrator [
 	^ orchestrator
@@ -287,6 +308,18 @@ FamixDiffResolver >> orchestrator [
 { #category : #accessing }
 FamixDiffResolver >> orchestrator: anObject [
 	orchestrator := anObject
+]
+
+{ #category : #'run-entities' }
+FamixDiffResolver >> recordAddRemoveChanges [
+	"Each entity in target model that couldn't be matched to an entity in base model is considered added.
+	 Each entity in base model that couldn't be matched to an entity in target model is considered removed."
+
+	(self entitiesToMatchIn: self targetModel) do: [ :entity |
+		self changesDico at: entity put: (FamixAddChange entity: entity) ].
+
+	(self entitiesToMatchIn: self baseModel) do: [ :entity |
+	  self changesDico at: entity put: (FamixRemovalChange entity: entity) ]
 ]
 
 { #category : #run }
@@ -306,18 +339,6 @@ FamixDiffResolver >> removedEntitiesFrom: baseEntities [
 	baseEntities do: [ :entity | self changesDico at: entity put: (FamixRemovalChange entity: entity) ].
 
 	^ true
-]
-
-{ #category : #'run-entities' }
-FamixDiffResolver >> renameMatchesFrom: baseEntities to: targetEntities [
-	"Find the entities that have been renamed between base version and target version (using #renameMatch:resolver: message).
-	 If there is a match, a FamixRenameChange is created and stored."
-
-	^ self
-		  matches: [ :baseEntity :targetEntity | baseEntity renameMatch: targetEntity resolver: self ]
-		  from: baseEntities
-		  to: targetEntities
-		  changeType: FamixRenameChange
 ]
 
 { #category : #accessing }
