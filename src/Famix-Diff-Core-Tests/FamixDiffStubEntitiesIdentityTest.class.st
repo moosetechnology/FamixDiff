@@ -35,8 +35,7 @@ FamixDiffStubEntitiesIdentityTest >> setUp [
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsClassMatching [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
-	self assert: (basA3 identityMatch: tgtA3 resolver: self resolver).
-
+	self assertIdentityMatch: basA3 to: tgtA3
 ]
 
 { #category : #tests }
@@ -46,11 +45,10 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsLocalVariableSameName
 	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
 	self createChange: FamixUnchangedChange with: basA3c3 and: tgtA3c3.
 
-	self assert: (basA3c3toto identityMatch: tgtA3c3toto resolver: self resolver).
-	self assert:
-		((self targetEntityNamed: 'Smalltalk::A3diff.c3().toto')
-			identityMatch: (self baseEntityNamed: 'Smalltalk::A3diff.c3().toto')
-			resolver: self resolver)
+	self assertIdentityMatch: basA3c3toto to: tgtA3c3toto.
+	self
+		assertIdentityMatch: (self targetEntityNamed: 'Smalltalk::A3diff.c3().toto')
+		to: (self baseEntityNamed: 'Smalltalk::A3diff.c3().toto')
 ]
 
 { #category : #tests }
@@ -58,8 +56,8 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodMatching [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
 	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
-	self assert: (basA3c3 identityMatch: tgtA3c3 resolver: self resolver).
 
+	self assertIdentityMatch: basA3c3 to: tgtA3c3
 ]
 
 { #category : #tests }
@@ -68,13 +66,11 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodsNoMatch [
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
 	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
 
-	self deny: (basA3c3 identityMatch: tgtB3c3 resolver: self resolver).
-
+	self denyIdentityMatch: basA3c3 to: tgtB3c3
 ]
 
 { #category : #tests }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsPackageMatching [
 
-	self assert: (basP3 identityMatch: tgtP3 resolver: self resolver).
-
+	self assertIdentityMatch: basP3 to: tgtP3
 ]

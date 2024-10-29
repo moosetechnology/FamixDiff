@@ -147,11 +147,11 @@ TEntityMetaLevelDependency >> moveMatch: otherEntity resolver: resolver [
 	(self compareParentsWith: otherEntity resolver: resolver) ifTrue: [ ^ false ].
 
 	"See comment in #identityMatch:resolver: to understand what we are doing here"
-	^ [ self isMovedOf: otherEntity resolver: resolver ]
+	^ [ self isMoveOf: otherEntity resolver: resolver ]
 		  on: MessageNotUnderstood
 		  do: [
-			  self generateMethodNamed: #isMovedOf:resolver: basedOnPragmaName: #move.
-			  self isMovedOf: otherEntity resolver: resolver ]
+			  self generateMethodNamed: #isMoveOf:resolver: basedOnPragmaName: #move.
+			  self isMoveOf: otherEntity resolver: resolver ]
 ]
 
 { #category : #'*Famix-Diff-Core' }
