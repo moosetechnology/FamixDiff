@@ -67,8 +67,8 @@ FamixDiffEntitiesMoveTest >> testMoveMatchMethod [
 
 { #category : #tests }
 FamixDiffEntitiesMoveTest >> testMoveMatchVariableMatching [
-	"Maching of variables depend on accesses
-	 Now create one access for the matching to happen"
+	"MoveMatching of variables depends on accesses
+	 Create one access for the matching to happen"
 
 	| var1 var2 |
 	var1 := self baseEntityNamed: 'Smalltalk::A3diff.c3().toto'.
@@ -90,7 +90,7 @@ FamixDiffEntitiesMoveTest >> testMoveMatchVariableMatching [
 
 { #category : #tests }
 FamixDiffEntitiesMoveTest >> testMoveMatchVariableNoMatch [
-	"Maching of variables depend on accesses
+	"MoveMatching of variables depends on accesses
 	 Here there is not enough (need at least 1)"
 
 	| var1 var2 |
