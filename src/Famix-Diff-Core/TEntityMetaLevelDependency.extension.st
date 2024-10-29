@@ -170,9 +170,9 @@ TEntityMetaLevelDependency >> renameMatch: otherEntity resolver: resolver [
 	(self isNamedEntity and: [ self name ~= otherEntity name ]) ifFalse: [ ^ false ].
 
 	"See comment in #identityMatch:resolver: to understand what we are doing here"
-	^ [ self isRenamedOf: otherEntity resolver: resolver ]
+	^ [ self isRenameOf: otherEntity resolver: resolver ]
 		  on: MessageNotUnderstood
 		  do: [
-			  self generateMethodNamed: #isRenamedOf:resolver: basedOnPragmaName: #rename.
-			  self isRenamedOf: otherEntity resolver: resolver ]
+			  self generateMethodNamed: #isRenameOf:resolver: basedOnPragmaName: #rename.
+			  self isRenameOf: otherEntity resolver: resolver ]
 ]

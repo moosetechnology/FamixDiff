@@ -22,6 +22,52 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 ]
 
 { #category : #tests }
+FamixDiffEntitiesRenameTest >> testRenameMatchCommentMatching [
+
+	| baseCmt targetCmt |
+	baseCmt := FamixStComment new
+		content: 'This is a comments';
+		commentedEntity: (self baseEntityNamed: 'Smalltalk::B3diff.c3()');
+		yourself.
+	targetCmt := FamixStComment new
+		content: 'This is a comment';
+		commentedEntity: (self targetEntityNamed: 'Smalltalk::B3diff.c3()');
+		yourself.
+
+	self
+		createChange: FamixUnchangedChange
+		with: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk::B3diff.c3()').
+
+	self assertRenameMatch: baseCmt to: targetCmt.
+	self assertRenameMatch: targetCmt to: baseCmt
+]
+
+{ #category : #tests }
+FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
+	"too much difference to be accepted (6 differences on a longer length of 22)
+	6 / 22 = 0.27 (default tolerance is 0.20)"
+
+	| baseCmt targetCmt |
+	baseCmt := FamixStComment new
+		content: 'This is a comment';
+		commentedEntity: (self baseEntityNamed: 'Smalltalk::B3diff.c3()');
+		yourself.
+	targetCmt := FamixStComment new
+		content: 'This is also another comment';
+		commentedEntity: (self targetEntityNamed: 'Smalltalk::B3diff.c3()');
+		yourself.
+
+	self
+		createChange: FamixUnchangedChange
+		with: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk::B3diff.c3()').
+
+	self denyRenameMatch: baseCmt to: targetCmt.
+	self denyRenameMatch: targetCmt to: baseCmt
+]
+
+{ #category : #tests }
 FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 
 	(self targetEntityNamed: 'Smalltalk::B3diff.c3()') name: 'x3'.
