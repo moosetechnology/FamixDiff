@@ -42,3 +42,8 @@ FamixTComment >> renameMatch: otherEntity resolver: resolver [
 	"See comment in #identityMatch:resolver: to understand what we are doing here"
 	^self isRenameOf: otherEntity resolver: resolver
 ]
+
+{ #category : #'*Famix-Diff-Core' }
+FamixTComment >> shouldBeConsideredForDiff [
+	^ true
+]
