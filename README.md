@@ -30,4 +30,16 @@ Full documentation available at:
 
 ### Quick Start
 
-Todo
+Running a diff computation is as simple as:
+
+```st
+| sourceModel targetModel |
+sourceModel := MooseModel root at: 1.
+targetModel := MooseModel root at: 2
+
+FXDiff runOnBaseModel: sourceModel targetModel: targetModel.
+```
+
+This will return a `FamixDiffResult` containing changes.
+
+See documentations above for more info.
