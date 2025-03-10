@@ -21,3 +21,13 @@ To add it to your baseline:
 ```
 
 Note that you can replace the #master by another branch such as #development or a tag such as #v1.0.0, #v1.? or #v1.1.?.
+
+## Documentation 
+
+Full documentation available at:
+- [User documentation](resources/docs/UserDocumentation.md)
+- [Developper documentation](resources/docs/DevelopperDocumentation.md)
+
+### Quick Start
+
+Todo
