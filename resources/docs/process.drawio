@@ -1,0 +1,125 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:136.0) Gecko/20100101 Firefox/136.0" version="24.8.3">
+  <diagram name="Page-1" id="za87FDfkQBq7JPVx30nZ">
+    <mxGraphModel dx="2714" dy="1455" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-1" value="Find identic entities in unmatched top level entities" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="230" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-3" value="Find renamed entities in unmatched top level entities" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="390" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-4" value="Find moved entities in unmatched top level entities" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="550" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-6" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="vJI3GLVV5K8YMpHVBov4-1" target="vJI3GLVV5K8YMpHVBov4-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="770" as="sourcePoint" />
+            <mxPoint x="460" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="vJI3GLVV5K8YMpHVBov4-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="330" as="sourcePoint" />
+            <mxPoint x="360" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="590" y="330" />
+              <mxPoint x="590" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-10" value="At least one match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="300" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-11" value="No match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="350" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-12" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349.5" y="440" as="sourcePoint" />
+            <mxPoint x="349.5" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-13" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="vJI3GLVV5K8YMpHVBov4-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="495" as="sourcePoint" />
+            <mxPoint x="500" y="420" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="610" y="495" />
+              <mxPoint x="610" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-14" value="No match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="510" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-15" value="At least one match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="360" y="470" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-17" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349" y="600" as="sourcePoint" />
+            <mxPoint x="349" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-18" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="vJI3GLVV5K8YMpHVBov4-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="645" as="sourcePoint" />
+            <mxPoint x="500" y="570" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="630" y="645" />
+              <mxPoint x="630" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-19" value="No match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="670" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-20" value="At least one match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="620" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-21" value="Find moved entities in all unmatched entities" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="710" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-22" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349.5" y="760" as="sourcePoint" />
+            <mxPoint x="349.5" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-23" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="vJI3GLVV5K8YMpHVBov4-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="797.5" as="sourcePoint" />
+            <mxPoint x="500" y="407.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="660" y="800" />
+              <mxPoint x="660" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-24" value="No match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="822.5" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-25" value="At least one match found" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="772.5" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-26" value="Mark remaining entities in base model as removals" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="870" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-27" value="Mark remaining entities in target model as additions" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="990" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-28" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349.5" y="920" as="sourcePoint" />
+            <mxPoint x="350" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vJI3GLVV5K8YMpHVBov4-30" value="&lt;h1&gt;Famix Diff Process&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="270" y="150" width="250" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

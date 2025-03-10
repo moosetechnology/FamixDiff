@@ -24,7 +24,19 @@ This step can be tricky for multiple reasons and requires some wild optimization
 
 ### General diff logic
 
-> TODO
+<p align="center">
+  <img src="process.png">
+</p>
+
+The first step while comparing entities is to take the unmatched root entities of a model. This means to take in the base model and the target model, all entities that have no unmatched parent (In the first iteration of this process, it means to take the root entities of the models). 
+
+Once we have those entities, we will iterate over all the top entities from the base model, and try to find identical entities in the top entities from the target model. The process to do this will be explained in the section [Comparison logic](#comparison-logic). When we find an identical entity, we produce a `FamixUnchangedChange` for the entity. 
+
+This step can have two outcome possible:
+- We found some matches. In that case we restart this step with the new unmatched top entities from both models.
+- We did not find any match
+
+TODO
 
 ### Comparison logic 
 
