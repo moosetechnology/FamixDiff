@@ -19,8 +19,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'changes',
-		'assocChanges',
-		'orchestrator'
+		'orchestrator',
+		'associationChanges'
 	],
 	#category : #'Famix-Diff-Core'
 }
@@ -53,19 +53,14 @@ FamixDiffResolver >> addedEntitiesFrom: targetEntities [
 
 	targetEntities ifEmpty: [ ^ false ].
 
-	targetEntities do: [ :entity | self changesDico at: entity put: (FamixAddChange entity: entity) ].
+	targetEntities do: [ :entity | self changes at: entity put: (FamixAddChange entity: entity) ].
 
 	^ true
 ]
 
 { #category : #accessing }
-FamixDiffResolver >> assocChanges: aCollection [
-	^ assocChanges := aCollection
-]
-
-{ #category : #accessing }
 FamixDiffResolver >> associationChanges [
-	^ assocChanges
+	^ associationChanges
 ]
 
 { #category : #accessing }
@@ -77,16 +72,6 @@ FamixDiffResolver >> baseModel [
 FamixDiffResolver >> changes [
 
 	^ changes
-]
-
-{ #category : #accessing }
-FamixDiffResolver >> changesDico [
-	^ changes
-]
-
-{ #category : #accessing }
-FamixDiffResolver >> changesDico: aCollection [
-	changes := aCollection
 ]
 
 { #category : #'run-associations' }
@@ -103,38 +88,27 @@ FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
 	self addAssociations: targetAssocs
 ]
 
-{ #category : #'run-associations' }
-FamixDiffResolver >> delAssociations: assocs [
-	assocs
-		do: [ :a | 
-			self associationChanges
-				add:
-					(FamixRemovalChange new
-						entity: a;
-						yourself) ]
-]
-
 { #category : #run }
-FamixDiffResolver >> diff [
+FamixDiffResolver >> computeDiff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
 	[
-		self diffEntities.
-		self result addAll: self changesDico values asSet.
-		self diffAssociations.
+		self computeDiffBetweenEntities.
+		self result addAll: self changes values asSet.
+		self computeDiffBetweenAssociations.
 		self result addAll: self associationChanges asSet
 	]
 		ensure: [ self removeFamixDiffCaches ]
 ]
 
 { #category : #'run-associations' }
-FamixDiffResolver >> diffAssociations [
+FamixDiffResolver >> computeDiffBetweenAssociations [
 
 	self result do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
 { #category : #'run-entities' }
-FamixDiffResolver >> diffEntities [
+FamixDiffResolver >> computeDiffBetweenEntities [
 
 	[ :job |
 		"loops on this block"
@@ -151,6 +125,17 @@ FamixDiffResolver >> diffEntities [
 		self updateProgressBarOf: job.
 		self recordAddRemoveChanges
 	] asJob run
+]
+
+{ #category : #'run-associations' }
+FamixDiffResolver >> delAssociations: assocs [
+	assocs
+		do: [ :a | 
+			self associationChanges
+				add:
+					(FamixRemovalChange new
+						entity: a;
+						yourself) ]
 ]
 
 { #category : #'run-entities' }
@@ -218,7 +203,7 @@ FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 FamixDiffResolver >> initialize [
 	super initialize.
 	changes := Dictionary new.
-	assocChanges := OrderedCollection new
+	associationChanges := OrderedCollection new
 ]
 
 { #category : #testing }
@@ -275,7 +260,7 @@ FamixDiffResolver >> matchTopLevelEntities [
 
 { #category : #testing }
 FamixDiffResolver >> matched: entity [
-	^ self changesDico includesKey: entity
+	^ self changes includesKey: entity
 ]
 
 { #category : #'run-entities' }
@@ -293,7 +278,7 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities c
 				| match |
 				targetEntities remove: targetEntity.
 				match := aChangeClass base: baseEntity target: targetEntity.
-				self changesDico
+				self changes
 					at: baseEntity put: match;
 					at: targetEntity put: match.
 				matchFound := true ] ].
@@ -316,13 +301,13 @@ FamixDiffResolver >> recordAddRemoveChanges [
 	 Each entity in base model that couldn't be matched to an entity in target model is considered removed."
 
 	(self entitiesToMatchIn: self targetModel) do: [ :entity |
-		self changesDico at: entity put: (FamixAddChange entity: entity) ].
+		self changes at: entity put: (FamixAddChange entity: entity) ].
 
 	(self entitiesToMatchIn: self baseModel) do: [ :entity |
-	  self changesDico at: entity put: (FamixRemovalChange entity: entity) ]
+	  self changes at: entity put: (FamixRemovalChange entity: entity) ]
 ]
 
-{ #category : #run }
+{ #category : #private }
 FamixDiffResolver >> removeFamixDiffCaches [
 	"FamixDiff will generate some methods to speed up the diff computation process. Here we remove the generated code because we do not want to poluate the image.
 	For more info see TEntityMetaLevelDependency>>#identityMatch:resolver:"
@@ -336,7 +321,7 @@ FamixDiffResolver >> removedEntitiesFrom: baseEntities [
 
 	baseEntities ifEmpty: [ ^ false ].
 
-	baseEntities do: [ :entity | self changesDico at: entity put: (FamixRemovalChange entity: entity) ].
+	baseEntities do: [ :entity | self changes at: entity put: (FamixRemovalChange entity: entity) ].
 
 	^ true
 ]

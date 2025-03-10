@@ -36,7 +36,7 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 
 	| change |
 	change := changeClass entity: entity.
-	self resolver changesDico at: entity put: change.
+	self resolver changes at: entity put: change.
 	diff result add: change
 ]
 
@@ -45,7 +45,7 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and
 
 	| change |
 	change := changeClass base: baseEntity target: targetEntity.
-	self resolver changesDico
+	self resolver changes
 		at: baseEntity put: change;
 		at: targetEntity put: change.
 	diff result add: change

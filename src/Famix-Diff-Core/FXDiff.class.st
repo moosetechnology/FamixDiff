@@ -109,7 +109,7 @@ FXDiff >> run [
 
 	self assert: (self baseModel isKindOf: MooseModel).
 	self assert: (self targetModel isKindOf: MooseModel).
-	resolver diff
+	resolver computeDiff
 ]
 
 { #category : #accessing }

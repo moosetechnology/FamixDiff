@@ -14,7 +14,7 @@ FamixDiffAssociationsTest >> testAssocsAddP2 [
 	self createChange: FamixAddChange with: (self targetEntityNamed: 'Smalltalk::A3diff').
 	self createChange: FamixAddChange with: (self targetEntityNamed: 'Smalltalk::A3diff.c3()').
 	self createChange: FamixAddChange with: (self targetEntityNamed: 'Smalltalk::A3diff.c3().toto').
-	diff resolver diffAssociations.
+	diff resolver computeDiffBetweenAssociations.
 	self assert: diff resolver associationChanges size equals: 8.
 	self assert: (diff resolver associationChanges select: [ :c | c isAddition ]) size equals: 4.
 	self assert: (diff resolver associationChanges select: [ :c | c isRemoval ]) size equals: 4
@@ -27,7 +27,7 @@ FamixDiffAssociationsTest >> testAssocsDelP3 [
 	self createChange: FamixRemovalChange with: (self baseEntityNamed: 'Smalltalk::A4diff').
 	self createChange: FamixRemovalChange with: (self baseEntityNamed: 'Smalltalk::B4diff').
 	self createChange: FamixRemovalChange with: (self baseEntityNamed: 'Smalltalk::A4diff.b3()').
-	diff resolver diffAssociations.
+	diff resolver computeDiffBetweenAssociations.
 	self assert: diff resolver associationChanges size equals: 4.
 	self assert: (diff resolver associationChanges select: [ :c | c isRemoval ]) size equals: 4
 ]
@@ -46,7 +46,7 @@ FamixDiffAssociationsTest >> testAssocsMatching [
 		createChange: FamixUnchangedChange
 		with: (self baseEntityNamed: 'Smalltalk::A3diff.c3().toto')
 		and: (self targetEntityNamed: 'Smalltalk::A3diff.c3().toto').
-	diff resolver diffAssociations.
+	diff resolver computeDiffBetweenAssociations.
 
 	"because the invocations of new (in A3.c3()) does not have candidates, an exception is added"
 	self assertEmpty: diff associationChanges

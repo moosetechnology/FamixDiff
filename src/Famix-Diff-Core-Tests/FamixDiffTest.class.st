@@ -254,7 +254,7 @@ FamixDiffTest >> testMatched [
 
 	self deny: (snapshot resolver matched: entity).
 
-	snapshot resolver changesDico at: entity put: FamixMoveChange new.
+	snapshot resolver changes at: entity put: FamixMoveChange new.
 
 	self assert: (snapshot resolver matched: entity)
 ]
