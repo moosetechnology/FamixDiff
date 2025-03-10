@@ -9,13 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-FamixDiffResult >> additionChanges [
-
-	self deprecated: 'Use #additions instead' transformWith: '`@rcv additionChanges' -> '`@rcv additions'.
-	^ self additions
-]
-
-{ #category : #accessing }
 FamixDiffResult >> additions [
 
 	^ self select: [ :change | change isAddition ]
@@ -58,6 +51,12 @@ FamixDiffResult >> groupAdditionsAndRemovalsByRoots [
 ]
 
 { #category : #accessing }
+FamixDiffResult >> identities [
+
+	^ self select: [ :change | change isUnchanged ]
+]
+
+{ #category : #accessing }
 FamixDiffResult >> moves [
 
 	^ self select: [ :change | change isMove ]
@@ -68,13 +67,6 @@ FamixDiffResult >> realChanges [
 	"I return all the changes actually representing a change, rejecting identical changes."
 
 	^ self reject: [ :change | change isUnchanged ]
-]
-
-{ #category : #accessing }
-FamixDiffResult >> removalChanges [
-
-	self deprecated: 'Use #removals instead' transformWith: '`@rcv removalChanges' -> '`@rcv removals'.
-	^ self removals
 ]
 
 { #category : #accessing }

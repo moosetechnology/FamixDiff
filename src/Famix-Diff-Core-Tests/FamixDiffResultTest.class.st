@@ -43,6 +43,17 @@ FamixDiffResultTest >> testGroupAdditionsAndRemovalsByRoots [
 ]
 
 { #category : #tests }
+FamixDiffResultTest >> testIdentities [
+
+	| additions |
+	additions := result identities.
+
+	self assert: additions size equals: 33.
+	additions do: [ :change | self assert: change isUnchanged ].
+	self assert: additions class equals: result class
+]
+
+{ #category : #tests }
 FamixDiffResultTest >> testMoves [
 
 	| moves |
