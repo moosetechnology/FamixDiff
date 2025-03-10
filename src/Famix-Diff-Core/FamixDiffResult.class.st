@@ -10,12 +10,14 @@ Class {
 
 { #category : #accessing }
 FamixDiffResult >> additions [
+	"Returns all changes corresponding to the addition of an entity in the target model."
 
 	^ self select: [ :change | change isAddition ]
 ]
 
 { #category : #accessing }
 FamixDiffResult >> allChanges [
+	"Returns all changes. Present mostly to have the navigation pragma."
 
 	<navigation: 'All changes'>
 	^ self
@@ -23,6 +25,7 @@ FamixDiffResult >> allChanges [
 
 { #category : #accessing }
 FamixDiffResult >> associationChanges [
+	"Returns all changes affecting an association and not entities."
 
 	<navigation: 'All associationChanges'>
 	^ self select: [ :change | change isForAssociation ]
@@ -30,11 +33,13 @@ FamixDiffResult >> associationChanges [
 
 { #category : #private }
 FamixDiffResult >> changeTypeToDefaultType [
-	self changeTypeTo: FamixDiffResult
+
+	self changeTypeTo: self class
 ]
 
 { #category : #accessing }
 FamixDiffResult >> entityChanges [
+	"Returns all changes corresponding to entities and not associations."
 
 	<navigation: 'All entity changes'>
 	^ self reject: [ :change | change isForAssociation ]
@@ -52,12 +57,14 @@ FamixDiffResult >> groupAdditionsAndRemovalsByRoots [
 
 { #category : #accessing }
 FamixDiffResult >> identities [
+	"Returns all changes corresponding to entities that did not change between the source and target model.."
 
 	^ self select: [ :change | change isUnchanged ]
 ]
 
 { #category : #accessing }
 FamixDiffResult >> moves [
+	"Returns all changes corresponding to entities that moved between the source and target model."
 
 	^ self select: [ :change | change isMove ]
 ]
@@ -71,12 +78,14 @@ FamixDiffResult >> realChanges [
 
 { #category : #accessing }
 FamixDiffResult >> removals [
+	"Returns all changes corresponding to the removal of an entity in the source model."
 
 	^ self select: [ :change | change isRemoval ]
 ]
 
 { #category : #accessing }
 FamixDiffResult >> renames [
+	"Returns all changes corresponding to the renaming of an entity between the source and the target model."
 
 	^ self select: [ :change | change isRename ]
 ]
