@@ -6,13 +6,13 @@ We start by computing the diff between entities, followed by computing the diff 
 
 <!-- TOC -->
 
-- [FamixDiff: Developper Documentation](#famixdiffdevelopper-documentation)
-  - [Diff between entities](#diff-between-entities)
-    - [General diff logic](#general-diff-logic)
-    - [Comparison logic](#comparison-logic)
-      - [Customize the comparison depending on the metamodel](#customize-the-comparison-depending-on-the-metamodel)
-    - [Optimization logic](#optimization-logic)
-  - [Diff between associations](#diff-between-associations)
+- [FamixDiff: Developer Documentation](#famixdiff-developer-documentation)
+	- [Diff between entities](#diff-between-entities)
+		- [General diff logic](#general-diff-logic)
+		- [Comparison logic](#comparison-logic)
+			- [Customizing the comparison based on the metamodel](#customizing-the-comparison-based-on-the-metamodel)
+		- [Optimization logic](#optimization-logic)
+	- [Diff between associations](#diff-between-associations)
 
 <!-- /TOC -->
 
@@ -135,7 +135,7 @@ FamixJavaPackage>>isIdenticalTo: otherEntity resolver: resolver
 	 ^ true
 ```
 
-Once the algorithm finishes, all dynamically generated code is removed. This eliminates the need for developers to invalidate caches when updating comparison methods.
+Once the algorithm finishes, all dynamically generated code is removed. This eliminates the need for developers to invalidate caches when updating comparison methods. This is done in `FamixDiffResolver>>#removeFamixDiffCaches`.
 
 ## Diff between associations
 
