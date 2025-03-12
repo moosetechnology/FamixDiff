@@ -1,8 +1,8 @@
-# FamixDiff: Developper Documentation
+# FamixDiff: Developer Documentation
 
-The computation of the diff happens in the class `FamixDiffResolver` and is launched via the method `#computeDiff`.
+The computation of the diff happens in the class `FamixDiffResolver` and is triggered via the method `#computeDiff`.
 
-We start by doing the diff between the entities, then we do the diff between the associations.
+We start by computing the diff between entities, followed by computing the diff between associations.
 
 <!-- TOC -->
 
@@ -18,9 +18,9 @@ We start by doing the diff between the entities, then we do the diff between the
 
 ## Diff between entities
 
-First we start by computing the diff between entities. 
+First, we compute the diff between entities.
 
-This step can be tricky for multiple reasons and requires some wild optimizations in order to be time effictive. We will present those mecanisms in this section. 
+This step can be challenging for multiple reasons and requires extensive optimizations to be time-efficient. We will present these mechanisms in this section.
 
 ### General diff logic
 
@@ -28,38 +28,37 @@ This step can be tricky for multiple reasons and requires some wild optimization
   <img src="process.png">
 </p>
 
-The first step while comparing entities is to take the unmatched root entities of a model. This means to take in the base model and the target model, all entities that have no unmatched parent (In the first iteration of this process, it means to take the root entities of the models). 
+The first step in comparing entities is to take the unmatched root entities of a model. This means selecting, from both the base model and the target model, all entities that have no unmatched parent. In the first iteration, this means taking the root entities of both models.
 
-Once we have those entities, we will iterate over all the top entities from the base model, and try to find identical entities in the top entities from the target model. The process to do this will be explained in the section [Comparison logic](#comparison-logic). When we find an identical entity, we produce a `FamixUnchangedChange` for the entity. 
+Once we have these entities, we iterate over all the top entities from the base model and attempt to find identical entities among the top entities from the target model. The process for doing this is explained in the [Comparison logic](#comparison-logic) section. When we find an identical entity, we produce a `FamixUnchangedChange` for it.
 
-This step can have two outcome possible:
-- We found some matches. In that case we restart this step with the new unmatched top entities from both models.
-- We did not find any match, then we proceed to the second step.
+This step can have two possible outcomes:
+- If we find matches, we restart this step with the new unmatched top entities from both models.
+- If we do not find any matches, we proceed to the second step.
 
-During the second step, we will look for renamed entities among the top unmatched entities. Once again two outcomes are possible:
-- We found some matches. In that case we restart at step 1 with the new unmatched top entities from both models and look again for identical entities.
-- We did not find any match, then we proceed to the third step.
+In the second step, we look for renamed entities among the top unmatched entities. Again, two outcomes are possible:
+- If we find matches, we return to step 1 with the new unmatched top entities and search for identical entities again.
+- If we do not find any matches, we proceed to the third step.
 
-During the third step, we will look for moved entities among the top unmatched entities. Once again two outcomes are possible:
-- We found some matches. In that case we restart at step 1 with the new unmatched top entities from both models and look again for identical entities.
-- We did not find any match, then we proceed to the fourth step.
+In the third step, we look for moved entities among the top unmatched entities. Again, two outcomes are possible:
+- If we find matches, we return to step 1 with the new unmatched top entities and search for identical entities again.
+- If we do not find any matches, we proceed to the fourth step.
 
-If we cannot find any entity that are identical, renamed or moved among the top level entities, we look for entities that might have moved among all entities of the target model because it is possible that an entity moved deeper into the hierarchy. 
-If we found some we can retry the whole process on the remaining top entities. Else we can finalize the analysis. 
+If we cannot find any identical, renamed, or moved entities among the top-level entities, we check whether any entities may have moved deeper within the hierarchy of the target model. If we find any, we retry the entire process on the remaining top entities. Otherwise, we finalize the analysis.
 
-When we cannot find any more matching entities, we can consider that the remaining entities from the source model are removed entities, and the remaining entities from the target model are added entities.
+Once we can no longer find matching entities, we consider the remaining entities from the source model as removed and the remaining entities from the target model as added.
 
-### Comparison logic 
+### Comparison logic
 
-In order to find if some entities are identical, renamed or moved we need to compare them. In order to make those comparisons effective for all languages and to manage the different kind of entities, we need to customize those comparisons depending on the Famix traits they are using. For example FamixTNamedEntity need to take into account the name of an entity in order to compare them. When an entity is identical or moved, the name needs to be the same and for renamed entities, the name needs to be different. 
+To determine whether entities are identical, renamed, or moved, we need to compare them. Since these comparisons must be effective across all languages and handle different types of entities, we customize them based on the Famix traits they use. For example, `FamixTNamedEntity` must consider the entity's name when comparing. If an entity is identical or moved, the name must be the same; for renamed entities, the name must be different.
 
-We are managing this using a pragma called `#famixDiff:priority:`. If we wish for a property to be compared between two entities, we can implement a method taking two parameters:
-- The entity to compare the receiver with
-- The resolver that can be helpful sometimes (we will explain later why)
+We manage this using a pragma called `#famixDiff:priority:`. If we want a property to be compared between two entities, we implement a method that takes two parameters:
+- The entity to compare the receiver with.
+- The resolver, which can be useful in some cases (explained later).
 
-This comparison method also needs to have the pragma `#famixDiff:priority:` and the first parameter will define when to use this comparison method. It should be a symbol that can be `#identity`, `#rename` or `#move`. The second parameter is just an integer used for optimization since some criteria are faster to compare (for example it's faster to compare the class of both entities compared to comparing their dependencies).
+This comparison method must include the `#famixDiff:priority:` pragma. The first parameter defines when to use this comparison method; it should be a symbol (`#identity`, `#rename`, or `#move`). The second parameter is an integer used for optimization since some criteria are faster to compare (e.g., comparing the class of two entities is faster than comparing their dependencies).
 
-Example
+Example:
 
 ```st
 FamixTNamedEntity>>compareNameWith: otherEntity resolver: aResolver
@@ -69,9 +68,9 @@ FamixTNamedEntity>>compareNameWith: otherEntity resolver: aResolver
 	^ self name = otherEntity name
 ```
 
-This method on FamixTNamedEntity will be used to compare the identity of two entities or a moving of an entity.
+This method on `FamixTNamedEntity` is used to compare the identity or movement of an entity.
 
-As we were saying before, it might be useful to know also the resolver. For example, when we want to compare the parents of an entity. If a parent got renamed, we cannot just compare the name of the parents. But the resolver knows the renamed entities (and since we are comparing from top to bottom, the parents are matched before their children). 
+As mentioned earlier, the resolver can also be useful. For example, when comparing the parents of an entity, we cannot simply compare their names if a parent has been renamed. However, the resolver tracks renamed entities (since we compare from top to bottom, parents are matched before their children).
 
 ```st
 TEntityMetaLevelDependency>>compareParentsWith: otherEntity resolver: resolver
@@ -95,23 +94,21 @@ TEntityMetaLevelDependency>>compareParentsWith: otherEntity resolver: resolver
 	^ true
   ```
 
-Here we see that we check that the parents are the same for the receiver and the parameter, but instead of comparing their names, we ask the resolver to compare them itself to manage renamings. 
+Here, instead of directly comparing parent names, we ask the resolver to manage renaming cases.
 
-#### Customize the comparison depending on the metamodel
+#### Customizing the comparison based on the metamodel
 
-If a specific metamodel has specificities that should be taken into account in the comparison, it is possible to add any comparison method on a Famix trait or directly on the concrete entities as long as they are using at least one pragma `#famixDiff:priority:`.
+If a specific metamodel has unique characteristics that should be considered in the comparison, it is possible to add comparison methods on a Famix trait or directly on concrete entities, as long as they include at least one `#famixDiff:priority:` pragma.
 
 ### Optimization logic
 
-FamixDiff needs to apply a huge number of comparisons between entities. On a middle size project it can happen billions of times. When the comparison logic was finished, I tried to apply it on a middle size project and it took 3h to run because the algorithm was constantly collecting the pragmas in the entities to compare to apply the comparisions.
+FamixDiff needs to perform an enormous number of comparisons between entities—potentially billions of times on a mid-sized project. Initially, running the algorithm on a mid-sized project took 3 hours because it constantly retrieved pragmas from entities before applying comparisons.
 
-I tried to do a first optimization by saving the methods to execute (the methods with the pragmas) in a dictionary for each kind of entities in the model. Once the algorithm finished to run, I was discarding this cache. 
-This method allowed to reduce the execution time from 3h to 20min but most of the time was spend in the access to the cache.
+A first optimization was to cache the methods to execute (i.e., the methods with the relevant pragmas) in a dictionary for each type of entity in the model. Once the algorithm finished, this cache was discarded. This reduced execution time from 3 hours to 20 minutes, but most of the time was still spent accessing the cache.
 
-Currently, a more brutal optimization is implemented. 
-I removed the cache and instead, for each kind of entities, the first comparison will call a method that does not exist in the system. FamixDiff will catch the `MessageNotUnderstood` raised and will collect the pragmas for this specific kind of entity. Once we have the methods to execute, we compile dynamically a method containing all the code to execute the comparison and we call this method. Then, for all other entities of this kind, we just execute this compiled method.
+The current implementation uses a more aggressive optimization. Instead of caching, for each type of entity, the first comparison triggers a method that does not exist in the system. FamixDiff catches the resulting `MessageNotUnderstood` error, collects the relevant pragmas for that entity type, dynamically compiles a method with all the required comparisons, and then calls it. Subsequent comparisons for that entity type use the compiled method directly.
 
-This is done like this:
+This is done as follows:
 
 ```st
 TEntityMetaLevelDependency>>identityMatch: otherEntity resolver: resolver
@@ -127,7 +124,7 @@ TEntityMetaLevelDependency>>identityMatch: otherEntity resolver: resolver
 			  self isIdenticalTo: otherEntity resolver: resolver ]
 ```
 
-For example, on a java model if the kind of the entity is a `FamixJavaPackage``, it will generate a method like this:
+For example, in a Java model, if the entity type is `FamixJavaPackage`, the dynamically generated method would look like this:
 
 ```st
 FamixJavaPackage>>isIdenticalTo: otherEntity resolver: resolver
@@ -138,16 +135,14 @@ FamixJavaPackage>>isIdenticalTo: otherEntity resolver: resolver
 	 ^ true
 ```
 
-Once the execution of the algo is finished, we are removing all this generated code. This allows the developper to not have to invalidate any cache when he will update the comparison methods.
+Once the algorithm finishes, all dynamically generated code is removed. This eliminates the need for developers to invalidate caches when updating comparison methods.
 
 ## Diff between associations
 
-For now the comparision of associations is pretty simple and is done by `#computeDiffBetweenAssociations`.
+For now, the comparison of associations is relatively simple and is handled by `#computeDiffBetweenAssociations`.
 
-This method will iterate over all changes detected on entities.
+This method iterates over all detected entity changes:
 
-If the change is a `FamixAddChange`, it will ask for its outgoing dependencies and mark them as new dependencies.
-
-If the change is a `FamixRemovalChange`, it will ask for its outgoing dependencies and mark them as removed dependencies.
-
-In other cases, it will compare the the associations of both versions of the entities to find which dependencies might have been added or removed using the method `FamixTAssociation>>#matches:resolver:`.
+- If the change is a `FamixAddChange`, it retrieves the entity’s outgoing dependencies and marks them as new.
+- If the change is a `FamixRemovalChange`, it retrieves the entity’s outgoing dependencies and marks them as removed.
+- Otherwise, it compares associations in both versions of the entity to determine which dependencies were added or removed using `FamixTAssociation>>#matches:resolver:`.
