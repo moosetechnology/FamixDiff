@@ -34,9 +34,20 @@ Once we have those entities, we will iterate over all the top entities from the 
 
 This step can have two outcome possible:
 - We found some matches. In that case we restart this step with the new unmatched top entities from both models.
-- We did not find any match
+- We did not find any match, then we proceed to the second step.
 
-TODO
+During the second step, we will look for renamed entities among the top unmatched entities. Once again two outcomes are possible:
+- We found some matches. In that case we restart at step 1 with the new unmatched top entities from both models and look again for identical entities.
+- We did not find any match, then we proceed to the third step.
+
+During the third step, we will look for moved entities among the top unmatched entities. Once again two outcomes are possible:
+- We found some matches. In that case we restart at step 1 with the new unmatched top entities from both models and look again for identical entities.
+- We did not find any match, then we proceed to the fourth step.
+
+If we cannot find any entity that are identical, renamed or moved among the top level entities, we look for entities that might have moved among all entities of the target model because it is possible that an entity moved deeper into the hierarchy. 
+If we found some we can retry the whole process on the remaining top entities. Else we can finalize the analysis. 
+
+When we cannot find any more matching entities, we can consider that the remaining entities from the source model are removed entities, and the remaining entities from the target model are added entities.
 
 ### Comparison logic 
 
