@@ -5,7 +5,7 @@ FamixTComment >> isIdenticalTo: otherEntity resolver: resolver [
 
 	(self hasSameClassAs: otherEntity resolver: resolver) ifFalse: [ ^ false ].
 	(self compareParentsWith: otherEntity resolver: resolver) ifFalse: [ ^ false ].
-	(self content = otherEntity content) ifFalse: [ ^ false ].
+	(self sourceText = otherEntity sourceText) ifFalse: [ ^ false ].
 	 ^ true
 ]
 
@@ -15,13 +15,11 @@ FamixTComment >> isRenameOf: otherEntity resolver: resolver [
 	 percentage of differences (compared to max size) must be less that `resolver tolerance` "
 
 	| diffs sizeMax |
-	diffs := DiffBuilder new
-		diffFrom: self content
-		to: otherEntity content.
+	diffs := DiffBuilder new diffFrom: self sourceText to: otherEntity sourceText.
 
-	sizeMax := (self content size) max: (otherEntity content size).
+	sizeMax := self sourceText size max: otherEntity sourceText size.
 
-	^(diffs size / sizeMax) asFloat <= (resolver tolerance)
+	^ (diffs size / sizeMax) asFloat <= resolver tolerance
 ]
 
 { #category : #'*Famix-Diff-Core' }
