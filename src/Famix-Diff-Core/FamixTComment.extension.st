@@ -35,12 +35,10 @@ FamixTComment >> moveMatch: otherEntity resolver: resolver [
 FamixTComment >> renameMatch: otherEntity resolver: resolver [
 	"we consider a 'RenameMatch' between 2 comments if there is 'not too much' differences in their texts"
 
-	((otherEntity usesFamixTrait: FamixTComment) and:
-	[ self content ~= otherEntity content ])
-		ifFalse: [ ^ false ].
+	((otherEntity usesFamixTrait: FamixTComment) and: [ self sourceText ~= otherEntity sourceText ]) ifFalse: [ ^ false ].
 
 	"See comment in #identityMatch:resolver: to understand what we are doing here"
-	^self isRenameOf: otherEntity resolver: resolver
+	^ self isRenameOf: otherEntity resolver: resolver
 ]
 
 { #category : #'*Famix-Diff-Core' }
