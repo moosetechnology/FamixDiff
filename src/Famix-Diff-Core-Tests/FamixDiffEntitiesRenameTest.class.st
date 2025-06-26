@@ -26,18 +26,15 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentMatching [
 
 	| baseCmt targetCmt |
 	baseCmt := FamixStComment new
-		content: 'This is a comments';
-		commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		           sourceAnchor: (FamixStSourceTextAnchor source: 'This is a comments');
+		           commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
+		           yourself.
 	targetCmt := FamixStComment new
-		content: 'This is a comment';
-		commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		             sourceAnchor: (FamixStSourceTextAnchor source: 'This is a comment');
+		             commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
+		             yourself.
 
-	self
-		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
+	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()') and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 
 	self assertRenameMatch: baseCmt to: targetCmt.
 	self assertRenameMatch: targetCmt to: baseCmt
@@ -50,18 +47,15 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
 
 	| baseCmt targetCmt |
 	baseCmt := FamixStComment new
-		content: 'This is a comment';
-		commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		           sourceAnchor: (FamixStSourceTextAnchor source: 'This is a comment');
+		           commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
+		           yourself.
 	targetCmt := FamixStComment new
-		content: 'This is also another comment';
-		commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		             sourceAnchor: (FamixStSourceTextAnchor source: 'This is also another comment');
+		             commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
+		             yourself.
 
-	self
-		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
+	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()') and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 
 	self denyRenameMatch: baseCmt to: targetCmt.
 	self denyRenameMatch: targetCmt to: baseCmt

@@ -33,18 +33,15 @@ FamixDiffEntitiesMoveTest >> testMoveMatchCommentNoMatch [
 
 	| baseCmt targetCmt |
 	baseCmt := FamixStComment new
-		content: 'This is a comment';
-		commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		           sourceAnchor: (FamixStSourceTextAnchor source: 'This is a comment');
+		           commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
+		           yourself.
 	targetCmt := FamixStComment new
-		content: 'This is a comment';
-		commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
-		yourself.
+		             sourceAnchor: (FamixStSourceTextAnchor source: 'This is a comment');
+		             commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
+		             yourself.
 
-	self
-		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
+	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()') and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 
 	self denyMoveMatch: baseCmt to: targetCmt.
 	self denyMoveMatch: targetCmt to: baseCmt
