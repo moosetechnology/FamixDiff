@@ -15,10 +15,10 @@ FamixDiffStubEntitiesMoveTest >> setUp [
 
 	super setUp.
 
-	basA3 := self baseEntityNamed: 'Smalltalk::A3diff'.
-	tgtA3 := self targetEntityNamed: 'Smalltalk::A3diff'.
-	basA3c3 := self baseEntityNamed: 'Smalltalk::A3diff.c3()'.
-	tgtA3c3 := self targetEntityNamed: 'Smalltalk::A3diff.c3()'.
+	basA3 := self baseEntityNamed: 'Smalltalk.A3diff'.
+	tgtA3 := self targetEntityNamed: 'Smalltalk.A3diff'.
+	basA3c3 := self baseEntityNamed: 'Smalltalk.A3diff.c3()'.
+	tgtA3c3 := self targetEntityNamed: 'Smalltalk.A3diff.c3()'.
 ]
 
 { #category : #tests }

@@ -25,7 +25,7 @@ FamixDiffTest >> createModelWith: somePackages [
 	importer importingContext mergeClassAndMetaclass.
 	model := importer basicRun.
 	self flag: #pharo11. "This is a hack because this attribute was removed from P12 and we want tests to work in P11 and P12 for now. So we remove it if we find it."
-	(model entityNamed: #'Smalltalk::Object.DependentsFields') ifNotNil: [ :entity | model remove: entity ].
+	(model entityNamed: #'Smalltalk.Object.DependentsFields') ifNotNil: [ :entity | model remove: entity ].
 	^ model
 ]
 

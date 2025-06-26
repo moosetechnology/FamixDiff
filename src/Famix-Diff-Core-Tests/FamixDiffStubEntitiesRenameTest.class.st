@@ -19,10 +19,10 @@ FamixDiffStubEntitiesRenameTest >> setUp [
 
 	basP3 := self baseEntityNamed: 'Famix-Diff-TestResource-P2'.
 	tgtP3 := self targetEntityNamed: 'Famix-Diff-TestResource-P2'.
-	basA3 := self baseEntityNamed: 'Smalltalk::A3diff'.
-	tgtA3 := self targetEntityNamed: 'Smalltalk::A3diff'.
-	basA3c3 := self baseEntityNamed: 'Smalltalk::A3diff.c3()'.
-	tgtA3c3 := self targetEntityNamed: 'Smalltalk::A3diff.c3()'.
+	basA3 := self baseEntityNamed: 'Smalltalk.A3diff'.
+	tgtA3 := self targetEntityNamed: 'Smalltalk.A3diff'.
+	basA3c3 := self baseEntityNamed: 'Smalltalk.A3diff.c3()'.
+	tgtA3c3 := self targetEntityNamed: 'Smalltalk.A3diff.c3()'.
 ]
 
 { #category : #tests }

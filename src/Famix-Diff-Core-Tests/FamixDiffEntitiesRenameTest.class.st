@@ -7,18 +7,18 @@ Class {
 { #category : #tests }
 FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 
-	(self targetEntityNamed: 'Smalltalk::A3diff') name: 'X3diff'.
+	(self targetEntityNamed: 'Smalltalk.A3diff') name: 'X3diff'.
 	self
 		createChange: FamixUnchangedChange
 		with: (self baseEntityNamed: 'Famix-Diff-TestResource-P2')
 		and: (self targetEntityNamed: 'Famix-Diff-TestResource-P2').
 
 	self
-		assertRenameMatch: (self baseEntityNamed: 'Smalltalk::A3diff')
-		to: (self targetEntityNamed: 'Smalltalk::X3diff').
+		assertRenameMatch: (self baseEntityNamed: 'Smalltalk.A3diff')
+		to: (self targetEntityNamed: 'Smalltalk.X3diff').
 	self
-		assertRenameMatch: (self targetEntityNamed: 'Smalltalk::X3diff')
-		to: (self baseEntityNamed: 'Smalltalk::A3diff')
+		assertRenameMatch: (self targetEntityNamed: 'Smalltalk.X3diff')
+		to: (self baseEntityNamed: 'Smalltalk.A3diff')
 ]
 
 { #category : #tests }
@@ -27,17 +27,17 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentMatching [
 	| baseCmt targetCmt |
 	baseCmt := FamixStComment new
 		content: 'This is a comments';
-		commentedEntity: (self baseEntityNamed: 'Smalltalk::B3diff.c3()');
+		commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
 		yourself.
 	targetCmt := FamixStComment new
 		content: 'This is a comment';
-		commentedEntity: (self targetEntityNamed: 'Smalltalk::B3diff.c3()');
+		commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
 		yourself.
 
 	self
 		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk::B3diff.c3()').
+		with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 
 	self assertRenameMatch: baseCmt to: targetCmt.
 	self assertRenameMatch: targetCmt to: baseCmt
@@ -51,17 +51,17 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
 	| baseCmt targetCmt |
 	baseCmt := FamixStComment new
 		content: 'This is a comment';
-		commentedEntity: (self baseEntityNamed: 'Smalltalk::B3diff.c3()');
+		commentedEntity: (self baseEntityNamed: 'Smalltalk.B3diff.c3()');
 		yourself.
 	targetCmt := FamixStComment new
 		content: 'This is also another comment';
-		commentedEntity: (self targetEntityNamed: 'Smalltalk::B3diff.c3()');
+		commentedEntity: (self targetEntityNamed: 'Smalltalk.B3diff.c3()');
 		yourself.
 
 	self
 		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk::B3diff.c3()').
+		with: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 
 	self denyRenameMatch: baseCmt to: targetCmt.
 	self denyRenameMatch: targetCmt to: baseCmt
@@ -70,20 +70,20 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
 { #category : #tests }
 FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 
-	(self targetEntityNamed: 'Smalltalk::B3diff.c3()') name: 'x3'.
-	"Note: does not change the mooseName, so we still look for it later using 'Smalltalk::B3diff.c3()'"
-	(self targetEntityNamed: 'Smalltalk::B3diff.c3()') signature: 'x3()'.
+	(self targetEntityNamed: 'Smalltalk.B3diff.c3()') name: 'x3'.
+	"Note: does not change the mooseName, so we still look for it later using 'Smalltalk.B3diff.c3()'"
+	(self targetEntityNamed: 'Smalltalk.B3diff.c3()') signature: 'x3()'.
 	self
 		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk::B3diff')
-		and: (self targetEntityNamed: 'Smalltalk::B3diff').
+		with: (self baseEntityNamed: 'Smalltalk.B3diff')
+		and: (self targetEntityNamed: 'Smalltalk.B3diff').
 
 	self
-		assertRenameMatch: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
-		to: (self targetEntityNamed: 'Smalltalk::B3diff.c3()').
+		assertRenameMatch: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
+		to: (self targetEntityNamed: 'Smalltalk.B3diff.c3()').
 	self
-		assertRenameMatch: (self targetEntityNamed: 'Smalltalk::B3diff.c3()')
-		to: (self baseEntityNamed: 'Smalltalk::B3diff.c3()')
+		assertRenameMatch: (self targetEntityNamed: 'Smalltalk.B3diff.c3()')
+		to: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
 ]
 
 { #category : #tests }
@@ -108,21 +108,21 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariableMatching [
 	| var1 var2 |
 	self
 		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk::A3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk::A3diff.c3()').
+		with: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk.A3diff.c3()').
 
-	var1 := self baseEntityNamed: 'Smalltalk::A3diff.c3().toto'.
-	var2 := self targetEntityNamed: 'Smalltalk::A3diff.c3().var2'.
+	var1 := self baseEntityNamed: 'Smalltalk.A3diff.c3().toto'.
+	var2 := self targetEntityNamed: 'Smalltalk.A3diff.c3().var2'.
 
 	FamixStAccess new
 		variable: var1;
-		accessor: (self baseEntityNamed: 'Smalltalk::A3diff.b3()').
+		accessor: (self baseEntityNamed: 'Smalltalk.A3diff.b3()').
 	FamixStAccess new
 		variable: var2;
-		accessor: (self targetEntityNamed: 'Smalltalk::A3diff.c3()').
+		accessor: (self targetEntityNamed: 'Smalltalk.A3diff.c3()').
 	FamixStAccess new
 		variable: var2;
-		accessor: (self targetEntityNamed: 'Smalltalk::A3diff.b3()').
+		accessor: (self targetEntityNamed: 'Smalltalk.A3diff.b3()').
 
 	self assertRenameMatch: var1 to: var2.
 	self assertRenameMatch: var2 to: var1
@@ -136,11 +136,11 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariableNoMatch [
 	| var1 var2 |
 	self
 		createChange: FamixUnchangedChange
-		with: (self baseEntityNamed: 'Smalltalk::A3diff.c3()')
-		and: (self targetEntityNamed: 'Smalltalk::A3diff.c3()').
+		with: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
+		and: (self targetEntityNamed: 'Smalltalk.A3diff.c3()').
 
-	var1 := self baseEntityNamed: 'Smalltalk::A3diff.c3().toto'.
-	var2 := self targetEntityNamed: 'Smalltalk::A3diff.c3().var2'.
+	var1 := self baseEntityNamed: 'Smalltalk.A3diff.c3().toto'.
+	var2 := self targetEntityNamed: 'Smalltalk.A3diff.c3().var2'.
 
 	self denyRenameMatch: var1 to: var2.
 	self denyRenameMatch: var2 to: var1
