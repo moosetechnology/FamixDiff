@@ -4,9 +4,10 @@ Extension { #name : #FamixTComment }
 FamixTComment >> isIdenticalTo: otherEntity resolver: resolver [
 
 	(self hasSameClassAs: otherEntity resolver: resolver) ifFalse: [ ^ false ].
+	self sourceTextHash = otherEntity sourceTextHash ifFalse: [ ^ false ].
 	(self compareParentsWith: otherEntity resolver: resolver) ifFalse: [ ^ false ].
-	(self sourceText = otherEntity sourceText) ifFalse: [ ^ false ].
-	 ^ true
+
+	^ true
 ]
 
 { #category : #'*Famix-Diff-Core' }
@@ -26,4 +27,10 @@ FamixTComment >> renameMatch: otherEntity resolver: resolver [
 { #category : #'*Famix-Diff-Core' }
 FamixTComment >> shouldBeConsideredForDiff [
 	^ true
+]
+
+{ #category : #'*Famix-Diff-Core' }
+FamixTComment >> sourceTextHash [
+
+	^ self cacheAt: #sourceTextHash ifAbsentPut: [ self sourceText hash ]
 ]
