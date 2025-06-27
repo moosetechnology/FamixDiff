@@ -85,9 +85,20 @@ This ratio can be adjusted:
 
 With this snippet, we allow 40% of changed children and dependencies.
 
+Another customization is about comments. By default FamixDiff does not check comments but it is possible to add this with #considerComments:
+
+```Smalltalk
+	(FXDiff baseModel: commonsCollections30 targetModel: commonscollections31)
+		considerComments;
+		run 
+```
+
+Comments cannot be moved or renamed but they can be unchanged, added or removed.
+
+Note that this might slow down the analysis quite a lot since it takes time to compare the sources.
+
 ## Possible Evolutions
 
 Some possible future developments for the project include:
-- Taking comments into account
 - Detecting internal changes to entities that are not related to renaming, moving, addition, or removal (e.g., changes in source code).
 
