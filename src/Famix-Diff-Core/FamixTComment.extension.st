@@ -1,20 +1,17 @@
 Extension { #name : #FamixTComment }
 
 { #category : #'*Famix-Diff-Core' }
-FamixTComment >> isIdenticalTo: otherEntity resolver: resolver [
+FamixTComment >> hasSameContentAs: otherEntity resolver: aResolver [
 
-	(self hasSameClassAs: otherEntity resolver: resolver) ifFalse: [ ^ false ].
-	self sourceTextHash = otherEntity sourceTextHash ifFalse: [ ^ false ].
-	(self compareParentsWith: otherEntity resolver: resolver) ifFalse: [ ^ false ].
-
-	^ true
+	<famixDiff: #identity priority: 3>
+	^ self sourceTextHash = otherEntity sourceTextHash
 ]
 
 { #category : #'*Famix-Diff-Core' }
 FamixTComment >> moveMatch: otherEntity resolver: resolver [
 	"Comments are never moved"
 
-	^false
+	^ false
 ]
 
 { #category : #'*Famix-Diff-Core' }
