@@ -20,6 +20,7 @@ Internal Representation and Key Implementation Points.
 	diffComputer:		FAMIXDiffAbstractGenerator
 	diffTransformers:		FamixDiffAbstractTransformator
 	target:		MooseModel
+	shouldConsiderComments: 	If true, will do the diff of the comments on top of other entities
 
 
     Implementation Points
