@@ -17,7 +17,10 @@ FamixDiffResultTest >> setUp [
 	super setUp.
 	model1 := self importModelNamed: 'base' fromPackages: #( #'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2' ).
 	model2 := self importModelNamed: 'target' fromPackages: #( #'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2' ).
-	result := (FXDiff runOnBaseModel: model1 targetModel: model2) result
+	result := (FXDiff baseModel: model1 targetModel: model2)
+		          considerComments;
+		          run;
+		          result
 ]
 
 { #category : #tests }

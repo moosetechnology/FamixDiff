@@ -131,6 +131,8 @@ FamixDiffTest >> setUp [
 
 	super setUp.
 	snapshot := FXDiff new
+		            considerComments;
+		            yourself
 ]
 
 { #category : #tests }

@@ -32,7 +32,8 @@ Class {
 		'result',
 		'targetModel',
 		'tolerance',
-		'resolver'
+		'resolver',
+		'shouldConsiderComments'
 	],
 	#category : #'Famix-Diff-Core'
 }
@@ -73,12 +74,19 @@ FXDiff >> changes: aCollection [
 ]
 
 { #category : #initialization }
+FXDiff >> considerComments [
+
+	self shouldConsiderComments: true
+]
+
+{ #category : #initialization }
 FXDiff >> initialize [
 
 	super initialize.
 	tolerance := 0.2.
 	result := FamixDiffResult new.
-	self resolver: FamixDiffResolver new
+	self resolver: FamixDiffResolver new.
+	shouldConsiderComments := false
 ]
 
 { #category : #accessing }
@@ -110,6 +118,18 @@ FXDiff >> run [
 	self assert: (self baseModel isKindOf: MooseModel).
 	self assert: (self targetModel isKindOf: MooseModel).
 	resolver computeDiff
+]
+
+{ #category : #accessing }
+FXDiff >> shouldConsiderComments [
+
+	^ shouldConsiderComments
+]
+
+{ #category : #accessing }
+FXDiff >> shouldConsiderComments: aBoolean [
+
+	shouldConsiderComments := aBoolean
 ]
 
 { #category : #accessing }

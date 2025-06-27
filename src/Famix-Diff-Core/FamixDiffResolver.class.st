@@ -337,11 +337,18 @@ FamixDiffResolver >> result: aFamixDiffResult [
 ]
 
 { #category : #testing }
-FamixDiffResolver >> shouldMatch: entity [
+FamixDiffResolver >> shouldConsiderComments [
 
+	^ self orchestrator shouldConsiderComments
+]
+
+{ #category : #testing }
+FamixDiffResolver >> shouldMatch: entity [
 	"Return true if I still need to find the match for the entity as parameter"
 
-	^ entity isNotNil and: [ entity shouldBeConsideredForDiff and: [ (self matched: entity) not ] ]
+	(entity isComment and: [ self shouldConsiderComments not ]) ifTrue: [ ^ false ].
+
+	^ entity shouldBeConsideredForDiff and: [ (self matched: entity) not ]
 ]
 
 { #category : #accessing }

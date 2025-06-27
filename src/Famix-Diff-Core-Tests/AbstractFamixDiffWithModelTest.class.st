@@ -91,3 +91,10 @@ AbstractFamixDiffWithModelTest >> targetEntityNamed: aString [
 
 	^ diff targetModel entityNamed: aString
 ]
+
+{ #category : #running }
+AbstractFamixDiffWithModelTest >> tearDown [
+
+	diff resolver removeFamixDiffCaches.
+	super tearDown
+]
