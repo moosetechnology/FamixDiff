@@ -292,3 +292,16 @@ FamixDiffTest >> testRemovedEntities [
 
 	self assertEmpty: (removals select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ])
 ]
+
+{ #category : #tests }
+FamixDiffTest >> testWithTags [
+
+	| baseModel |
+	baseModel := self createModelWith: #( #'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2' ).
+	(baseModel createTagNamed: 'Test') tagEntity: baseModel allModelClasses anyOne.
+	snapshot
+		baseModel: baseModel;
+		targetModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' #'Famix-Diff-TestResource-P2' )).
+
+	self shouldnt: [ self runDiff ] raise: Error
+]

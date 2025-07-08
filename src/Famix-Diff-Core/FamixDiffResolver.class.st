@@ -350,7 +350,7 @@ FamixDiffResolver >> shouldConsiderComments [
 FamixDiffResolver >> shouldMatch: entity [
 	"Return true if I still need to find the match for the entity as parameter"
 
-	(entity isComment and: [ self shouldConsiderComments not ]) ifTrue: [ ^ false ].
+	(entity isQueryable and: [ entity isComment and: [ self shouldConsiderComments not ] ]) ifTrue: [ ^ false ].
 
 	^ entity shouldBeConsideredForDiff and: [ (self matched: entity) not ]
 ]
