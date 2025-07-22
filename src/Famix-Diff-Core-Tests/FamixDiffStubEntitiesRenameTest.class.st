@@ -1,6 +1,6 @@
 Class {
-	#name : #FamixDiffStubEntitiesRenameTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
+	#name : 'FamixDiffStubEntitiesRenameTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
 	#instVars : [
 		'basP3',
 		'tgtP3',
@@ -9,10 +9,11 @@ Class {
 		'basA3c3',
 		'tgtA3c3'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffStubEntitiesRenameTest >> setUp [
 
 	super setUp.
@@ -25,7 +26,7 @@ FamixDiffStubEntitiesRenameTest >> setUp [
 	tgtA3c3 := self targetEntityNamed: 'Smalltalk.A3diff.c3()'.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesRenameTest >> testRenameMatchStubMatching [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
@@ -34,7 +35,7 @@ FamixDiffStubEntitiesRenameTest >> testRenameMatchStubMatching [
 	self assertRenameMatch: basA3 to: tgtA3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesRenameTest >> testRenameMatchStubMethodMatching [
 
 	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.
@@ -46,7 +47,7 @@ FamixDiffStubEntitiesRenameTest >> testRenameMatchStubMethodMatching [
 	self assertRenameMatch: basA3c3 to: tgtA3c3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesRenameTest >> testRenameMatchStubMethodNoMatch [
 
 	self createChange: FamixUnchangedChange with: basA3 and: tgtA3.

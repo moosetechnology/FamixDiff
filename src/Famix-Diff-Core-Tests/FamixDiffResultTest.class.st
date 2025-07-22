@@ -2,15 +2,16 @@
 A FamixDiffResultTest is a test class for testing the behavior of FamixDiffResult
 "
 Class {
-	#name : #FamixDiffResultTest,
-	#superclass : #AbstractFamixDiffTest,
+	#name : 'FamixDiffResultTest',
+	#superclass : 'AbstractFamixDiffTest',
 	#instVars : [
 		'result'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffResultTest >> setUp [
 
 	| model1 model2 |
@@ -23,7 +24,7 @@ FamixDiffResultTest >> setUp [
 		          result
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testAdditions [
 
 	| additions |
@@ -35,7 +36,7 @@ FamixDiffResultTest >> testAdditions [
 	self assert: additions class equals: result class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testGroupAdditionsAndRemovalsByRoots [
 
 	| subResult |
@@ -45,7 +46,7 @@ FamixDiffResultTest >> testGroupAdditionsAndRemovalsByRoots [
 	self assert: subResult removals size equals: 3 "1 package and a pragma with its type"
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testIdentities [
 
 	| additions |
@@ -56,7 +57,7 @@ FamixDiffResultTest >> testIdentities [
 	self assert: additions class equals: result class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testMoves [
 
 	| moves |
@@ -68,7 +69,7 @@ FamixDiffResultTest >> testMoves [
 	self assert: moves class equals: result class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testRemovals [
 
 	| removals |
@@ -80,7 +81,7 @@ FamixDiffResultTest >> testRemovals [
 	self assert: removals class equals: result class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testRenames [
 
 	| moves |
@@ -92,7 +93,7 @@ FamixDiffResultTest >> testRenames [
 	self assert: moves class equals: result class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffResultTest >> testWithoutStubs [
 
 	| withoutStubs |

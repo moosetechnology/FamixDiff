@@ -1,16 +1,17 @@
 Class {
-	#name : #FamixDiffStubEntitiesMoveTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
+	#name : 'FamixDiffStubEntitiesMoveTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
 	#instVars : [
 		'basA3',
 		'tgtA3',
 		'basA3c3',
 		'tgtA3c3'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffStubEntitiesMoveTest >> setUp [
 
 	super setUp.
@@ -21,7 +22,7 @@ FamixDiffStubEntitiesMoveTest >> setUp [
 	tgtA3c3 := self targetEntityNamed: 'Smalltalk.A3diff.c3()'.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesMoveTest >> testMoveMatchStubClass [
 
 	self assertMoveMatch: basA3 to: tgtA3.
@@ -32,7 +33,7 @@ FamixDiffStubEntitiesMoveTest >> testMoveMatchStubClass [
 	self denyMoveMatch: basA3 to: tgtA3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesMoveTest >> testMoveMatchStubMethod [
 
 	self assertMoveMatch: basA3c3 to: tgtA3c3.

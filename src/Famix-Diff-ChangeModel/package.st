@@ -1,1 +1,1 @@
-Package { #name : #'Famix-Diff-ChangeModel' }
+Package { #name : 'Famix-Diff-ChangeModel' }

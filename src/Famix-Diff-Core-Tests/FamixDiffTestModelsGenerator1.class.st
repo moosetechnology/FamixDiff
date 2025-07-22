@@ -1,16 +1,17 @@
 Class {
-	#name : #FamixDiffTestModelsGenerator1,
-	#superclass : #TestResource,
+	#name : 'FamixDiffTestModelsGenerator1',
+	#superclass : 'TestResource',
 	#instVars : [
 		'b3',
 		'a3',
 		'c3',
 		'a4'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTestModelsGenerator1 >> generateClasses [
 
 	self class classInstaller
@@ -48,7 +49,7 @@ FamixDiffTestModelsGenerator1 >> generateClasses [
 			      package: self packageName3 ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTestModelsGenerator1 >> generateMethods [
 
 	a3 compile: 'b3
@@ -79,25 +80,25 @@ FamixDiffTestModelsGenerator1 >> generateMethods [
 	B3diff new.'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTestModelsGenerator1 >> packageName1 [
 
 	^ 'Famix-Diff-TestResource-P1'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTestModelsGenerator1 >> packageName2 [
 
 	^ 'Famix-Diff-TestResource-P2'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTestModelsGenerator1 >> packageName3 [
 
 	^ 'Famix-Diff-TestResource-P3'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTestModelsGenerator1 >> setUp [
 
 	super setUp.
@@ -106,7 +107,7 @@ FamixDiffTestModelsGenerator1 >> setUp [
 		generateMethods
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTestModelsGenerator1 >> tearDown [
 
 	self packageOrganizer

@@ -1,6 +1,6 @@
-Extension { #name : #FamixRemovalChange }
+Extension { #name : 'FamixRemovalChange' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixRemovalChange >> updateDiffForAssociations: aFamixDiff [
 	aFamixDiff delAssociations: self entity queryAllLocalOutgoing
 ]

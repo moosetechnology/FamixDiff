@@ -6,22 +6,23 @@ A body change means that the baseEntity body is different from the targetEntity 
 I answer true to #isBody.
 "
 Class {
-	#name : #FamixBodyChange,
-	#superclass : #FamixPairedChange,
-	#category : #'Famix-Diff-ChangeModel'
+	#name : 'FamixBodyChange',
+	#superclass : 'FamixPairedChange',
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixBodyChange class >> changeName [
 	^ 'BodyChange'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixBodyChange >> accept: aVisitor [
 	aVisitor visitBodyChange: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixBodyChange >> isBody [
 	^ true
 ]

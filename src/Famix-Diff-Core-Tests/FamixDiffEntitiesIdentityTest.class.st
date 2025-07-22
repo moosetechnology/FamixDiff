@@ -1,10 +1,11 @@
 Class {
-	#name : #FamixDiffEntitiesIdentityTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : #'Famix-Diff-Core-Tests'
+	#name : 'FamixDiffEntitiesIdentityTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchClassMatching [
 	"setup: create changes for parents"
 
@@ -21,7 +22,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassMatching [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNoMatch [
 
 	self
@@ -39,7 +40,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNoMatch [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNoMatchPackageDifferent [
 	"setup: create changes for parents"
 
@@ -61,7 +62,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassNoMatchPackageDifferent [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchClassParentIsNil [
 	"classes with same name but different packages"
 
@@ -74,7 +75,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchClassParentIsNil [
 		to: (self baseEntityNamed: 'Smalltalk.A4diff')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchCommentMatching [
 
 	| baseCmt targetCmt |
@@ -93,7 +94,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchCommentMatching [
 	self assertIdentityMatch: targetCmt to: baseCmt
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchCommentNotMatching [
 
 	| baseCmt targetCmt |
@@ -112,7 +113,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchCommentNotMatching [
 	self denyIdentityMatch: targetCmt to: baseCmt
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableMatching [
 	"testing variable 'toto' against itself"
 
@@ -132,7 +133,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableMatching [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3().toto')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableNoMatch [
 	"testing variable 'toto' against 'var2'"
 
@@ -152,7 +153,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableNoMatch [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3().toto')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableNoMatchSameName [
 	"setup: create changes for parents"
 
@@ -185,7 +186,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchLocalVariableNoMatchSameName [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3().toto')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodMatching [
 	"setup: create changes for parents"
 
@@ -205,7 +206,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodMatching [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodNoMatch [
 	"setup: create changes for parents"
 
@@ -225,7 +226,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodNoMatch [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodNoMatchSameName [
 	"setup: create changes for parents"
 
@@ -245,7 +246,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchMethodNoMatchSameName [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchPackageMatching [
 
 	self
@@ -256,7 +257,7 @@ FamixDiffEntitiesIdentityTest >> testIdentityMatchPackageMatching [
 		to: (self baseEntityNamed: 'Famix-Diff-TestResource-P2')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesIdentityTest >> testIdentityMatchPackageNoMatch [
 
 	self

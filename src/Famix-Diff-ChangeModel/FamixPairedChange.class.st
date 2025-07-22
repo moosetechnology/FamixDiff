@@ -7,36 +7,37 @@ For coherence purpose, I implement #baseEntity and #baseEntity: accessor and mut
 To access/set the target entity, I define #targetEntity and #targetEntity: messages.
 "
 Class {
-	#name : #FamixPairedChange,
-	#superclass : #FamixChange,
+	#name : 'FamixPairedChange',
+	#superclass : 'FamixChange',
 	#instVars : [
 		'targetEntity'
 	],
-	#category : #'Famix-Diff-ChangeModel'
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange class >> changeName [
 	^ 'modif'
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FamixPairedChange >> = anObject [
 	^ super = anObject and: [ 
 		anObject targetEntity = self targetEntity ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixPairedChange >> accept: aVisitor [
 	aVisitor visitPairedChange: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange >> baseEntityName [
 	^ self baseEntity name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange >> entities [
 
 	^ {
@@ -44,30 +45,30 @@ FamixPairedChange >> entities [
 		  self targetEntity }
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FamixPairedChange >> hash [
 	^ (super hash bitXor: self targetEntity hash) bitXor: self targetEntityName hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixPairedChange >> isMatch [
 	"A change is considered as a match if we are able to find an entity in the base and target model. This can be an identical entity but alse a renamed or moved entity."
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange >> targetEntity [
 	^ targetEntity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange >> targetEntity: anEntity [
 	targetEntity := anEntity
 					
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixPairedChange >> targetEntityName [
 	^ self targetEntity name
 ]

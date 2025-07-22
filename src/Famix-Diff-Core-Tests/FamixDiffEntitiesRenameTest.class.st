@@ -1,10 +1,11 @@
 Class {
-	#name : #FamixDiffEntitiesRenameTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : #'Famix-Diff-Core-Tests'
+	#name : 'FamixDiffEntitiesRenameTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 
 	(self targetEntityNamed: 'Smalltalk.A3diff') name: 'X3diff'.
@@ -21,7 +22,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchClass [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
 	"too much difference to be accepted (6 differences on a longer length of 22)
 	6 / 22 = 0.27 (default tolerance is 0.20)"
@@ -42,7 +43,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchCommentNoMatch [
 	self denyRenameMatch: targetCmt to: baseCmt
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 
 	(self targetEntityNamed: 'Smalltalk.B3diff.c3()') name: 'x3'.
@@ -61,7 +62,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchMethod [
 		to: (self baseEntityNamed: 'Smalltalk.B3diff.c3()')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchPackage [
 
 	(self targetEntityNamed: 'Famix-Diff-TestResource-P2') name:
@@ -75,7 +76,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchPackage [
 		to: (self baseEntityNamed: 'Famix-Diff-TestResource-P2')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchVariableMatching [
 	"RenameMatching of variables depends on accesses
 	 Create one access for the matching to happen"
@@ -103,7 +104,7 @@ FamixDiffEntitiesRenameTest >> testRenameMatchVariableMatching [
 	self assertRenameMatch: var2 to: var1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesRenameTest >> testRenameMatchVariableNoMatch [
 	"RnameMatching of variables depend on accesses
 	 Here there is not enough (need at least 1)"

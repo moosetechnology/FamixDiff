@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfFamixDiff,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfFamixDiff
+	#name : 'BaselineOfFamixDiff',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfFamixDiff',
+	#package : 'BaselineOfFamixDiff'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixDiff >> baseline: spec [
 
 	<baseline>

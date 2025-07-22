@@ -1,6 +1,6 @@
-Extension { #name : #FamixTAnnotationInstance }
+Extension { #name : 'FamixTAnnotationInstance' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTAnnotationInstance >> famixDiffGuardWith: anotherEntity resolver: aResolver [
 
 	"Annotation instances cannot be renamed or moved."
@@ -10,7 +10,7 @@ FamixTAnnotationInstance >> famixDiffGuardWith: anotherEntity resolver: aResolve
 	^ false
 ]
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTAnnotationInstance >> shouldBeConsideredForDiff [
 	^true
 ]

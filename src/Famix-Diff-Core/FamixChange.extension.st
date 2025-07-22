@@ -1,6 +1,6 @@
-Extension { #name : #FamixChange }
+Extension { #name : 'FamixChange' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixChange >> updateDiffForAssociations: aFamixDiff [
 	^ self subclassResponsibility
 ]

@@ -15,30 +15,31 @@ Indeed, this variable is a real between 0 and 1 that represents the percentage o
 - tolerance = 1 (100%) implies that entities can be completly different.
 "
 Class {
-	#name : #FamixDiffResolver,
-	#superclass : #Object,
+	#name : 'FamixDiffResolver',
+	#superclass : 'Object',
 	#instVars : [
 		'changes',
 		'orchestrator',
 		'associationChanges'
 	],
-	#category : #'Famix-Diff-Core'
+	#category : 'Famix-Diff-Core',
+	#package : 'Famix-Diff-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver class >> generatedPackageName [
 	"In order to speed up FamixDiff we are generating some code. Here is the name of the package that will contain this code."
 
 	^ 'FamixDiff-Temporary-Generated-Package'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver class >> generatedPackageProtocol [
 
 	^ '*' , self generatedPackageName
 ]
 
-{ #category : #'run-associations' }
+{ #category : 'run-associations' }
 FamixDiffResolver >> addAssociations: asociations [
 
 	asociations do: [ :association | 
@@ -47,7 +48,7 @@ FamixDiffResolver >> addAssociations: asociations [
 				 yourself) ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> addedEntitiesFrom: targetEntities [
 	"Each entities in target model that couldn't be matched with entity in base model is considered as added."
 
@@ -58,23 +59,23 @@ FamixDiffResolver >> addedEntitiesFrom: targetEntities [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> associationChanges [
 	^ associationChanges
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> baseModel [
 	^self orchestrator baseModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> changes [
 
 	^ changes
 ]
 
-{ #category : #'run-associations' }
+{ #category : 'run-associations' }
 FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
 
 	baseAssocs do: [ :baseAss | 
@@ -88,7 +89,7 @@ FamixDiffResolver >> checkAssocsMatches: baseAssocs with: targetAssocs [
 	self addAssociations: targetAssocs
 ]
 
-{ #category : #run }
+{ #category : 'run' }
 FamixDiffResolver >> computeDiff [
 	"Compute the diff between the #base MooseModel and the #target MooseModel."
 
@@ -101,13 +102,13 @@ FamixDiffResolver >> computeDiff [
 		ensure: [ self removeFamixDiffCaches ]
 ]
 
-{ #category : #'run-associations' }
+{ #category : 'run-associations' }
 FamixDiffResolver >> computeDiffBetweenAssociations [
 
 	self result do: [ :chg | chg updateDiffForAssociations: self ] displayingProgress: 'Comparing entity associations'
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> computeDiffBetweenEntities [
 
 	[ :job |
@@ -127,7 +128,7 @@ FamixDiffResolver >> computeDiffBetweenEntities [
 	] asJob run
 ]
 
-{ #category : #'run-associations' }
+{ #category : 'run-associations' }
 FamixDiffResolver >> delAssociations: assocs [
 	assocs
 		do: [ :a | 
@@ -138,7 +139,7 @@ FamixDiffResolver >> delAssociations: assocs [
 						yourself) ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> entitiesToMatchIn: aModel [
 
 	"not stub, not matched entities"
@@ -146,7 +147,7 @@ FamixDiffResolver >> entitiesToMatchIn: aModel [
 	^ aModel entities select: [ :e | self shouldMatch: e ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> findIdentityMatchesFrom: baseEntities to: targetEntities [
 	"Find the entities that are exactly the same between base version and target version (using #identityMatch:resolver: message).
 	 If there is a match, a FamixUnchangedChange is created and stored."
@@ -158,7 +159,7 @@ FamixDiffResolver >> findIdentityMatchesFrom: baseEntities to: targetEntities [
 		  changeType: FamixUnchangedChange
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> findMoveMatchesFrom: baseEntities to: targetEntities [
 
 	^ self
@@ -168,7 +169,7 @@ FamixDiffResolver >> findMoveMatchesFrom: baseEntities to: targetEntities [
 		  changeType: FamixMoveChange
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> findRenameMatchesFrom: baseEntities to: targetEntities [
 	"Find the entities that have been renamed between base version and target version (using #renameMatch:resolver: message).
 	 If there is a match, a FamixRenameChange is created and stored."
@@ -180,7 +181,7 @@ FamixDiffResolver >> findRenameMatchesFrom: baseEntities to: targetEntities [
 		  changeType: FamixRenameChange
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> hasParentMatched: entity [
 	"Return true only if the parents of the entity are already matched.
 	
@@ -191,7 +192,7 @@ FamixDiffResolver >> hasParentMatched: entity [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 
 	entity parentsDo: [ :parent | ((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [ ^ false ] ].
@@ -199,14 +200,14 @@ FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FamixDiffResolver >> initialize [
 	super initialize.
 	changes := Dictionary new.
 	associationChanges := OrderedCollection new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
 
 	"The method has the prerequisite that both given entities should already be treated by the resolver and be part of the changes dictionary. If one is not present we consider it was not present in one of the versions and thus they cannot be the same.
@@ -220,7 +221,7 @@ FamixDiffResolver >> is: baseEntity sameAs: targetEntity [
 	^ false
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
 
 	| unmatchedBasedEntities unmatchedTargetEntities |
@@ -242,7 +243,7 @@ FamixDiffResolver >> lookForMovedEntitiesInUnmatchedEntities [
 	^ false
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> matchTopLevelEntities [
 	"Tries to find some match between top level entities (those with parent matched, but not matched themselves)
 	 return whether it could create new matches or not"
@@ -258,12 +259,12 @@ FamixDiffResolver >> matchTopLevelEntities [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> matched: entity [
 	^ self changes includesKey: entity
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities changeType: aChangeClass [
 	"Find matches defined by matchblock (returns true -> match) between baseEntities and targetEntities.
 	 When a match is found, aChangeClass instance is created and added to the change dictionary.
@@ -285,17 +286,17 @@ FamixDiffResolver >> matches: matchblock from: baseEntities to: targetEntities c
 	^ matchFound
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> orchestrator [
 	^ orchestrator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> orchestrator: anObject [
 	orchestrator := anObject
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> recordAddRemoveChanges [
 	"Each entity in target model that couldn't be matched to an entity in base model is considered added.
 	 Each entity in base model that couldn't be matched to an entity in target model is considered removed."
@@ -307,7 +308,7 @@ FamixDiffResolver >> recordAddRemoveChanges [
 	  self changes at: entity put: (FamixRemovalChange entity: entity) ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FamixDiffResolver >> removeFamixDiffCaches [
 	"FamixDiff will generate some methods to speed up the diff computation process. Here we remove the generated code because we do not want to poluate the image.
 	For more info see TEntityMetaLevelDependency>>#identityMatch:resolver:.
@@ -319,7 +320,7 @@ FamixDiffResolver >> removeFamixDiffCaches [
 	(self targetModel allUsing: FamixTComment) do: [ :comment | comment removeCache: #sourceTextHash ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> removedEntitiesFrom: baseEntities [
 	"Each entities in base model that couldn't be matched with entity in target model is considered as removed."
 
@@ -330,23 +331,23 @@ FamixDiffResolver >> removedEntitiesFrom: baseEntities [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> result [
 	^ self orchestrator result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> result: aFamixDiffResult [ 
 	self orchestrator result: aFamixDiffResult
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> shouldConsiderComments [
 
 	^ self orchestrator shouldConsiderComments
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixDiffResolver >> shouldMatch: entity [
 	"Return true if I still need to find the match for the entity as parameter"
 
@@ -355,12 +356,12 @@ FamixDiffResolver >> shouldMatch: entity [
 	^ entity shouldBeConsideredForDiff and: [ (self matched: entity) not ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> targetModel [
 	^ self orchestrator targetModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> tolerance [
 	"tolerance is used to give some flexibility
      we require that any entity has at most percentage members not in the other entity
@@ -370,26 +371,26 @@ FamixDiffResolver >> tolerance [
 	^ self orchestrator tolerance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffResolver >> tolerance: anInteger [
 
 	orchestrator tolerance: anInteger
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> topEntitiesToMatchIn: aModel [
 
 	^ (self entitiesToMatchIn: aModel) select: [ :entity | self hasParentMatched: entity ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> topEntitiesToMatchIn: aModel ignoringParentsIn: aCollection [
 
 	^ (self entitiesToMatchIn: aModel) select: [ :entity |
 		  (aCollection includes: entity) not and: [ self hasParentMatched: entity ignoringParentsIn: aCollection ] ]
 ]
 
-{ #category : #'run-entities' }
+{ #category : 'run-entities' }
 FamixDiffResolver >> updateProgressBarOf: job [
 
 	| entitiesToMatchSize |
