@@ -6,28 +6,29 @@ A move change means that the baseEntity location is different from the location 
 I answer true to #isMove.
 "
 Class {
-	#name : #FamixMoveChange,
-	#superclass : #FamixPairedChange,
-	#category : #'Famix-Diff-ChangeModel'
+	#name : 'FamixMoveChange',
+	#superclass : 'FamixPairedChange',
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixMoveChange class >> changeName [
 	^ 'Moved'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixMoveChange >> accept: aVisitor [
 	aVisitor visitMoveChange: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixMoveChange >> isMove [
 
 	^true
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FamixMoveChange >> printOn: stream [
 	super printOn: stream.
 	stream

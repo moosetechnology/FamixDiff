@@ -1,10 +1,11 @@
 Class {
-	#name : #FamixDiffEntitiesMoveTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : #'Famix-Diff-Core-Tests'
+	#name : 'FamixDiffEntitiesMoveTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesMoveTest >> testMoveMatchClass [
 
 	self
@@ -27,7 +28,7 @@ FamixDiffEntitiesMoveTest >> testMoveMatchClass [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesMoveTest >> testMoveMatchCommentNoMatch [
 	"Comments are never moved"
 
@@ -47,7 +48,7 @@ FamixDiffEntitiesMoveTest >> testMoveMatchCommentNoMatch [
 	self denyMoveMatch: targetCmt to: baseCmt
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesMoveTest >> testMoveMatchMethod [
 	"moving c3 metod"
 
@@ -62,7 +63,7 @@ FamixDiffEntitiesMoveTest >> testMoveMatchMethod [
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3()')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesMoveTest >> testMoveMatchVariableMatching [
 	"MoveMatching of variables depends on accesses
 	 Create one access for the matching to happen"
@@ -85,7 +86,7 @@ FamixDiffEntitiesMoveTest >> testMoveMatchVariableMatching [
 	self assertMoveMatch: var2 to: var1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffEntitiesMoveTest >> testMoveMatchVariableNoMatch [
 	"MoveMatching of variables depends on accesses
 	 Here there is not enough (need at least 1)"

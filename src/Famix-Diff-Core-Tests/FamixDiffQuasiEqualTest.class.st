@@ -1,15 +1,16 @@
 Class {
-	#name : #FamixDiffQuasiEqualTest,
-	#superclass : #TestCase,
+	#name : 'FamixDiffQuasiEqualTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'typ1',
 		'typ2',
 		'resolver'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffQuasiEqualTest >> attributeNamed: aString in: aFmxType [
 
 	^ (FamixStAttribute named: aString)
@@ -17,13 +18,13 @@ FamixDiffQuasiEqualTest >> attributeNamed: aString in: aFmxType [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffQuasiEqualTest >> classNamed: aString [
 
 	^ FamixStClass named: aString
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffQuasiEqualTest >> methodNamed: aString in: aFmxType [
 
 	^ (FamixStMethod named: aString)
@@ -31,7 +32,7 @@ FamixDiffQuasiEqualTest >> methodNamed: aString in: aFmxType [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffQuasiEqualTest >> setUp [
 
 	super setUp.
@@ -47,7 +48,7 @@ FamixDiffQuasiEqualTest >> setUp [
 	resolver orchestrator: FXDiff new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffQuasiEqualTest >> testType33Percent [
 
 	self attributeNamed: 'att-B' in: typ1.
@@ -70,7 +71,7 @@ FamixDiffQuasiEqualTest >> testType33Percent [
 	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffQuasiEqualTest >> testType50Percent [
 
 	self attributeNamed: 'att-B' in: typ1.
@@ -96,7 +97,7 @@ FamixDiffQuasiEqualTest >> testType50Percent [
 	self deny: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffQuasiEqualTest >> testTypeDifferent [
 
 	| typ3 |
@@ -121,7 +122,7 @@ FamixDiffQuasiEqualTest >> testTypeDifferent [
 	self deny: (typ3 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffQuasiEqualTest >> testTypeEquals [
 
 	self attributeNamed: 'att-B' in: typ1.
@@ -143,7 +144,7 @@ FamixDiffQuasiEqualTest >> testTypeEquals [
 	self assert: (typ2 hasEqualContentAndDependencies: typ1 resolver: resolver)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffQuasiEqualTest >> testTypeNotEnoughMembers [
 
 	typ1 := self classNamed: 'AClass'.

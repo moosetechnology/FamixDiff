@@ -4,22 +4,23 @@ I am a change that represents the removal of an entity.
 I answer true to #isRemoval.
 "
 Class {
-	#name : #FamixRemovalChange,
-	#superclass : #FamixChange,
-	#category : #'Famix-Diff-ChangeModel'
+	#name : 'FamixRemovalChange',
+	#superclass : 'FamixChange',
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixRemovalChange class >> changeName [
 	^ 'Deletion'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixRemovalChange >> accept: aVisitor [
 	aVisitor visitRemovalChange: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixRemovalChange >> isRemoval [
 
 	^true

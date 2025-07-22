@@ -1,6 +1,6 @@
 Class {
-	#name : #FamixDiffStubEntitiesIdentityTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
+	#name : 'FamixDiffStubEntitiesIdentityTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
 	#instVars : [
 		'basP3',
 		'tgtP3',
@@ -12,10 +12,11 @@ Class {
 		'basA3c3toto',
 		'tgtA3c3toto'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffStubEntitiesIdentityTest >> setUp [
 	super setUp.
 
@@ -31,14 +32,14 @@ FamixDiffStubEntitiesIdentityTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsClassMatching [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
 	self assertIdentityMatch: basA3 to: tgtA3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsLocalVariableSameName [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
@@ -51,7 +52,7 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsLocalVariableSameName
 		to: (self baseEntityNamed: 'Smalltalk.A3diff.c3().toto')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodMatching [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
@@ -60,7 +61,7 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodMatching [
 	self assertIdentityMatch: basA3c3 to: tgtA3c3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodsNoMatch [
 
 	self createChange: FamixUnchangedChange with: basP3 and: tgtP3.
@@ -69,7 +70,7 @@ FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsMethodsNoMatch [
 	self denyIdentityMatch: basA3c3 to: tgtB3c3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffStubEntitiesIdentityTest >> testIdentityMatchStubsPackageMatching [
 
 	self assertIdentityMatch: basP3 to: tgtP3

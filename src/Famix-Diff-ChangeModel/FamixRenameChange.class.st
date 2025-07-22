@@ -6,27 +6,28 @@ A rename change means that the baseEntity has been renamed and its name is diffe
 I answer true to #isRename.
 "
 Class {
-	#name : #FamixRenameChange,
-	#superclass : #FamixPairedChange,
-	#category : #'Famix-Diff-ChangeModel'
+	#name : 'FamixRenameChange',
+	#superclass : 'FamixPairedChange',
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixRenameChange class >> changeName [
 	^ 'Renaming'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixRenameChange >> accept: aVisitor [
 	aVisitor visitRenameChange: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixRenameChange >> isRename [
 	^ true
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FamixRenameChange >> printOn: stream [
 	super printOn: stream.
 	stream

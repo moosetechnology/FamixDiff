@@ -1,6 +1,6 @@
-Extension { #name : #FamixTImplicitVariable }
+Extension { #name : 'FamixTImplicitVariable' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTImplicitVariable >> famixDiffGuardWith: anotherEntity resolver: aResolver [
 
 	"Implicit variables cannot be renamed or moved."

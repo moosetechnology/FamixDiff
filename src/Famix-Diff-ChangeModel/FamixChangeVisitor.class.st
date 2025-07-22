@@ -2,47 +2,48 @@
 I am able to visit any FamixChange and definied a behaviour belonging to the change traversed.
 "
 Class {
-	#name : #FamixChangeVisitor,
-	#superclass : #Object,
-	#category : #'Famix-Diff-ChangeModel'
+	#name : 'FamixChangeVisitor',
+	#superclass : 'Object',
+	#category : 'Famix-Diff-ChangeModel',
+	#package : 'Famix-Diff-ChangeModel'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitAddChange: aAddChange [
 	^ self visitChange: aAddChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitBodyChange: aBodyChange [
 	^ self visitPairedChange: aBodyChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitChange: aChange [
 	self subclassResponsibility
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitMoveChange: aMoveChange [
 	^ self visitPairedChange: aMoveChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitPairedChange: aPairedChange [
 	^ self visitChange: aPairedChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitRemovalChange: aRemovalChange [
 	^ self visitChange: aRemovalChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitRenameChange: aRenameChange [
 	^ self visitPairedChange: aRenameChange
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FamixChangeVisitor >> visitUnchangedChange: aVersionChange [
 	^ self visitPairedChange: aVersionChange
 ]

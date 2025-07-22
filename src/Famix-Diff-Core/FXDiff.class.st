@@ -26,8 +26,8 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #FXDiff,
-	#superclass : #Object,
+	#name : 'FXDiff',
+	#superclass : 'Object',
 	#instVars : [
 		'baseModel',
 		'result',
@@ -36,10 +36,11 @@ Class {
 		'resolver',
 		'shouldConsiderComments'
 	],
-	#category : #'Famix-Diff-Core'
+	#category : 'Famix-Diff-Core',
+	#package : 'Famix-Diff-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FXDiff class >> baseModel: aBaseModel targetModel: targetModel [
 
 	^ self new
@@ -48,39 +49,39 @@ FXDiff class >> baseModel: aBaseModel targetModel: targetModel [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FXDiff class >> runOnBaseModel: aBaseModel targetModel: aTargetModel [
 	^ (self baseModel: aBaseModel targetModel: aTargetModel) run
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> associationChanges [
 	^ self result associationChanges
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> baseModel [
 	^ baseModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> baseModel: aBaseModel [
 
 	baseModel := aBaseModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> changes: aCollection [
 	^ self result changes: aCollection
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FXDiff >> considerComments [
 
 	self shouldConsiderComments: true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FXDiff >> initialize [
 
 	super initialize.
@@ -90,12 +91,12 @@ FXDiff >> initialize [
 	shouldConsiderComments := false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> resolver [
 	^ resolver
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> resolver: anObject [
 
 	resolver := anObject
@@ -103,17 +104,17 @@ FXDiff >> resolver: anObject [
 		            yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> result [
 	^ result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> result: anObject [
 	result := anObject
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FXDiff >> run [
 
 	self assert: (self baseModel isKindOf: MooseModel).
@@ -121,34 +122,34 @@ FXDiff >> run [
 	resolver computeDiff
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> shouldConsiderComments [
 
 	^ shouldConsiderComments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> shouldConsiderComments: aBoolean [
 
 	shouldConsiderComments := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> targetModel [
 	^ targetModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> targetModel: anObject [
 	targetModel := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> tolerance [
 	^ tolerance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FXDiff >> tolerance: anObject [
 	tolerance := anObject
 ]

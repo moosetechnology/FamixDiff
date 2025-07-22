@@ -1,18 +1,19 @@
 Class {
-	#name : #AbstractFamixDiffTest,
-	#superclass : #TestCase,
+	#name : 'AbstractFamixDiffTest',
+	#superclass : 'TestCase',
 	#traits : 'TMooseSmalltalkModelImporterForTests',
 	#classTraits : 'TMooseSmalltalkModelImporterForTests classTrait',
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AbstractFamixDiffTest class >> resources [
 
 	^ { FamixDiffTestModelsGenerator1 }
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffTest >> importModelNamed: name fromPackages: packages [
 	| importer model |
 	model := FamixStModel new.

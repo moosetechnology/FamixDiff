@@ -1,6 +1,6 @@
-Extension { #name : #FamixTAssociation }
+Extension { #name : 'FamixTAssociation' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTAssociation >> matches: otherAssoc resolver: resolver [
 
 	self class = otherAssoc class ifFalse: [ ^ false ].
@@ -10,7 +10,7 @@ FamixTAssociation >> matches: otherAssoc resolver: resolver [
 		  otherAssoc allTargets anySatisfy: [ :otherCandidate | self myEntity: selfCandidate matches: otherCandidate resolver: resolver ] ]
 ]
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTAssociation >> myEntity: myEntity matches: otherEntity resolver: resolver [
 
 	"two entities in an association matche if:

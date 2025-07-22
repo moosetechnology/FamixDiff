@@ -1,37 +1,38 @@
 Class {
-	#name : #AbstractFamixDiffWithModelTest,
-	#superclass : #AbstractFamixDiffTest,
+	#name : 'AbstractFamixDiffWithModelTest',
+	#superclass : 'AbstractFamixDiffTest',
 	#instVars : [
 		'diff'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> assertIdentityMatch: entity1 to: entity2 [
 
 	self assert: (entity1 identityMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> assertMoveMatch: entity1 to: entity2 [
 
 	self assert: (entity1 moveMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> assertRenameMatch: entity1 to: entity2 [
 
 	self assert: (entity1 renameMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AbstractFamixDiffWithModelTest >> baseEntityNamed: aString [
 
 	^ diff baseModel entityNamed: aString
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 
 	| change |
@@ -40,7 +41,7 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: entity [
 	diff result add: change
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and: targetEntity [
 
 	| change |
@@ -51,31 +52,31 @@ AbstractFamixDiffWithModelTest >> createChange: changeClass with: baseEntity and
 	diff result add: change
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> denyIdentityMatch: entity1 to: entity2 [
 
 	self deny: (entity1 identityMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> denyMoveMatch: entity1 to: entity2 [
 
 	self deny: (entity1 moveMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> denyRenameMatch: entity1 to: entity2 [
 
 	self deny: (entity1 renameMatch: entity2 resolver: self resolver)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AbstractFamixDiffWithModelTest >> resolver [
 
 	^ diff resolver
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> setUp [
 
 	| model1 model2 |
@@ -86,13 +87,13 @@ AbstractFamixDiffWithModelTest >> setUp [
 	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk') and: (self targetEntityNamed: 'Smalltalk')
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AbstractFamixDiffWithModelTest >> targetEntityNamed: aString [
 
 	^ diff targetModel entityNamed: aString
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractFamixDiffWithModelTest >> tearDown [
 
 	diff resolver removeFamixDiffCaches.

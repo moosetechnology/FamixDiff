@@ -1,21 +1,22 @@
 Class {
-	#name : #FamixDiffTest,
-	#superclass : #AbstractFamixDiffTest,
+	#name : 'FamixDiffTest',
+	#superclass : 'AbstractFamixDiffTest',
 	#instVars : [
 		'result',
 		'snapshot'
 	],
-	#category : #'Famix-Diff-Core-Tests'
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTest >> changes: aCollection ofType: aClass [
 
 	^aCollection select: [ :change |
 		change baseEntity isKindOf: aClass ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTest >> createModelWith: somePackages [
 
 	| importer model |
@@ -29,7 +30,7 @@ FamixDiffTest >> createModelWith: somePackages [
 	^ model
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> createTestDiffForAdditionsAndRemovalsEdgeCases [
 
 	| baseModel targetModel |
@@ -55,7 +56,7 @@ FamixDiffTest >> createTestDiffForAdditionsAndRemovalsEdgeCases [
 	self runDiff
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> generateModel1 [
 
 	| c1 c2 |
@@ -75,7 +76,7 @@ FamixDiffTest >> generateModel1 [
 	c2 compile: 'm4 | temp2 | temp2 := 3. ^ temp2'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> generateModel2 [
 
 	| c2 c3 |
@@ -94,25 +95,25 @@ FamixDiffTest >> generateModel2 [
 	c3 compile: 'm5 |temp3 | temp3 := 5. ^ temp3'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTest >> packageName1 [
 
 	^ 'Famix-Diff-TestResource2-P1'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTest >> packageName2 [
 
 	^ 'Famix-Diff-TestResource2-P2'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixDiffTest >> packageName3 [
 
 	^ 'Famix-Diff-TestResource2-P3'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> runDiff [
 
 	| baseEntitiesToMatch targetEntitiesToMatch |
@@ -126,7 +127,7 @@ FamixDiffTest >> runDiff [
 	self assert: targetEntitiesToMatch size equals: (result entityChanges reject: [ :change | change isRemoval ]) size "We should have a change that is not a removal for all entities of the target model."
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixDiffTest >> setUp [
 
 	super setUp.
@@ -135,7 +136,7 @@ FamixDiffTest >> setUp [
 		            yourself
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testAddedEntities [
 
 	| addition |
@@ -155,7 +156,7 @@ FamixDiffTest >> testAddedEntities [
 	self assert: (self changes: addition ofType: FamixStLocalVariable ) first entity name equals: #temp3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testDiffAssociations [
 	snapshot
 		baseModel: (self createModelWith: #(#'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2'));
@@ -167,7 +168,7 @@ FamixDiffTest >> testDiffAssociations [
 	self assert: (result associationChanges select: [ :c | c isRemoval ]) size equals: 4
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testDiffEntitiesAddP1 [
 
 	snapshot baseModel: MooseModel new.
@@ -177,7 +178,7 @@ FamixDiffTest >> testDiffEntitiesAddP1 [
 	self assert: (result entityChanges select: [ :e | e isAddition ]) size equals: 9 "Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel + 2 comments"
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testDiffEntitiesDelP1 [
 
 	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
@@ -188,7 +189,7 @@ FamixDiffTest >> testDiffEntitiesDelP1 [
 	self assert: (result entityChanges select: [ :e | e isRemoval ]) size equals: 9 "Smalltalk P1 A2 B2 + stubs: ProtoObject Object Kernel + 2 comments"
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testDiffEntitiesMatchP1 [
 
 	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P1' )).
@@ -199,7 +200,7 @@ FamixDiffTest >> testDiffEntitiesMatchP1 [
 	self assert: (result entityChanges select: [ :e | e isMatch ]) asSet size equals: 9
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testDiffEntitiesP1P2P3 [
 
 	snapshot baseModel: (self createModelWith: #( #'Famix-Diff-TestResource-P2' #'Famix-Diff-TestResource-P3' )).
@@ -218,7 +219,7 @@ FamixDiffTest >> testDiffEntitiesP1P2P3 [
 	self assert: (result entityChanges select: [ :e | e isMatch and: [ e baseEntity isKindOf: FamixStComment ] ]) size equals: 5
 ]
 
-{ #category : #'tests-run-entities' }
+{ #category : 'tests-run-entities' }
 FamixDiffTest >> testMakeChangeWith [
 
 	| entity change |
@@ -231,7 +232,7 @@ FamixDiffTest >> testMakeChangeWith [
 	self assert: change entity equals: entity
 ]
 
-{ #category : #'tests-run-entities' }
+{ #category : 'tests-run-entities' }
 FamixDiffTest >> testMakeChangeWithWith [
 
 	| entityA change entityB |
@@ -248,7 +249,7 @@ FamixDiffTest >> testMakeChangeWithWith [
 	self assert: change targetEntity equals: entityB
 ]
 
-{ #category : #'tests-run-entities' }
+{ #category : 'tests-run-entities' }
 FamixDiffTest >> testMatched [
 
 	| entity |
@@ -261,7 +262,7 @@ FamixDiffTest >> testMatched [
 	self assert: (snapshot resolver matched: entity)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testMovedEntities [
 
 	| moves |
@@ -274,7 +275,7 @@ FamixDiffTest >> testMovedEntities [
 	self assertEmpty: (self changes: moves ofType: FamixStLocalVariable)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testRemovedEntities [
 
 	| removals |
@@ -293,7 +294,7 @@ FamixDiffTest >> testRemovedEntities [
 	self assertEmpty: (removals select: [ :change | change baseEntity isKindOf: FamixStLocalVariable ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffTest >> testWithTags [
 
 	| baseModel |

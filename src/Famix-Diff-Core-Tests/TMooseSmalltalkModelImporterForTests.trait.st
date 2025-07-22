@@ -1,9 +1,10 @@
 Trait {
-	#name : #TMooseSmalltalkModelImporterForTests,
-	#category : #'Famix-Diff-Core-Tests'
+	#name : 'TMooseSmalltalkModelImporterForTests',
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 TMooseSmalltalkModelImporterForTests >> importModelNamed: name fromPackages: packages [
 	| model |
 	model := FamixStModel new.

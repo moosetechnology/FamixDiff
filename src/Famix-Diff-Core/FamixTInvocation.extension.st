@@ -1,6 +1,6 @@
-Extension { #name : #FamixTInvocation }
+Extension { #name : 'FamixTInvocation' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTInvocation >> matches: otherAssoc resolver: resolver [
 
 	self class = otherAssoc class ifFalse: [ ^ false ].

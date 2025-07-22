@@ -1,6 +1,6 @@
-Extension { #name : #FamixTHasSignature }
+Extension { #name : 'FamixTHasSignature' }
 
-{ #category : #'*Famix-Diff-Core' }
+{ #category : '*Famix-Diff-Core' }
 FamixTHasSignature >> compareSignatureWith: otherEntity resolver: aResolver [
 
 	<famixDiff: #identity priority: 4>

@@ -1,10 +1,11 @@
 Class {
-	#name : #FamixDiffAssociationsTest,
-	#superclass : #AbstractFamixDiffWithModelTest,
-	#category : #'Famix-Diff-Core-Tests'
+	#name : 'FamixDiffAssociationsTest',
+	#superclass : 'AbstractFamixDiffWithModelTest',
+	#category : 'Famix-Diff-Core-Tests',
+	#package : 'Famix-Diff-Core-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffAssociationsTest >> testAssocsAddP2 [
 
 	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk.C3diff') and: (self targetEntityNamed: 'Smalltalk.C3diff').
@@ -20,7 +21,7 @@ FamixDiffAssociationsTest >> testAssocsAddP2 [
 	self assert: (diff resolver associationChanges select: [ :c | c isRemoval ]) size equals: 4
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffAssociationsTest >> testAssocsDelP3 [
 
 	self createChange: FamixUnchangedChange with: (self baseEntityNamed: 'Smalltalk.B3diff') and: (self targetEntityNamed: 'Smalltalk.B3diff').
@@ -32,7 +33,7 @@ FamixDiffAssociationsTest >> testAssocsDelP3 [
 	self assert: (diff resolver associationChanges select: [ :c | c isRemoval ]) size equals: 4
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixDiffAssociationsTest >> testAssocsMatching [
 
 	self
