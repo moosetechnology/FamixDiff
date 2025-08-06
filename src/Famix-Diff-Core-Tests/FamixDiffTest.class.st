@@ -299,7 +299,7 @@ FamixDiffTest >> testWithTags [
 
 	| baseModel |
 	"Execute only if we have the tags. I don't want to add a dependency just for one test."
-	(self class environment at: #FamixTag) ifAbsent: [ self skip ].
+	self class environment at: #FamixTag ifAbsent: [ self skip ].
 	baseModel := self createModelWith: #( #'Famix-Diff-TestResource-P3' #'Famix-Diff-TestResource-P2' ).
 	(baseModel createTagNamed: 'Test') tagEntity: baseModel allModelClasses anyOne.
 	snapshot
