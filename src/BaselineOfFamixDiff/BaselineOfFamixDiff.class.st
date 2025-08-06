@@ -18,7 +18,7 @@ BaselineOfFamixDiff >> baseline: spec [
 				group: 'core' with: #( 'Famix-Diff-Core' 'Famix-Diff-ChangeModel' );
 				group: 'core-tests' with: #( 'core' 'Famix-Diff-Core-Tests' ) ].
 
-	spec for: #NoFamix do: [
+	spec for: #NeedsFamix do: [
 			self famix: spec.
 			spec package: 'Famix-Diff-Core' with: [ spec requires: #( 'Famix' ) ] ]
 ]
