@@ -1,6 +1,22 @@
 Extension { #name : 'TEntityMetaLevelDependency' }
 
 { #category : '*Famix-Diff-Core' }
+TEntityMetaLevelDependency >> can: baseSize beSameAs: targetSize withThreashold: tolerance [
+	"Check if two collections have the same size within a certain percentage tolerance."
+
+	| absoluteDifference averageSize maxAllowedDifference |
+	absoluteDifference := (baseSize - targetSize) abs.
+
+	averageSize := baseSize + targetSize / 2.
+
+
+	maxAllowedDifference := averageSize * (tolerance / 1).
+
+
+	^ absoluteDifference abs <= maxAllowedDifference
+]
+
+{ #category : '*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver [
 
 	"I check that the parents of both entities are the same."
@@ -87,6 +103,12 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	"If we have nothing in the class we consider they are different."
 	(baseChildren isEmpty and: [ baseOutgoingDependencies isEmpty and: [ baseIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
 	(targetChildren isEmpty and: [ targetOutgoingDependencies isEmpty and: [ targetIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
+
+	"This is for perf. If the number of entity is too different, no need to compare them."
+	(self
+		 can: baseChildren size + baseOutgoingDependencies size + baseIncomingDependencies size
+		 beSameAs: targetChildren size + targetOutgoingDependencies size + targetIncomingDependencies size
+		 withThreashold: resolver tolerance) ifFalse: [ ^ false ].
 
 	intersect := OrderedCollection new.
 
