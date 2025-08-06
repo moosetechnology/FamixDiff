@@ -78,11 +78,11 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	baseChildren := self children.
 	targetChildren := otherEntity children.
 
-	baseOutgoingDependencies := self queryAllOutgoing.
-	targetOutgoingDependencies := otherEntity queryAllOutgoing.
+	baseOutgoingDependencies := self queryAllLocalOutgoing.
+	targetOutgoingDependencies := otherEntity queryAllLocalOutgoing.
 
-	baseIncomingDependencies := self queryAllIncoming.
-	targetIncomingDependencies := otherEntity queryAllIncoming.
+	baseIncomingDependencies := self queryAllLocalIncoming.
+	targetIncomingDependencies := otherEntity queryAllLocalIncoming.
 
 	"If we have nothing in the class we consider they are different."
 	(baseChildren isEmpty and: [ baseOutgoingDependencies isEmpty and: [ baseIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
@@ -101,7 +101,9 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 
 	intersect addAll: (baseIncomingDependencies select: [ :baseDependency |
 				 targetIncomingDependencies anySatisfy: [ :targetDependency |
-					 targetDependency class = baseDependency class and: [ baseDependency source name = targetDependency source name ] ] ]).
+						 targetDependency class = baseDependency class and: [
+								 (baseDependency source isNotNil and: [ targetDependency source isNotNil ]) and: [ "<=== THIS SHOULD NOT BE HERE. Target should never be nil but verveineJ has a bug. Remove this once the bug is fixed."
+									 baseDependency source name = targetDependency source name ] ] ] ]).
 
 	intersect size / (baseChildren size + baseOutgoingDependencies size + baseIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
 	intersect size / (targetChildren size + targetOutgoingDependencies size + targetIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
