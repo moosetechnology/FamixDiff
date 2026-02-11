@@ -187,7 +187,7 @@ FamixDiffResolver >> hasParentMatched: entity [
 	
 	We use #parentsDo: instead of #parents because this is faster."
 
-	entity parentsDo: [ :parent | ((self shouldMatch: parent) not or: [ self matched: parent ]) ifFalse: [ ^ false ] ].
+	entity containersDo: [ :parent | ((self shouldMatch: parent) not or: [ self matched: parent ]) ifFalse: [ ^ false ] ].
 
 	^ true
 ]
@@ -195,7 +195,9 @@ FamixDiffResolver >> hasParentMatched: entity [
 { #category : 'testing' }
 FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 
-	entity parentsDo: [ :parent | ((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [ ^ false ] ].
+	entity containersDo: [ :parent |
+		((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [
+			^ false ] ].
 
 	^ true
 ]

@@ -18,22 +18,21 @@ TEntityMetaLevelDependency >> can: baseSize beSameAs: targetSize withThreashold:
 
 { #category : '*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver [
-
 	"I check that the parents of both entities are the same."
 
 	<famixDiff: #identity priority: 5>
 	<famixDiff: #rename priority: 5>
 	| baseParents targetParents |
-	baseParents := self parents.
-	targetParents := otherEntity parents.
+	baseParents := self containers.
+	targetParents := otherEntity containers.
 
 	baseParents size = targetParents size ifFalse: [ ^ false ].
 
-	baseParents do: [ :baseParent | 
-		targetParents
-			detect: [ :targetParent | "We delegate the comparison to the resolver because it's possible a parent is the same but got renamed. This should deal with this case." 
-				resolver is: baseParent sameAs: targetParent ]
-			ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
+	baseParents do: [ :baseParent |
+			targetParents
+				detect: [ :targetParent | "We delegate the comparison to the resolver because it's possible a parent is the same but got renamed. This should deal with this case."
+					resolver is: baseParent sameAs: targetParent ]
+				ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
 
 	^ true
 ]
@@ -91,8 +90,8 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	<famixDiff: #rename priority: 10>
 	<famixDiff: #move priority: 10>
 	| baseChildren targetChildren intersect baseOutgoingDependencies targetOutgoingDependencies baseIncomingDependencies targetIncomingDependencies |
-	baseChildren := self children.
-	targetChildren := otherEntity children.
+	baseChildren := self containedEntities.
+	targetChildren := otherEntity containedEntities.
 
 	baseOutgoingDependencies := self queryAllLocalOutgoing.
 	targetOutgoingDependencies := otherEntity queryAllLocalOutgoing.
@@ -101,8 +100,10 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	targetIncomingDependencies := otherEntity queryAllLocalIncoming.
 
 	"If we have nothing in the class we consider they are different."
-	(baseChildren isEmpty and: [ baseOutgoingDependencies isEmpty and: [ baseIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
-	(targetChildren isEmpty and: [ targetOutgoingDependencies isEmpty and: [ targetIncomingDependencies isEmpty ] ]) ifTrue: [ ^ false ].
+	(baseChildren isEmpty and: [ baseOutgoingDependencies isEmpty and: [ baseIncomingDependencies isEmpty ] ]) ifTrue: [
+		^ false ].
+	(targetChildren isEmpty and: [ targetOutgoingDependencies isEmpty and: [ targetIncomingDependencies isEmpty ] ])
+		ifTrue: [ ^ false ].
 
 	"This is for perf. If the number of entity is too different, no need to compare them."
 	(self
@@ -113,13 +114,15 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 	intersect := OrderedCollection new.
 
 	"Since we did not treat the children with the resolver  yet we do not check via the resolver if they are the same entities because even if they are renamed we will not know it yet."
-	intersect addAll: (baseChildren select: [ :baseChild | targetChildren anySatisfy: [ :targetChild | baseChild name = targetChild name ] ]).
+	intersect addAll:
+		(baseChildren select: [ :baseChild | targetChildren anySatisfy: [ :targetChild | baseChild name = targetChild name ] ]).
 
 	intersect addAll: (baseOutgoingDependencies select: [ :baseDependency |
 				 targetOutgoingDependencies anySatisfy: [ :targetDependency |
 						 targetDependency class = baseDependency class and: [
 								 (baseDependency target isNotNil and: [ targetDependency target isNotNil ]) and: [ "<=== THIS SHOULD NOT BE HERE. Target should never be nil but verveineJ has a bug. Remove this once the bug is fixed."
-									 baseDependency allTargets allSatisfy: [ :baseTarget | targetDependency allTargets anySatisfy: [ :targetTarget | baseTarget name = targetTarget name ] ] ] ] ] ]).
+										 baseDependency allTargets allSatisfy: [ :baseTarget |
+											 targetDependency allTargets anySatisfy: [ :targetTarget | baseTarget name = targetTarget name ] ] ] ] ] ]).
 
 	intersect addAll: (baseIncomingDependencies select: [ :baseDependency |
 				 targetIncomingDependencies anySatisfy: [ :targetDependency |
@@ -127,8 +130,10 @@ TEntityMetaLevelDependency >> hasEqualContentAndDependencies: otherEntity resolv
 								 (baseDependency source isNotNil and: [ targetDependency source isNotNil ]) and: [ "<=== THIS SHOULD NOT BE HERE. Target should never be nil but verveineJ has a bug. Remove this once the bug is fixed."
 									 baseDependency source name = targetDependency source name ] ] ] ]).
 
-	intersect size / (baseChildren size + baseOutgoingDependencies size + baseIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
-	intersect size / (targetChildren size + targetOutgoingDependencies size + targetIncomingDependencies size) >= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	intersect size / (baseChildren size + baseOutgoingDependencies size + baseIncomingDependencies size)
+	>= (1 - resolver tolerance) ifFalse: [ ^ false ].
+	intersect size / (targetChildren size + targetOutgoingDependencies size + targetIncomingDependencies size)
+	>= (1 - resolver tolerance) ifFalse: [ ^ false ].
 	^ true
 ]
 
