@@ -18,22 +18,21 @@ TEntityMetaLevelDependency >> can: baseSize beSameAs: targetSize withThreashold:
 
 { #category : '*Famix-Diff-Core' }
 TEntityMetaLevelDependency >> compareParentsWith: otherEntity resolver: resolver [
-
 	"I check that the parents of both entities are the same."
 
 	<famixDiff: #identity priority: 5>
 	<famixDiff: #rename priority: 5>
 	| baseParents targetParents |
-	baseParents := self parents.
-	targetParents := otherEntity parents.
+	baseParents := self containers.
+	targetParents := otherEntity containers.
 
 	baseParents size = targetParents size ifFalse: [ ^ false ].
 
-	baseParents do: [ :baseParent | 
-		targetParents
-			detect: [ :targetParent | "We delegate the comparison to the resolver because it's possible a parent is the same but got renamed. This should deal with this case." 
-				resolver is: baseParent sameAs: targetParent ]
-			ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
+	baseParents do: [ :baseParent |
+			targetParents
+				detect: [ :targetParent | "We delegate the comparison to the resolver because it's possible a parent is the same but got renamed. This should deal with this case."
+					resolver is: baseParent sameAs: targetParent ]
+				ifNone: [ ^ false "A parent of the base entity does not have a matching parent so we escape." ] ].
 
 	^ true
 ]
