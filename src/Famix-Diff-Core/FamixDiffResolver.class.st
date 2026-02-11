@@ -195,7 +195,9 @@ FamixDiffResolver >> hasParentMatched: entity [
 { #category : 'testing' }
 FamixDiffResolver >> hasParentMatched: entity ignoringParentsIn: aCollection [
 
-	entity parentsDo: [ :parent | ((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [ ^ false ] ].
+	entity containersDo: [ :parent |
+		((aCollection includes: parent) or: [ (self shouldMatch: parent) not or: [ self matched: parent ] ]) ifFalse: [
+			^ false ] ].
 
 	^ true
 ]
