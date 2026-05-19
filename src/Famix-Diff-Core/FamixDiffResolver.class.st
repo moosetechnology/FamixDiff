@@ -95,11 +95,9 @@ FamixDiffResolver >> computeDiff [
 
 	[
 		self computeDiffBetweenEntities.
-		self result addAll: self changes values asSet.
+		self result addAll: self changes values asIdentitySet.
 		self computeDiffBetweenAssociations.
-		self result addAll: self associationChanges asSet
-	]
-		ensure: [ self removeFamixDiffCaches ]
+		self result addAll: self associationChanges asIdentitySet ] ensure: [ self removeFamixDiffCaches ]
 ]
 
 { #category : 'run-associations' }
